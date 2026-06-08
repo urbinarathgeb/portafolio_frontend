@@ -42,7 +42,7 @@ const isActive = (path: string) => {
 <style scoped>
 .nav-section {
   position: fixed;
-  right: 2rem;
+  right: 8rem;
   top: 50%;
   transform: translateY(-50%);
   z-index: 40;
@@ -58,6 +58,7 @@ const isActive = (path: string) => {
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s ease-out;
+  position: relative;
 }
 
 .nav-number {
@@ -67,6 +68,8 @@ const isActive = (path: string) => {
   letter-spacing: 0.1em;
   color: var(--ui-text-muted);
   transition: color 0.3s ease-out;
+  position: relative;
+  z-index: 2;
 }
 
 .nav-line {
@@ -78,6 +81,10 @@ const isActive = (path: string) => {
 }
 
 .nav-label {
+  position: absolute;
+  left: calc(100% + 0.5rem);
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);
   font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 500;
@@ -85,9 +92,9 @@ const isActive = (path: string) => {
   text-transform: uppercase;
   color: var(--ui-text-muted);
   opacity: 0;
-  transform: translateX(-8px);
   transition: all 0.3s ease-out;
   white-space: nowrap;
+  pointer-events: none;
 }
 
 .nav-item:hover .nav-line {
@@ -96,12 +103,16 @@ const isActive = (path: string) => {
 
 .nav-item:hover .nav-label {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(-50%) translateX(0);
 }
 
 .nav-item:hover .nav-number,
 .nav-item:hover .nav-label {
   color: var(--ui-text-toned);
+}
+
+.nav-item-active {
+  pointer-events: none;
 }
 
 .nav-item-active .nav-number,
@@ -113,6 +124,11 @@ const isActive = (path: string) => {
 .nav-item-active .nav-line {
   width: 2rem;
   background-color: var(--ui-primary);
+}
+
+.nav-item-active .nav-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
 @media (max-width: 768px) {
