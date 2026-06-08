@@ -42,6 +42,18 @@ definePageMeta({
           variant="outline"
           to="/about"
         />
+        <UButton
+          label="Experiencia"
+          size="lg"
+          variant="outline"
+          to="/experience"
+        />
+        <UButton
+          label="Contacto"
+          size="lg"
+          variant="outline"
+          to="/contact"
+        />
       </div>
     </div>
   </section>
