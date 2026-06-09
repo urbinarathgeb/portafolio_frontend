@@ -6,7 +6,7 @@ Este proyecto frontend debe ser desarrollado bajo los siguientes estándares est
 
 * **Framework:** Nuxt 4 (Vue 3 + auto-imports + file-based routing).
 * **UI:** @nuxt/ui v4 — solo para componentes funcionales (UButton, UModal, UDropdown, UContainer, UToast, etc.).
-* **Estilos:** Tailwind CSS v4 (via `@import 'tailwindcss'` en `main.css`) + @nuxt/ui design tokens. Los componentes visuales/branding son **fully custom** con CSS y Tailwind directo.
+* **Estilos:** Tailwind CSS v4 (via `@import 'tailwindcss'` en `main.css`) + @nuxt/ui design tokens. Los componentes visuales/branding son **fully custom** con CSS y Tailwind directo. **Tailwind-first**: usar clases Tailwind en el template para todo lo posible; CSS scoped solo para lo que Tailwind no puede hacer.
 * **Lenguaje:** TypeScript. Todo archivo nuevo usa `<script setup lang="ts">`.
 * **Estado:** Composables Nuxt (`useState`) para estado simple. Pinia solo si se necesita store complejo.
 * **HTTP:** `$fetch` nativo de Nuxt (useFetch / useAsyncData). No instalar Axios.
@@ -109,7 +109,9 @@ Este es un **portfolio a medida** con diseño propio (ver Figma). La regla es:
 </template>
 
 <style scoped>
-/* Solo si no alcanza con Tailwind + @nuxt/ui */
+/* Solo para efectos que Tailwind NO puede hacer:
+   -webkit-text-stroke, gradientes complejos, @keyframes custom,
+   color-mix(), backdrop-filter, pseudo-elementos complejos */
 </style>
 ```
 
@@ -159,11 +161,14 @@ Nuxt auto-importa componentes, composables y utilidades. **No importar manualmen
 
 ```
 app/pages/
-├── index.vue              → /
-├── about.vue              → /about
-└── projects/
-    ├── index.vue          → /projects
-    └── [slug].vue         → /projects/:slug
+├── index.vue              → /        (Hero)
+├── about.vue              → /about   (Sobre mí)
+├── experience.vue          → /experience (Experiencia)
+├── projects/
+│   ├── index.vue          → /projects (Proyectos)
+│   └── [slug].vue         → /projects/:slug (Detalle)
+├── contact.vue             → /contact (Contacto)
+└── error.vue              → /error   (Error)
 ```
 
 * Usar `definePageMeta()` para asignar layout, middleware, etc.
@@ -220,6 +225,78 @@ export const useProjects = () => {
 
 ---
 
+## Estilos: Tailwind-First (OBLIGATORIO)
+
+### Regla principal
+**Tailwind en el template, CSS scoped solo lo que Tailwind no puede.**
+
+### Va en Tailwind (clases en el template)
+- Layout: `flex`, `grid`, `items-*`, `justify-*`, `gap-*`
+- Spacing: `p-*`, `m-*`, `w-*`, `h-*`, `max-w-*`
+- Tipografía: `font-heading`, `text-*`, `font-*`, `tracking-*`, `uppercase`
+- Colores: `text-primary`, `bg-default`, `text-muted`, `border-*`
+- Responsive: `md:`, `lg:`, breakpoints
+- Transiciones simples: `transition-all`, `duration-*`, `hover:*`, `group-hover:*`
+- Display, position, overflow, z-index
+
+### Va en CSS scoped (solo lo que Tailwind NO puede)
+- `-webkit-text-stroke` (stroke text)
+- Hover states complejos que cambian stroke + text-shadow + fill simultáneamente
+- `color-mix()` para bordes con opacity variable
+- Gradientes con paradas múltiples específicas (`.gradient-hero`, `.gradient-text`)
+- `@keyframes` custom (animaciones de entrada, shimmer, pulse)
+- `backdrop-filter`
+- Filtros complejos (`filter: blur()`, `mix-blend-mode`)
+- Pseudo-elementos complejos (`::before`, `::after` con content generado)
+- Layouts con `clamp()` personalizados que requieren valores específicos por componente
+
+### Ejemplo
+
+```vue
+<!-- ✅ Correcto: Tailwind en template, CSS solo para stroke text -->
+<template>
+  <div class="flex items-baseline justify-between py-12 border-b border-white/10 group">
+    <span class="stroke-year-text">{{ year }}</span>
+    <div class="flex flex-col gap-3">
+      <h3 class="font-heading text-2xl font-bold uppercase tracking-tight text-highlighted">
+        {{ role }}
+      </h3>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+/* Solo stroke text — Tailwind no tiene utilidad para esto */
+.stroke-year-text {
+  -webkit-text-stroke: 1px var(--ui-text-muted);
+  color: transparent;
+}
+</style>
+```
+
+```vue
+<!-- ❌ Incorrecto: Todo en CSS scoped -->
+<template>
+  <div class="experience-row">
+    <span class="year-text">{{ year }}</span>
+  </div>
+</template>
+
+<style scoped>
+.experience-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 3rem 0;
+}
+.year-text {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--ui-text-muted);
+}
+</style>
+```
+
 ## Diseño — Tema y Paleta
 
 ### Tipografía
@@ -232,22 +309,32 @@ export const useProjects = () => {
 
 Solo se usan **2 fuentes**: Unbounded y DM Sans. No agregar otras sin aprobación.
 
+#### Escala tipográfica
+
+| Uso | Tamaño | Kerning | Weight |
+|---|---|---|---|
+| Display Hero | `clamp(5rem, 18vw, 11rem)` | -0.04em | 900 |
+| Headings (H1-H2) | `clamp(2.5rem, 8vw, 6rem)` | -0.02em | 700-800 |
+| Body | 16-20px | normal | 400-500 |
+| Labels mono | 12-14px | +0.1em a +0.3em | 500-700 |
+| Stroke text decorativo | `clamp(5rem, 18vw, 11rem)` | -0.08em | 700, stroke only |
+
 ### Paleta de Colores
 
-**Primary (magenta-pink `#F31F73`):** Acento principal del portfolio. Botones, links, highlights.
+**Primary (magenta-pink `#E8366D`):** Acento principal del portfolio. Botones, links, highlights.
 | Shade | Hex |
 |---|---|
-| 50 | `#FFF0F7` |
-| 100 | `#FFE2EE` |
-| 200 | `#FCC5DA` |
-| 300 | `#F89AB8` |
-| 400 | `#F26094` |
-| **500** | **`#F31F73`** |
-| 600 | `#CF1560` |
-| 700 | `#AB0F4F` |
-| 800 | `#8A0B40` |
-| 900 | `#6E0733` |
-| 950 | `#400319` |
+| 50 | `#FFF0F4` |
+| 100 | `#FFE0EA` |
+| 200 | `#FCC1D5` |
+| 300 | `#F89BB8` |
+| 400 | `#F26D95` |
+| **500** | **`#E8366D`** |
+| 600 | `#C42D5C` |
+| 700 | `#A12248` |
+| 800 | `#821A3B` |
+| 900 | `#6B1430` |
+| 950 | `#400A1C` |
 
 **Secondary (coral `#F07575`):** Transiciones suaves, hover, estados intermedios.
 | Shade | Hex |
@@ -269,15 +356,19 @@ Solo se usan **2 fuentes**: Unbounded y DM Sans. No agregar otras sin aprobació
 
 | Utilidad | CSS | Uso |
 |---|---|---|
-| `.gradient-hero` | `radial-gradient(circle 921px at 94.2% 47.5%, #F31F73, #F07575, #F07575, #F31F73, #FFAF02)` | Background decorativo del hero |
-| `.gradient-text` | `linear-gradient(164deg, primary-500, accent-500)` | Texto con gradiente |
+| `.gradient-hero` | `radial-gradient(circle 921px at 94.2% 47.5%, #E8366D, #F07575, #F07575, #E8366D, #FFAF02)` | Background decorativo del hero |
+| `.gradient-text` | `linear-gradient(164deg, primary-500 0%, primary-500 30%, secondary-500 60%, accent-500 100%)` | Texto con gradiente |
 | `.gradient-text-shimmer` | Ídem + animación shimmer | Texto con efecto brillante |
-| `.gradient-bg` | `linear-gradient(164deg, primary-500, accent-500)` | Background con gradiente |
-| `.gradient-divider` | `linear-gradient(177deg, primary-500, accent-500)` | Línea divisora decorativa |
+| `.gradient-bg` | `linear-gradient(164deg, primary-500 0%, primary-500 30%, secondary-500 60%, accent-500 100%)` | Background con gradiente |
+| `.gradient-divider` | `linear-gradient(177deg, primary-500 0%, secondary-500 60%, accent-500 100%)` | Línea divisora decorativa |
+| `.stroke-text` | `color: transparent; -webkit-text-stroke: 1px var(--ui-text-muted)` | Texto decorativo outline de fondo |
+| `.glow-shadow-primary` | `box-shadow: 0 0 40px rgba(232, 54, 109, 0.4)` | Glow shadow magenta para CTAs |
+| `.glow-shadow-secondary` | `box-shadow: 0 0 30px rgba(240, 117, 117, 0.3)` | Glow shadow coral |
+| `.glow-shadow-accent` | `box-shadow: 0 0 30px rgba(255, 175, 2, 0.3)` | Glow shadow ámbar |
 
 ### Modo Oscuro / Modo Claro
 
-* **Dark mode por defecto** — `colorMode.preference: 'dark'`.
+* **Light mode por defecto** — `colorMode.preference: 'light'`.
 * Los tokens `--ui-*` se sobreescriben en `.dark` y `.light` en `main.css` con valores del diseño Figma.
 * Dark: fondo `#0A0A0A`, texto destacado `#E5E2E1`, bordes `rgba(255,255,255,0.1)`.
 * Light: fondo `#FAFAFA`, texto destacado `#0A0A0A`, bordes `#E5E5E5`.
@@ -301,6 +392,9 @@ app/
 │   └── css/
 │       └── main.css          # Tailwind v4 + tema + keyframes + utilidades CSS
 ├── components/               # Auto-importados por Nuxt
+│   ├── SiteFooter.vue        # Footer fijo con navegación principal
+│   ├── SocialLinks.vue       # Íconos flotantes GITHUB + LINKEDIN
+│   ├── ThemeToggle.vue       # Toggle de tema (light/dark)
 │   └── [feature]/            # Agrupar por feature
 ├── composables/              # use*.ts — auto-importados
 ├── layouts/                  # default.vue, etc.
@@ -332,8 +426,8 @@ export default defineNuxtConfig({
     },
   },
   colorMode: {
-    preference: 'dark',
-    fallback: 'dark',
+    preference: 'light',
+    fallback: 'light',
   },
   runtimeConfig: {
     public: {
@@ -397,16 +491,40 @@ export class ApiError extends Error {
 
 El diseño del portfolio está en Figma. Características principales del diseño:
 
-* **Temática:** Portfolio personal estilo editorial/brutalista, fondo oscuro con acento magenta/rosado.
-* **Navegación:** Sin navbar sticky. Sitio non-scroll con secciones full-screen y transiciones animadas entre ellas.
-* **Hero:** Tipografía grande ("Hola, soy **Kako.**"), badge de disponibilidad, tech chips, CTAs.
+* **Temática:** Portfolio personal estilo editorial/brutalista con toques atmosféricos.
+* **Navegación:** Footer fijo bottom-right con links de navegación (INICIO · SOBRE MÍ · PROYECTOS · EXPERIENCIA · CONTACTO). SocialLinks flotantes verticales a la derecha (GITHUB + LINKEDIN). Sin navbar sticky.
+* **Hero:** Layout asimétrico con contenido alineado a la izquierda. Stroke text decorativo de fondo ("DEVELOPER") en opacity 5%. Glow radial atmosférico top-right. H1 display agresivo (`clamp(5rem, 18vw, 11rem)`) con kerning `-0.04em`. Badge minimalista: dot animado + "DISPONIBLE" uppercase tracking. CTA primario con glow shadow en hover. CTA secundario tipo link con flecha animada. Descripción corta en esquina inferior derecha.
 * **About:** Card geométrica decorativa, stats (3+ años, 15+ proyectos, Open to work), personality chips.
-* **Projects:** Cards detalladas con tech stack, descripciones, links (Código/Demo), badges de categoría.
-* **Animaciones:** Transiciones suaves, hover effects, fade-ups.
+* **Projects:** Cards detalladas con tech stack, descripciones, links (Código/Demo), badges de categoría. Navigation lateral izquierda con números (ProjectsNav).
+* **Experience:** Timeline vertical con años en stroke text gigante (opacity 5% de fondo). Cada fila: año (stroke text) + cargo (uppercase) + empresa/ubicación (mono, primary) + descripción breve + tech chips (hover-only en desktop).
+* **Technologies:** Sección con categorías de tecnologías.
+* **Contact:** Formulario + redes sociales + ubicación.
+* **Animaciones:** 3-4 stagger entries máximo por sección. Transiciones suaves, hover effects, fade-ups.
+* **Efectos interactivos:** Stroke text decorativo en el fondo del hero (nombre del rol o categoría). Opacidad 5-10%. No interferir con lectura.
 * **Tipografía:** Unbounded (headings), DM Sans (body + labels).
-* **Colores custom:** Primary (#F31F73 magenta), Secondary (#F07575 coral), Accent (#FFAF02 ámbar).
+* **Colores custom:** Primary (#E8366D magenta), Secondary (#F07575 coral), Accent (#FFAF02 ámbar).
 
 Al implementar componentes visuales, priorizar fidelidad al diseño Figma. La mayoría de componentes serán **fully custom**.
+
+### Navegación
+
+* **SiteFooter.vue:** Footer fijo bottom-right con links de navegación principal (INICIO · SOBRE MÍ · PROYECTOS · EXPERIENCIA · CONTACTO). Estilo editorial: uppercase, tracking amplio, hover con underline animado. Sin copyright, sin redes sociales.
+* **SocialLinks.vue:** Íconos flotantes verticales (GITHUB + LINKEDIN) posicionados a la derecha de pantalla (`right: 5vw; top: 50%; transform: translateY(-50%)`). Líneas decorativas arriba y abajo. Hover con translateY y color primary.
+* **ThemeToggle.vue:** Botón circular fijo bottom-right para toggle de tema.
+* **Sin navbar sticky:** El sitio usa scroll normal con páginas separadas. La navegación principal está en el footer fijo.
+
+### Hero
+
+* **Layout:** Full-screen (`min-h-screen`) con contenido alineado a la izquierda (`padding: 0 5vw`).
+* **Stroke text de fondo:** Texto decorativo ("DEVELOPER") posicionado absolute center, font-heading, `clamp(5rem, 18vw, 11rem)`, kerning `-0.08em`, opacity 5%. No interferir con lectura.
+* **Glow radial:** Div decorativo con gradiente radial atmosférico top-right. Colores: primary → secondary → accent. `filter: blur(60px)`.
+* **H1:** `"HOLA,\nSOY KAKO"` en font-heading, `clamp(5rem, 18vw, 11rem)`, weight 900, kerning `-0.04em`, line-height 0.85. "KAKO" con `.gradient-text`.
+* **Badge:** Dot animado (pulse) + "DISPONIBLE" uppercase tracking 0.2em. Sin pill background excesivo.
+* **CTA primario:** Botón custom con bg-primary, uppercase tracking, hover con `.glow-shadow-primary` + translateY(-2px).
+* **CTA secundario:** Link estilizado "CONOCER MÁS →" con flecha animada (translateX en hover).
+* **Descripción:** Texto corto absoluto bottom-right (`bottom: 6rem; right: 5vw`), max-width 320px, text-align right. Oculto en mobile.
+* **Animaciones:** 4 stagger entries (badge 0.1s, title 0.25s, actions 0.45s, description 0.65s).
+* **Sin tech chips:** Las tecnologías van en la sección About, no en el Hero.
 
 ---
 

@@ -17,12 +17,16 @@ logs
 .DS_Store
 .fleet
 .idea
-.agents/
+#.agents/
 skills-lock.json
+.opencode
 
 # Local env files
 .env
 .env.*
 !.env.example
+
+# Design references
+app/references/
 
 .idea
