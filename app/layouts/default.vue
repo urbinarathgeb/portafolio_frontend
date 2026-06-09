@@ -1,7 +1,8 @@
 <template>
   <div class="min-h-screen bg-default">
     <slot />
-    <NavSection />
+    <SiteFooter />
+    <SocialLinks />
     <ThemeToggle />
   </div>
 </template>

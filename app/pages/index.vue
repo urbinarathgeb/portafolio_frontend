@@ -5,56 +5,128 @@ definePageMeta({
 </script>
 
 <template>
-  <section class="min-h-screen flex items-center justify-center bg-default px-4 py-20">
-    <div class="max-w-4xl w-full">
-      <div class="hero-enter-1 mb-6">
-        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-elevated border border-border text-sm font-body text-muted">
-          <span class="w-2 h-2 rounded-full bg-success animate-pulse-dot"></span>
-          Disponible para proyectos
+  <section class="relative h-screen w-full flex items-center px-[5vw] overflow-hidden max-md:px-6">
+    <!-- Glow radial atmosférico -->
+    <div class="absolute -top-[10%] -right-[10%] w-[60vw] h-[60vw] glow-radial pointer-events-none" />
+
+    <!-- Stroke text de fondo -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-[1]">
+      <span class="stroke-text font-heading text-[clamp(5rem,18vw,11rem)] font-bold tracking-[-0.08em] leading-[0.85] opacity-5 select-none max-md:text-[clamp(3rem,15vw,6rem)]">
+        DEVELOPER
+      </span>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="relative z-10 max-w-[900px]">
+      <!-- Badge -->
+      <div class="hero-enter-1 inline-flex items-center gap-2 mb-8">
+        <span class="w-1.5 h-1.5 rounded-full bg-success-500 animate-pulse-dot" />
+        <span class="font-body text-[11px] font-semibold tracking-[0.2em] uppercase text-toned">
+          DISPONIBLE
         </span>
       </div>
 
-      <h1 class="hero-enter-2 font-heading text-[clamp(3rem,12vw,8rem)] font-bold leading-[0.9] tracking-tight text-highlighted">
-        Hola, soy
-        <span class="gradient-text">Kako.</span>
+      <!-- Título -->
+      <h1 class="hero-enter-2 font-heading text-[clamp(5rem,18vw,11rem)] font-black leading-[0.85] tracking-[-0.04em] text-highlighted mb-12">
+        HOLA,<br>
+        SOY <span class="gradient-text">KAKO</span>
       </h1>
 
-      <p class="hero-enter-3 mt-8 text-xl md:text-2xl font-body text-muted max-w-2xl">
-        Desarrollador frontend especializado en crear experiencias web modernas y performantes.
+      <!-- CTAs -->
+      <div class="hero-enter-3 flex items-center gap-8 flex-wrap">
+        <NuxtLink to="/projects" class="cta-primary">
+          VER PROYECTOS
+        </NuxtLink>
+        <NuxtLink to="/about" class="cta-secondary">
+          CONOCER MÁS
+          <UIcon name="i-lucide-arrow-right" class="text-base" />
+        </NuxtLink>
+      </div>
+    </div>
+
+    <!-- Descripción esquina inferior derecha -->
+    <div class="hero-enter-4 absolute bottom-24 right-[5vw] max-w-[320px] text-right z-10 max-lg:hidden">
+      <p class="font-body text-sm font-normal leading-relaxed text-muted">
+        Construyo experiencias digitales con precisión técnica y sensibilidad de diseño.
       </p>
-
-      <div class="hero-enter-4 mt-12 flex flex-wrap gap-3">
-        <span class="px-4 py-2 rounded-lg bg-elevated border border-border text-sm font-body text-toned">Vue.js</span>
-        <span class="px-4 py-2 rounded-lg bg-elevated border border-border text-sm font-body text-toned">Nuxt</span>
-        <span class="px-4 py-2 rounded-lg bg-elevated border border-border text-sm font-body text-toned">TypeScript</span>
-        <span class="px-4 py-2 rounded-lg bg-elevated border border-border text-sm font-body text-toned">Tailwind CSS</span>
-      </div>
-
-      <div class="hero-enter-5 mt-12 flex flex-wrap gap-4">
-        <UButton
-          label="Ver proyectos"
-          size="lg"
-          to="/projects"
-        />
-        <UButton
-          label="Sobre mí"
-          size="lg"
-          variant="outline"
-          to="/about"
-        />
-        <UButton
-          label="Experiencia"
-          size="lg"
-          variant="outline"
-          to="/experience"
-        />
-        <UButton
-          label="Contacto"
-          size="lg"
-          variant="outline"
-          to="/contact"
-        />
-      </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.glow-radial {
+  background: radial-gradient(
+    circle,
+    rgba(232, 54, 109, 0.12) 0%,
+    rgba(240, 117, 117, 0.08) 30%,
+    rgba(255, 175, 2, 0.04) 60%,
+    transparent 80%
+  );
+  filter: blur(60px);
+  will-change: transform;
+}
+
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: white;
+  background: var(--color-primary-500);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  text-decoration: none;
+}
+
+.cta-primary:hover {
+  background: var(--color-primary-600);
+  box-shadow: 0 0 40px rgba(232, 54, 109, 0.4);
+  transform: translateY(-2px);
+}
+
+.cta-primary:active {
+  transform: translateY(0);
+}
+
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ui-text-toned);
+  text-decoration: none;
+  transition: all 0.3s ease-out;
+}
+
+.cta-secondary:hover {
+  color: var(--ui-primary);
+}
+
+.cta-secondary:hover :deep(.i-lucide-arrow-right) {
+  transform: translateX(4px);
+}
+
+.cta-secondary :deep(.i-lucide-arrow-right) {
+  transition: transform 0.3s ease-out;
+}
+
+@media (max-width: 768px) {
+  .cta-primary {
+    padding: 0.875rem 2rem;
+  }
+  
+  .cta-secondary {
+    font-size: 11px;
+  }
+}
+</style>
