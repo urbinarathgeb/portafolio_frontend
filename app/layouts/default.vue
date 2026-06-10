@@ -4,5 +4,6 @@
     <SiteFooter />
     <SocialLinks />
     <ThemeToggle />
+    <SectionLabel />
   </div>
 </template>
