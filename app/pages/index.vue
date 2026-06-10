@@ -9,11 +9,17 @@ definePageMeta({
     <!-- Glow radial atmosférico -->
     <div class="absolute -top-[10%] -right-[10%] w-[60vw] h-[60vw] glow-radial pointer-events-none" />
 
-    <!-- Stroke text de fondo -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-[1]">
-      <span class="stroke-text font-heading text-[clamp(5rem,18vw,11rem)] font-bold tracking-[-0.08em] leading-[0.85] opacity-5 select-none max-md:text-[clamp(3rem,15vw,6rem)]">
+    <!-- Stroke text pattern: DEVELOPER × 3 con opacidad descendente -->
+    <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0">
+      <div class="font-heading text-[clamp(4rem,14vw,10rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.15] whitespace-nowrap">
         DEVELOPER
-      </span>
+      </div>
+      <div class="font-heading text-[clamp(4rem,14vw,10rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.08] whitespace-nowrap -mt-[0.3em]">
+        DEVELOPER
+      </div>
+      <div class="font-heading text-[clamp(4rem,14vw,10rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.03] whitespace-nowrap -mt-[0.3em]">
+        DEVELOPER
+      </div>
     </div>
 
     <!-- Contenido principal -->

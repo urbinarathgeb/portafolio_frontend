@@ -5,18 +5,21 @@ definePageMeta({
 </script>
 
 <template>
-  <section class="min-h-screen flex items-center justify-center bg-default px-4 py-20">
-    <div class="max-w-4xl w-full section-enter">
-      <div class="mb-4">
-        <span class="font-body text-sm tracking-[0.1em] uppercase text-muted">05 — Contacto</span>
+  <section class="relative min-h-screen flex items-center justify-center bg-default px-4 py-20 overflow-hidden">
+    <!-- Stroke text pattern: CONTACTO × 3 con opacidad descendente -->
+    <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0 max-md:right-4">
+      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.15] whitespace-nowrap">
+        CONTACTO
       </div>
+      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.08] whitespace-nowrap -mt-[0.3em]">
+        CONTACTO
+      </div>
+      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.03] whitespace-nowrap -mt-[0.3em]">
+        CONTACTO
+      </div>
+    </div>
 
-      <h1 class="font-heading text-[clamp(2.5rem,8vw,6rem)] font-bold leading-[0.9] tracking-tight text-highlighted">
-        <span class="gradient-text">Contacto</span>
-      </h1>
-
-      <div class="gradient-divider mt-6 mb-12" />
-
+    <div class="relative z-10 max-w-4xl w-full section-enter">
       <div class="grid md:grid-cols-2 gap-12">
         <div>
           <p class="text-lg text-muted font-body leading-relaxed mb-8">

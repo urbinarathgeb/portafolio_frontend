@@ -29,7 +29,20 @@ function handleSelect(id: number) {
 </script>
 
 <template>
-  <section class="relative min-h-screen flex justify-center items-center">
+  <section class="relative min-h-screen flex justify-center items-center overflow-hidden">
+    <!-- Stroke text pattern: PROYECTOS × 3 con opacidad descendente -->
+    <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0 max-md:right-4">
+      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.15] whitespace-nowrap">
+        PROYECTOS
+      </div>
+      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.08] whitespace-nowrap -mt-[0.3em]">
+        PROYECTOS
+      </div>
+      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.03] whitespace-nowrap -mt-[0.3em]">
+        PROYECTOS
+      </div>
+    </div>
+
     <template v-if="pending">
       <p class="text-muted animate-pulse">Cargando proyectos...</p>
     </template>

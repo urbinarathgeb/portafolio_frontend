@@ -264,7 +264,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .stroke-text {
     color: transparent;
-    -webkit-text-stroke: 1px var(--ui-text-muted);
+    -webkit-text-stroke: 2px var(--ui-text-muted);
 }
 
 .glow-shadow-primary {
