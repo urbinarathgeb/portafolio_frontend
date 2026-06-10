@@ -511,7 +511,31 @@ Al implementar componentes visuales, priorizar fidelidad al diseño Figma. La ma
 * **SiteFooter.vue:** Footer fijo bottom-right con links de navegación principal (INICIO · SOBRE MÍ · PROYECTOS · EXPERIENCIA · CONTACTO). Estilo editorial: uppercase, tracking amplio, hover con underline animado. Sin copyright, sin redes sociales.
 * **SocialLinks.vue:** Íconos flotantes verticales (GITHUB + LINKEDIN) posicionados a la derecha de pantalla (`right: 5vw; top: 50%; transform: translateY(-50%)`). Líneas decorativas arriba y abajo. Hover con translateY y color primary.
 * **ThemeToggle.vue:** Botón circular fijo bottom-right para toggle de tema.
+* **SectionLabel.vue:** Label fijo bottom-left que muestra el nombre de la sección actual según la ruta. Monospace, uppercase, tracking wide, muted. Oculto en Hero (`/`). Mapeo: `/about` → "SOBRE MÍ", `/projects` → "PROYECTOS", `/projects/[slug]` → "PROYECTO", `/experience` → "EXPERIENCIA", `/technologies` → "STACK", `/contact` → "CONTACTO".
 * **Sin navbar sticky:** El sitio usa scroll normal con páginas separadas. La navegación principal está en el footer fijo.
+
+### Stroke Text Pattern
+
+Cada sección (excepto Hero) tiene su palabra repetida **3 veces verticalmente** con opacidad descendente, posicionada en el lado derecho:
+- 1ª: `opacity-[0.05]`
+- 2ª: `opacity-[0.025]`
+- 3ª: `opacity-[0.01]`
+
+Las 3 instancias están ligeramente desplazadas verticalmente (`-mt-[0.3em]`), creando un efecto de cascada diagonal sutil. `pointer-events-none`, `select-none`.
+
+**Palabras por sección:**
+- Experience → "EXPERIENCIA"
+- Technologies → "STACK"
+- About → "SOBRE MÍ"
+- Projects → "PROYECTOS"
+- Contact → "CONTACTO"
+
+### Eliminación de H1 Headers
+
+Las secciones ya no tienen H1 headers grandes con label + gradient title + divider. En su lugar:
+- **SectionLabel** (fijo bottom-left) identifica la sección
+- **Stroke text pattern** (lado derecho) proporciona identidad visual
+- El contenido principal comienza inmediatamente, ganando ~200px de espacio vertical
 
 ### Hero
 
