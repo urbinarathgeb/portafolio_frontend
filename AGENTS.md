@@ -210,6 +210,12 @@ export const useProjects = () => {
 * **`$fetch`**: Para mutaciones (POST, PUT, DELETE) dentro de handlers/eventos. No usar para datos iniciales.
 * La URL base del backend se configura en `nuxt.config.ts` via `runtimeConfig.public.apiBase`.
 
+### Loading States (SPA feel)
+
+* **Sin spinners:** Las transiciones de página (`page` con `out-in` en `nuxt.config.ts`) "tapan" el tiempo de carga de `useFetch`. No agregar spinners ni loaders globales — la transición animada entre rutas es suficiente.
+* **`lazy`:** Usar `lazy: true` para datos que no son críticos en SSR (la transición oculta la carga). Usar `lazy: false` solo cuando el contenido debe estar presente en el HTML inicial para SEO.
+* **Estados visibles:** Solo `error` (toast + mensaje inline) y `empty` (contenido vacío, texto informativo). El `pending` se maneja implícitamente via transición de página.
+
 ---
 
 ## @nuxt/ui + Tailwind — Convivencia
