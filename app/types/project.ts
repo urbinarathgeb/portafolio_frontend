@@ -1,3 +1,5 @@
+import type { Technology } from '~/types/technology'
+
 export interface ProjectUser {
   name: string
   lastname: string
@@ -12,6 +14,8 @@ export interface Project {
   githubURL: string | null
   deployURL: string | null
   isFeatured: boolean
+  techStack: string[]
+  techStackDetails?: Technology[]
   userId: number
   user: ProjectUser
   createdAt: string
