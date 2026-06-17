@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Technology } from '~/composables/useTechnologies'
+import type { Technology } from '~/types/technology'
 
 interface Props {
   technology: Technology
@@ -23,7 +23,7 @@ const colSpanClass = computed(() => {
 
 <template>
   <div
-    :class="[colSpanClass, 'max-lg:col-span-6 max-md:col-span-12']"
+    :class="[colSpanClass, 'max-lg:col-span-6 max-md:!col-span-1']"
   >
     <div
       class="tech-card group relative h-[340px] bg-elevated border border-border overflow-hidden flex flex-col justify-between p-8 transition-all duration-500 ease-out hover:-translate-y-2 hover:border-primary cursor-pointer opacity-0 animate-fade-up max-lg:p-6 max-md:h-[280px]"
@@ -32,8 +32,8 @@ const colSpanClass = computed(() => {
       <!-- Icono top-right con glow -->
       <div class="absolute top-6 right-6 max-lg:top-4 max-lg:right-4">
         <div class="absolute inset-0 -inset-4 bg-primary rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
-        <UIcon 
-          :name="technology.icon" 
+        <UIcon
+          :name="technology.icon"
           class="relative text-primary opacity-20 group-hover:opacity-100 transition-opacity duration-500"
           :class="[isWide ? 'text-5xl' : 'text-3xl']"
         />
@@ -44,13 +44,13 @@ const colSpanClass = computed(() => {
         <span class="block font-mono text-xs font-medium tracking-[0.15em] uppercase text-muted mb-3">
           {{ technology.category }}
         </span>
-        <h3 
-          class="font-heading font-bold leading-[0.85] tracking-tight text-primary mb-4"
-          :class="[isWide ? 'text-[clamp(3.5rem,6vw,5.5rem)]' : 'text-[clamp(2rem,4vw,3.5rem)]']"
+        <h3
+          class="font-heading font-bold leading-[0.85] tracking-tight text-primary mb-4 text-[clamp(2rem,4vw,3.5rem)]"
+          :class="[isWide ? 'md:text-[clamp(3.5rem,6vw,5.5rem)]' : 'md:text-[clamp(2rem,4vw,3.5rem)]']"
         >
           {{ technology.name }}
         </h3>
-        <p 
+        <p
           class="font-body text-sm leading-relaxed text-toned"
           :class="[isWide ? 'max-w-[500px]' : 'max-w-[280px]']"
         >

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Experience } from '~/composables/useExperience'
+import type { Experience } from '~/types/experience'
 
 interface Props {
   experience: Experience
@@ -17,11 +17,11 @@ const props = defineProps<Props>()
       <h3 class="font-heading text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-[-0.02em] uppercase text-highlighted leading-tight max-md:text-[clamp(1.25rem,5vw,1.75rem)]">
         {{ experience.role }}
       </h3>
-      <p class="font-mono text-sm font-medium tracking-[0.15em] uppercase text-primary mt-2">
-        {{ experience.company }}
-        <span class="text-muted mx-2">//</span>
+      <div class="flex items-center gap-2 flex-wrap font-mono text-sm font-medium tracking-[0.15em] uppercase text-primary mt-2 max-md:flex-col max-md:items-start max-md:gap-1">
+        <span>{{ experience.company }}</span>
+        <span class="text-muted max-md:hidden">//</span>
         <span class="text-muted">{{ experience.location }}</span>
-      </p>
+      </div>
       <p class="font-body text-[0.9375rem] leading-relaxed text-default max-w-[500px] mt-2">
         {{ experience.description }}
       </p>

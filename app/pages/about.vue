@@ -2,12 +2,21 @@
 definePageMeta({
   layout: 'default',
 })
+
+const toast = useToast()
+const { profile, error } = useProfile()
+
+watch(error, (err) => {
+  if (err) {
+    toast.add({ title: 'Error', description: 'No se pudo cargar el perfil.', color: 'error' })
+  }
+})
 </script>
 
 <template>
   <section class="relative min-h-screen flex items-center justify-center bg-default px-[5vw] py-20 overflow-hidden max-md:px-6">
     <!-- Stroke text pattern: SOBRE MÍ × 3 con opacidad descendente -->
-    <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0 max-md:right-4">
+    <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0 max-md:hidden">
       <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.15] whitespace-nowrap">
         SOBRE MÍ
       </div>
@@ -27,19 +36,17 @@ definePageMeta({
         <!-- Tagline full-width: rompe la estructura de columnas -->
         <div class="col-span-12 max-md:col-span-1">
           <span class="font-mono text-xs tracking-[0.3em] uppercase text-primary">
-            Desarrollador Full-Stack
+            {{ profile?.title }}
           </span>
-          <h2 class="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-[-0.03em] leading-[0.9] text-highlighted mt-3">
-            CÓDIGO.
-            <span class="gradient-text">DISEÑO.</span>
-            INNOVAR.
+          <h2 class="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-[-0.03em] leading-[0.9] mt-3 gradient-text">
+            {{ profile?.tagline }}
           </h2>
         </div>
 
         <!-- Columna izquierda: bio + chips -->
         <div class="col-span-6 max-md:col-span-1 h-full flex flex-col justify-between">
           <p class="text-lg text-muted font-body leading-relaxed max-w-full">
-            Puenteo la brecha entre la ingeniería compleja y el diseño emotivo. Mi trabajo vive en la intersección de la precisión técnica y la narrativa visual, creando experiencias digitales que son tan performantes como hermosas.
+            {{ profile?.bio }}
           </p>
 
           <div class="flex flex-wrap gap-3 mt-6">

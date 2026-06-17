@@ -15,7 +15,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <nav class="nav">
+  <nav class="nav max-md:hidden">
     <button
       v-for="item in items"
       :key="item.id"

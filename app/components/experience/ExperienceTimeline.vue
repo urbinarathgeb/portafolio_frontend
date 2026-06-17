@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Experience } from '~/composables/useExperience'
+import type { Experience } from '~/types/experience'
 
 interface Props {
   experiences: Experience[]
