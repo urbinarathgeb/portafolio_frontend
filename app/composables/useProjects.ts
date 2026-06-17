@@ -12,7 +12,12 @@ export const useProjects = () => {
     },
   )
 
-  const projects = computed(() => data.value?.data ?? [])
+  const projects = computed(() =>
+    data.value?.data?.map((p) => ({
+      ...p,
+      techStack: p.techStackDetails?.map((t) => t.name) ?? [],
+    })) ?? [],
+  )
 
   return {
     projects,
@@ -34,7 +39,14 @@ export const useProject = (id: number | string) => {
     },
   )
 
-  const project = computed(() => data.value?.data ?? null)
+  const project = computed(() => {
+    if (!data.value?.data) return null
+    const p = data.value.data
+    return {
+      ...p,
+      techStack: p.techStackDetails?.map((t) => t.name) ?? [],
+    }
+  })
 
   return {
     project,
