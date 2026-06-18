@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import type { ContactForm } from '~/composables/useContact'
-
 definePageMeta({
   layout: 'default',
 })
 
 const toast = useToast()
-const { form, loading, error, success, submit, reset } = useContact()
+const { form, loading, error, submit } = useContact()
 
 useSeoMeta({
   title: 'Contacto — Kako',
@@ -43,7 +41,7 @@ const handleSubmit = async () => {
           </p>
 
           <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-elevated border border-border w-fit">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="w-2 h-2 rounded-full bg-success animate-pulse"></span>
             <span class="text-sm font-body text-highlighted">Disponible ahora</span>
             <span class="text-sm font-body text-muted">· Santiago, Chile (remoto ok)</span>
           </div>
@@ -82,7 +80,7 @@ const handleSubmit = async () => {
             </a>
 
             <a
-              href="https://linkedin.com/in/javierkako"
+              href="https://www.linkedin.com/in/urbinarathgeb"
               target="_blank"
               rel="noopener noreferrer"
               class="flex items-center gap-4 px-4 py-3 rounded-lg bg-elevated border border-border hover:border-primary transition-colors group"

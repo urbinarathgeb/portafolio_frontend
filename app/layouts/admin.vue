@@ -58,7 +58,7 @@ const userMenuItems = [
 
     <!-- Sidebar (always fixed, slides in/out on mobile) -->
     <aside
-      class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-[#1A1C1C] border-r border-border flex flex-col transition-transform duration-300 lg:translate-x-0"
+      class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-bg-elevated border-r border-border flex flex-col transition-transform duration-300 lg:translate-x-0"
       :class="[sidebarOpen ? 'translate-x-0 z-50' : '-translate-x-full z-30']"
     >
       <!-- Close button (mobile) -->
