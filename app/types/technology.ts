@@ -5,6 +5,7 @@ export interface Technology {
   description: string
   icon: string
   span: number
+  order: number
 }
 
 export interface ApiResponse<T> {

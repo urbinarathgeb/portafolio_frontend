@@ -1,3 +1,5 @@
+import type { ApiResponse } from '~/types/project'
+
 export interface AdminTechnology {
   id: number
   name: string
@@ -5,6 +7,7 @@ export interface AdminTechnology {
   description: string | null
   icon: string | null
   span: number | null
+  order: number | null
   showInStack: boolean
   createdAt: string
   updatedAt: string
@@ -16,6 +19,7 @@ export interface TechnologyForm {
   description: string
   icon: string
   span: number | null
+  order: number | null
   showInStack: boolean
 }
 
@@ -25,17 +29,23 @@ const initialForm: TechnologyForm = {
   description: '',
   icon: '',
   span: null,
+  order: null,
   showInStack: false,
 }
 
 export const useAdminTechnologies = () => {
   const { public: config } = useRuntimeConfig()
   const token = useCookie<string | null>('auth-token')
+  const toast = useToast()
 
   const technologies = useState<AdminTechnology[]>('admin-techs', () => [])
   const loading = useState('admin-techs-loading', () => false)
   const submitting = useState('admin-techs-submitting', () => false)
   const error = useState<string | null>('admin-techs-error', () => null)
+
+  const categories = computed(() =>
+    [...new Set(technologies.value.map(t => t.category))].sort()
+  )
 
   const getHeaders = () => {
     const headers: Record<string, string> = {}
@@ -79,13 +89,17 @@ export const useAdminTechnologies = () => {
           description: form.description || undefined,
           icon: form.icon || undefined,
           span: form.span || undefined,
+          order: form.order ?? undefined,
           showInStack: form.showInStack,
         },
       })
       technologies.value.unshift(res.data)
+      toast.add({ title: 'Éxito', description: 'Tecnología creada correctamente', color: 'success' })
       return res.data
     } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : 'Error al crear tecnología'
+      const msg = e instanceof Error ? e.message : 'Error al crear tecnología'
+      error.value = msg
+      toast.add({ title: 'Error', description: msg, color: 'error' })
       return null
     } finally {
       submitting.value = false
@@ -105,14 +119,18 @@ export const useAdminTechnologies = () => {
           description: form.description || undefined,
           icon: form.icon || undefined,
           span: form.span || undefined,
+          order: form.order ?? undefined,
           showInStack: form.showInStack,
         },
       })
       const idx = technologies.value.findIndex(t => t.id === id)
       if (idx !== -1) technologies.value[idx] = res.data
+      toast.add({ title: 'Éxito', description: 'Tecnología actualizada correctamente', color: 'success' })
       return res.data
     } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : 'Error al actualizar tecnología'
+      const msg = e instanceof Error ? e.message : 'Error al actualizar tecnología'
+      error.value = msg
+      toast.add({ title: 'Error', description: msg, color: 'error' })
       return null
     } finally {
       submitting.value = false
@@ -123,9 +141,12 @@ export const useAdminTechnologies = () => {
     try {
       await $fetch(`${config.apiBase}/technologies/${id}`, { method: 'DELETE', headers: getHeaders() })
       technologies.value = technologies.value.filter(t => t.id !== id)
+      toast.add({ title: 'Éxito', description: 'Tecnología eliminada correctamente', color: 'success' })
       return true
     } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : 'Error al eliminar tecnología'
+      const msg = e instanceof Error ? e.message : 'Error al eliminar tecnología'
+      error.value = msg
+      toast.add({ title: 'Error', description: msg, color: 'error' })
       return false
     }
   }
@@ -138,11 +159,13 @@ export const useAdminTechnologies = () => {
     description: tech.description || '',
     icon: tech.icon || '',
     span: tech.span,
+    order: tech.order,
     showInStack: tech.showInStack,
   })
 
   return {
     technologies,
+    categories,
     loading: readonly(loading),
     submitting: readonly(submitting),
     error: readonly(error),

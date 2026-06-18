@@ -1,4 +1,15 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'default',
+})
+
+useSeoMeta({
+  title: 'Proyectos — Kako',
+  ogTitle: 'Proyectos — Kako',
+  description: 'Explorá los proyectos que he desarrollado, desde apps web hasta sistemas completos.',
+  ogDescription: 'Explorá los proyectos que he desarrollado, desde apps web hasta sistemas completos.',
+})
+
 const { projects, pending, error } = useProjects()
 
 const activeProject = ref<number | null>(null)
@@ -29,64 +40,56 @@ function handleSelect(id: number) {
 </script>
 
 <template>
-  <section class="relative min-h-screen flex justify-center items-center overflow-hidden">
-    <!-- Stroke text pattern: PROYECTOS × 3 con opacidad descendente -->
-    <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0 max-md:hidden">
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.15] whitespace-nowrap">
-        PROYECTOS
-      </div>
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.08] whitespace-nowrap -mt-[0.3em]">
-        PROYECTOS
-      </div>
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.03] whitespace-nowrap -mt-[0.3em]">
-        PROYECTOS
-      </div>
-    </div>
+  <div class="page-projects-wrapper">
+    <section class="relative min-h-screen flex justify-center items-center overflow-hidden">
+      <StrokeText text="PROYECTOS" />
 
-    <template v-if="pending">
-      <p class="text-muted animate-pulse">Cargando proyectos...</p>
-    </template>
-    <template v-else-if="error">
-      <p class="text-error">Error al cargar los proyectos.</p>
-    </template>
-    <template v-else-if="currentProject">
-      <ProjectsNav
-        :items="navItems"
-        :active-id="activeProject"
-        @select="handleSelect"
-      />
-      <div class="relative z-10 w-full max-w-3xl mx-auto px-[5vw] py-20 pl-24 max-md:pl-[5vw] section-enter">
-        <Transition name="project-slide" mode="out-in">
-          <ProjectCard
-            :key="transitionKey"
-            :title="currentProject.title"
-            :subtitle="currentProject.subtitle"
-            :image="currentProject.imagePreview ?? '/images/project-placeholder.svg'"
-            :project-id="currentProject.id"
-            :tech-stack="currentProject.techStack ?? []"
-          />
-        </Transition>
-      </div>
-    </template>
-  </section>
+      <template v-if="pending">
+        <p class="text-muted animate-pulse">Cargando proyectos...</p>
+      </template>
+      <template v-else-if="error">
+        <p class="text-error">Error al cargar los proyectos.</p>
+      </template>
+      <template v-else-if="currentProject">
+        <ProjectsNav
+          :items="navItems"
+          :active-id="activeProject"
+          @select="handleSelect"
+        />
+        <div class="relative z-10 w-full max-w-3xl mx-auto px-[5vw] py-20 pl-24 max-md:pl-[5vw] section-enter">
+          <Transition name="project-fade" mode="out-in">
+            <ProjectCard
+              :key="transitionKey"
+              :title="currentProject.title"
+              :subtitle="currentProject.subtitle"
+              :image="currentProject.imagePreview ?? '/images/project-placeholder.svg'"
+              :project-id="currentProject.id"
+              :is-frontend="currentProject.isFrontend"
+              :is-backend="currentProject.isBackend"
+              :tech-stack="currentProject.techStack ?? []"
+            />
+          </Transition>
+        </div>
+      </template>
+    </section>
+  </div>
 </template>
 
 <style scoped>
-.project-slide-enter-active {
-  transition: all 150ms ease-out;
+.project-fade-enter-active,
+.project-fade-leave-active {
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.project-slide-leave-active {
-  transition: all 110ms ease-in;
-}
-
-.project-slide-enter-from {
+.project-fade-enter-from {
   opacity: 0;
-  transform: translateY(24px);
+  transform: scale(0.98);
+  filter: blur(2px);
 }
 
-.project-slide-leave-to {
+.project-fade-leave-to {
   opacity: 0;
-  transform: translateY(-16px);
+  transform: scale(1.02);
+  filter: blur(2px);
 }
 </style>

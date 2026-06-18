@@ -20,9 +20,13 @@ const form = reactive<ProjectForm>({
   title: '',
   subtitle: '',
   description: '',
-  githubURL: '',
+  githubURLFront: '',
+  githubURLBack: '',
   deployURL: '',
   isFeatured: false,
+  isFrontend: false,
+  isBackend: false,
+  caseStudy: { title: '', challenge: '', solution: '', highlights: [], impact: [] },
   techIds: [],
 })
 
@@ -30,6 +34,22 @@ const pageLoading = ref(true)
 const uploadLoading = ref(false)
 const imageInput = ref<HTMLInputElement | null>(null)
 const formErrors = ref<Record<string, string>>({})
+
+const addHighlight = () => {
+  form.caseStudy!.highlights.push({ title: '', description: '' })
+}
+
+const removeHighlight = (index: number) => {
+  form.caseStudy!.highlights.splice(index, 1)
+}
+
+const addImpact = () => {
+  form.caseStudy!.impact.push({ stat: '', subtitle: '', description: '' })
+}
+
+const removeImpact = (index: number) => {
+  form.caseStudy!.impact.splice(index, 1)
+}
 
 const techOptions = computed(() =>
   technologies.value.map(t => ({ label: t.name, value: t.id }))
@@ -142,9 +162,15 @@ const handleImageUpload = async (event: Event) => {
               </UFormField>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <UFormField label="URL de GitHub" name="githubURL">
-                  <UInput v-model="form.githubURL" placeholder="https://github.com/..." class="w-full" :disabled="submitting" />
+                <UFormField label="URL GitHub (Frontend)" name="githubURLFront">
+                  <UInput v-model="form.githubURLFront" placeholder="https://github.com/..." class="w-full" :disabled="submitting" />
                 </UFormField>
+                <UFormField label="URL GitHub (Backend)" name="githubURLBack">
+                  <UInput v-model="form.githubURLBack" placeholder="https://github.com/..." class="w-full" :disabled="submitting" />
+                </UFormField>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <UFormField label="URL de Deploy" name="deployURL">
                   <UInput v-model="form.deployURL" placeholder="https://..." class="w-full" :disabled="submitting" />
                 </UFormField>
@@ -163,6 +189,113 @@ const handleImageUpload = async (event: Event) => {
               </UFormField>
 
               <UCheckbox v-model="form.isFeatured" label="Proyecto destacado" :disabled="submitting" />
+
+              <div class="flex items-center gap-6">
+                <UCheckbox v-model="form.isFrontend" label="Frontend" :disabled="submitting" />
+                <UCheckbox v-model="form.isBackend" label="Backend" :disabled="submitting" />
+              </div>
+
+              <!-- Caso de Estudio -->
+              <details class="group border border-border rounded-xl overflow-hidden">
+                <summary class="flex items-center justify-between p-4 cursor-pointer text-sm font-semibold text-highlighted hover:bg-bg-muted transition-colors list-none [&::-webkit-details-marker]:hidden">
+                  <span class="flex items-center gap-2">
+                    <UIcon name="i-lucide-book-open" class="size-4 text-primary" />
+                    Caso de Estudio
+                  </span>
+                  <UIcon name="i-lucide-chevron-down" class="size-4 text-muted transition-transform duration-200 group-open:rotate-180" />
+                </summary>
+                <div class="border-t border-border p-4 space-y-5">
+                  <UFormField label="Título del caso" name="caseStudy.title">
+                  <UInput v-model="form.caseStudy!.title" placeholder="CutLog API: Eficiencia Just-in-Time..." class="w-full" :disabled="submitting" />
+                </UFormField>
+
+                <UFormField label="Desafío" name="caseStudy.challenge">
+                  <UTextarea v-model="form.caseStudy!.challenge" placeholder="Describe el problema o desafío inicial..." class="w-full" :rows="4" :disabled="submitting" />
+                </UFormField>
+
+                <UFormField label="Solución" name="caseStudy.solution">
+                  <UTextarea v-model="form.caseStudy!.solution" placeholder="Describe la solución implementada..." class="w-full" :rows="4" :disabled="submitting" />
+                  </UFormField>
+
+                  <!-- Highlights -->
+                  <div>
+                    <div class="flex items-center justify-between mb-3">
+                      <span class="text-sm font-semibold text-highlighted">Highlights</span>
+                      <UButton color="neutral" variant="ghost" size="sm" @click="addHighlight" :disabled="submitting">
+                        <template #leading><UIcon name="i-lucide-plus" class="size-3" /></template>
+                        Agregar
+                      </UButton>
+                    </div>
+                    <div v-if="form.caseStudy?.highlights?.length" class="space-y-4">
+                      <div
+                        v-for="(item, i) in form.caseStudy!.highlights"
+                        :key="i"
+                        class="relative bg-elevated border border-border rounded-xl p-4"
+                      >
+                        <div class="flex items-center justify-between mb-3">
+                          <span class="text-sm font-semibold text-highlighted">Highlight {{ i + 1 }}</span>
+                          <UButton color="error" variant="ghost" size="sm" @click="removeHighlight(i)" :disabled="submitting">
+                            <UIcon name="i-lucide-x" class="size-4" />
+                          </UButton>
+                        </div>
+                        <div class="space-y-3">
+                          <div>
+                            <label class="block text-xs font-medium text-muted mb-1">Título</label>
+                            <UInput v-model="item.title" placeholder="Ej: Arquitectura Orientada a la Trazabilidad" class="w-full" :disabled="submitting" />
+                          </div>
+                          <div>
+                            <label class="block text-xs font-medium text-muted mb-1">Descripción</label>
+                            <UTextarea v-model="item.description" placeholder="Descripción detallada del highlight" class="w-full" :rows="2" :disabled="submitting" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <p v-else class="text-xs text-muted">Sin highlights. Haz clic en "Agregar" para añadir uno.</p>
+                  </div>
+
+                  <!-- Impacto -->
+                  <div>
+                    <div class="flex items-center justify-between mb-3">
+                      <span class="text-sm font-semibold text-highlighted">Impacto</span>
+                      <UButton color="neutral" variant="ghost" size="sm" @click="addImpact" :disabled="submitting">
+                        <template #leading><UIcon name="i-lucide-plus" class="size-3" /></template>
+                        Agregar
+                      </UButton>
+                    </div>
+                    <div v-if="form.caseStudy?.impact?.length" class="space-y-4">
+                      <div
+                        v-for="(item, i) in form.caseStudy!.impact"
+                        :key="i"
+                        class="relative bg-elevated border border-border rounded-xl p-4"
+                      >
+                        <div class="flex items-center justify-between mb-3">
+                          <span class="text-sm font-semibold text-highlighted">Impacto {{ i + 1 }}</span>
+                          <UButton color="error" variant="ghost" size="sm" @click="removeImpact(i)" :disabled="submitting">
+                            <UIcon name="i-lucide-x" class="size-4" />
+                          </UButton>
+                        </div>
+                        <div class="space-y-3">
+                          <div class="grid grid-cols-2 gap-3">
+                            <div>
+                              <label class="block text-xs font-medium text-muted mb-1">Valor</label>
+                              <UInput v-model="item.stat" placeholder="40%" class="w-full" :disabled="submitting" />
+                            </div>
+                            <div>
+                              <label class="block text-xs font-medium text-muted mb-1">Subtítulo</label>
+                              <UInput v-model="item.subtitle" placeholder="Reducción en errores de apilado" class="w-full" :disabled="submitting" />
+                            </div>
+                          </div>
+                          <div>
+                            <label class="block text-xs font-medium text-muted mb-1">Descripción</label>
+                            <UInput v-model="item.description" placeholder="Al automatizar la sugerencia de configuraciones..." class="w-full" :disabled="submitting" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <p v-else class="text-xs text-muted">Sin métricas de impacto. Haz clic en "Agregar" para añadir una.</p>
+                  </div>
+                </div>
+              </details>
 
               <div class="flex items-center gap-3 pt-6">
                 <UButton type="submit" color="primary" :loading="submitting" :disabled="submitting">

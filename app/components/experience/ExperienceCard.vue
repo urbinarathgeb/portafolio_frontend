@@ -9,8 +9,8 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-  <div class="flex items-baseline py-12 border-b border-white/10 dark:border-white/5 transition-all duration-500 cursor-default hover:pl-4 group max-md:py-8 max-md:hover:pl-2">
-    <span class="year-text font-heading text-[clamp(5rem,12vw,11rem)] font-bold tracking-[-0.04em] leading-[0.85] mr-12 max-md:mr-6 max-md:text-[clamp(4rem,15vw,6rem)]">
+  <div class="flex items-baseline py-12 border-b border-border transition-all duration-500 cursor-default hover:pl-4 group max-md:py-8 max-md:hover:pl-2">
+    <span class="year-text font-stroke text-[clamp(5rem,12vw,11rem)] tracking-[-0.04em] leading-[0.85] mr-12 max-md:mr-6 max-md:text-[clamp(4rem,15vw,6rem)]">
       {{ experience.year }}
     </span>
     <div class="flex flex-col gap-3">
@@ -43,6 +43,7 @@ const props = defineProps<Props>()
   color: transparent;
   -webkit-text-stroke: 1px var(--ui-text-muted);
   transition: all 0.5s ease-out;
+  font-weight: 700;
 }
 
 .group:hover .year-text {

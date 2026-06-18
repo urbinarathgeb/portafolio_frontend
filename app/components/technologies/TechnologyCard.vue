@@ -10,14 +10,15 @@ const props = defineProps<Props>()
 
 const isWide = computed(() => props.technology.span >= 5)
 
+const SPAN_CLASSES = [
+  'col-span-1', 'col-span-2', 'col-span-3', 'col-span-4',
+  'col-span-5', 'col-span-6', 'col-span-7', 'col-span-8',
+  'col-span-9', 'col-span-10', 'col-span-11', 'col-span-12',
+]
+
 const colSpanClass = computed(() => {
-  switch (props.technology.span) {
-    case 4: return 'col-span-4'
-    case 5: return 'col-span-5'
-    case 7: return 'col-span-7'
-    case 8: return 'col-span-8'
-    default: return 'col-span-4'
-  }
+  const span = Math.max(1, Math.min(12, props.technology.span || 4))
+  return SPAN_CLASSES[span - 1]
 })
 </script>
 

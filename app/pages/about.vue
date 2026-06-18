@@ -6,6 +6,13 @@ definePageMeta({
 const toast = useToast()
 const { profile, error } = useProfile()
 
+useSeoMeta({
+  title: () => profile.value?.name ? `Sobre Mí — ${profile.value.name}` : 'Sobre Mí — Developer',
+  ogTitle: () => profile.value?.name ? `Sobre Mí — ${profile.value.name}` : 'Sobre Mí — Developer',
+  description: () => profile.value?.bio || 'Conoce más sobre mi trayectoria y habilidades.',
+  ogDescription: () => profile.value?.bio || 'Conoce más sobre mi trayectoria y habilidades.',
+})
+
 watch(error, (err) => {
   if (err) {
     toast.add({ title: 'Error', description: 'No se pudo cargar el perfil.', color: 'error' })
@@ -15,18 +22,7 @@ watch(error, (err) => {
 
 <template>
   <section class="relative min-h-screen flex items-center justify-center bg-default px-[5vw] py-20 overflow-hidden max-md:px-6">
-    <!-- Stroke text pattern: SOBRE MÍ × 3 con opacidad descendente -->
-    <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0 max-md:hidden">
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.15] whitespace-nowrap">
-        SOBRE MÍ
-      </div>
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.08] whitespace-nowrap -mt-[0.3em]">
-        SOBRE MÍ
-      </div>
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.03] whitespace-nowrap -mt-[0.3em]">
-        SOBRE MÍ
-      </div>
-    </div>
+    <StrokeText text="SOBRE MÍ" />
 
     <div class="relative z-10 max-w-[1200px] w-full section-enter">
       <!-- Glow radial atmosférico detrás de las cards -->
@@ -45,7 +41,7 @@ watch(error, (err) => {
 
         <!-- Columna izquierda: bio + chips -->
         <div class="col-span-6 max-md:col-span-1 h-full flex flex-col justify-between">
-          <p class="text-lg text-muted font-body leading-relaxed max-w-full">
+          <p class="text-lg text-muted font-body leading-relaxed max-w-full whitespace-pre-line">
             {{ profile?.bio }}
           </p>
 
@@ -96,15 +92,4 @@ watch(error, (err) => {
 </template>
 
 <style scoped>
-.glow-radial-about {
-  background: radial-gradient(
-    circle,
-    rgba(232, 54, 109, 0.06) 0%,
-    rgba(240, 117, 117, 0.04) 30%,
-    rgba(255, 175, 2, 0.02) 60%,
-    transparent 80%
-  );
-  filter: blur(60px);
-  will-change: transform;
-}
 </style>

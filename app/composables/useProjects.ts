@@ -42,9 +42,14 @@ export const useProject = (id: number | string) => {
   const project = computed(() => {
     if (!data.value?.data) return null
     const p = data.value.data
+    let caseStudy = null
+    if (p.caseStudy) {
+      caseStudy = typeof p.caseStudy === 'string' ? JSON.parse(p.caseStudy) : p.caseStudy
+    }
     return {
       ...p,
       techStack: p.techStackDetails?.map((t) => t.name) ?? [],
+      caseStudy,
     }
   })
 
