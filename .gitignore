@@ -18,9 +18,11 @@ logs
 .fleet
 .idea
 #.agents/
+# Agent/opencode config
+.agents/
+AGENTS.md
 skills-lock.json
-.opencode
-
+.opencode/
 # Local env files
 .env
 .env.*
