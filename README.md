@@ -19,7 +19,7 @@ Portfolio personal desarrollado con Nuxt 4, @nuxt/ui v4 y Tailwind CSS v4. Inclu
 
 - Node.js 18+
 - pnpm 9+
-- Backend API corriendo (ver `back/README.md`)
+- Backend API corriendo (ver [back/README.md](https://github.com/urbinarathgeb/portafolio_backend/blob/main/README.md))
 
 ## Instalación
 
@@ -198,11 +198,6 @@ El proyecto usa transiciones de página (`out-in`) para "tapar" el tiempo de car
 - **`error`**: Toast + mensaje inline
 - **`empty`**: Contenido vacío con texto informativo
 
-Ver `AGENTS.md` para más detalle.
-
-## Convenciones
-
-Ver `AGENTS.md` para convenciones de desarrollo, arquitectura y reglas del proyecto.
 
 ## Licencia
 
