@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import type { ContactForm } from '~/composables/useContact'
-
 definePageMeta({
   layout: 'default',
 })
 
 const toast = useToast()
-const { form, loading, error, success, submit, reset } = useContact()
+const { form, loading, error, submit } = useContact()
+
+useSeoMeta({
+  title: 'Contacto — Kako',
+  ogTitle: 'Contacto — Kako',
+  description: 'Contactame para oportunidades laborales, proyectos freelance o consultoría.',
+  ogDescription: 'Contactame para oportunidades laborales, proyectos freelance o consultoría.',
+})
 
 const handleSubmit = async () => {
   const ok = await submit()
@@ -20,18 +25,7 @@ const handleSubmit = async () => {
 
 <template>
   <section class="relative min-h-screen flex items-center bg-default overflow-hidden">
-    <!-- Stroke text pattern: CONTACTO × 3 -->
-    <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0 max-md:hidden">
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.15] whitespace-nowrap">
-        CONTACTO
-      </div>
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.08] whitespace-nowrap -mt-[0.3em]">
-        CONTACTO
-      </div>
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.03] whitespace-nowrap -mt-[0.3em]">
-        CONTACTO
-      </div>
-    </div>
+    <StrokeText text="CONTACTO" />
 
     <div class="relative z-10 w-full max-w-7xl mx-auto px-[5vw] py-20 section-enter">
       <div class="grid lg:grid-cols-12 gap-12 items-start">
@@ -47,7 +41,7 @@ const handleSubmit = async () => {
           </p>
 
           <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-elevated border border-border w-fit">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="w-2 h-2 rounded-full bg-success animate-pulse"></span>
             <span class="text-sm font-body text-highlighted">Disponible ahora</span>
             <span class="text-sm font-body text-muted">· Santiago, Chile (remoto ok)</span>
           </div>
@@ -86,7 +80,7 @@ const handleSubmit = async () => {
             </a>
 
             <a
-              href="https://linkedin.com/in/javierkako"
+              href="https://www.linkedin.com/in/urbinarathgeb"
               target="_blank"
               rel="noopener noreferrer"
               class="flex items-center gap-4 px-4 py-3 rounded-lg bg-elevated border border-border hover:border-primary transition-colors group"

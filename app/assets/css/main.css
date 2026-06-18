@@ -1,38 +1,23 @@
 /* ─── Fonts ─── */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Unbounded:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&family=Unbounded:wght@400;500;600;700;800;900&display=swap');
 
 /* ─── Base ─── */
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
-/* ─── Theme: Fonts ─── */
-@theme {
-    --font-heading: 'Unbounded', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-    --font-mono: 'DM Sans', sans-serif;
-}
-
-/* ─── Theme: Text sizes ─── */
-@theme {
-    --text-xxl: 10rem;
-    --text-xxxl: 17.5rem;
-}
-
-/* ─── Theme: Animations ─── */
-@theme {
-    --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
-    --animate-float-slow: float-slow 20s ease-in-out infinite;
-    --animate-float-slower: float-slower 25s ease-in-out infinite;
-    --animate-bounce-gentle: bounce-gentle 2s ease-in-out infinite;
-    --animate-shimmer: shimmer 3s ease-in-out infinite;
-    --animate-fade-up: fade-up 0.6s ease-out both;
-    --animate-slide-up: slide-up 0.5s ease-out both;
-}
-
-/* ─── Theme: Primary palette ─── */
-
-
+/* ─── Theme: Colors & Tokens ─── */
 @theme static {
+    /* Semantic Colors */
+    --color-bg: var(--ui-bg);
+    --color-bg-muted: var(--ui-bg-muted);
+    --color-bg-elevated: var(--ui-bg-elevated);
+    --color-border: var(--ui-border);
+    --color-text: var(--ui-text);
+    --color-text-muted: var(--ui-text-muted);
+    --color-text-toned: var(--ui-text-toned);
+    --color-text-highlighted: var(--ui-text-highlighted);
+
+    /* Primary palette */
     --color-primary-50: #FFF0F4;
     --color-primary-100: #FFE0EA;
     --color-primary-200: #FCC1D5;
@@ -44,11 +29,8 @@
     --color-primary-800: #821A3B;
     --color-primary-900: #6B1430;
     --color-primary-950: #400A1C;
-}
 
-
-/* ─── Theme: Secondary palette (#F07575) ─── */
-@theme static {
+    /* Secondary palette */
     --color-secondary-50: #FFF0F0;
     --color-secondary-100: #FFE0E0;
     --color-secondary-200: #FECBCB;
@@ -60,10 +42,8 @@
     --color-secondary-800: #873434;
     --color-secondary-900: #6D2B2B;
     --color-secondary-950: #3F1717;
-}
 
-/* ─── Theme: Accent palette (#FFAF02) ─── */
-@theme static {
+    /* Accent palette */
     --color-accent-50: #FFFBEB;
     --color-accent-100: #FEF3C7;
     --color-accent-200: #FDE68A;
@@ -75,6 +55,29 @@
     --color-accent-800: #8F5E00;
     --color-accent-900: #6A4600;
     --color-accent-950: #3D2800;
+
+    /* UI Tokens Mapping - Aseguramos que el rosado sea el primario siempre */
+    --ui-primary: var(--color-primary-500);
+    --ui-secondary: var(--color-secondary-500);
+
+    /* Fonts */
+    --font-heading: 'Unbounded', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Sans', sans-serif;
+    --font-stroke: 'Space Grotesk', sans-serif;
+
+    /* Text sizes */
+    --text-xxl: 10rem;
+    --text-xxxl: 17.5rem;
+
+    /* Animations */
+    --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
+    --animate-float-slow: float-slow 20s ease-in-out infinite;
+    --animate-float-slower: float-slower 25s ease-in-out infinite;
+    --animate-bounce-gentle: bounce-gentle 2s ease-in-out infinite;
+    --animate-shimmer: shimmer 3s ease-in-out infinite;
+    --animate-fade-up: fade-up 0.6s ease-out both;
+    --animate-slide-up: slide-up 0.5s ease-out both;
 }
 
 /* ─── Keyframes ─── */
@@ -141,6 +144,7 @@
 
 /* ─── Theme: Dark mode overrides (Figma-based) ─── */
 .dark {
+    --ui-primary: var(--color-primary-500);
     --ui-bg: #0A0A0A;
     --ui-bg-muted: #131313;
     --ui-bg-elevated: #1A1C1C;
@@ -259,6 +263,7 @@ body {
 .stroke-text {
     color: transparent;
     -webkit-text-stroke: 2px var(--ui-text-muted);
+    font-weight: 700;
 }
 
 .glow-shadow-primary {
@@ -271,6 +276,118 @@ body {
 
 .glow-shadow-accent {
     box-shadow: 0 0 30px rgba(255, 175, 2, 0.3);
+}
+
+/* ─── Utilities ─── */
+@utility cta-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2.5rem;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: white;
+    background: var(--color-primary-500);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    text-decoration: none;
+
+    &:hover {
+        background: var(--color-primary-600);
+        box-shadow: 0 0 40px rgba(232, 54, 109, 0.4);
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+        padding: 0.875rem 2rem;
+    }
+}
+
+@utility cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ui-text-toned);
+    text-decoration: none;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+        color: var(--ui-primary);
+
+        & :deep(.i-lucide-arrow-right) {
+            transform: translateX(4px);
+        }
+    }
+
+    & :deep(.i-lucide-arrow-right) {
+        transition: transform 0.3s ease-out;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 11px;
+    }
+}
+
+@utility glow-radial {
+    background: radial-gradient(
+        circle,
+        rgba(232, 54, 109, 0.12) 0%,
+        rgba(240, 117, 117, 0.08) 30%,
+        rgba(255, 175, 2, 0.04) 60%,
+        transparent 80%
+    );
+    filter: blur(60px);
+    will-change: transform;
+}
+
+@utility glow-radial-about {
+    background: radial-gradient(
+        circle,
+        rgba(232, 54, 109, 0.06) 0%,
+        rgba(240, 117, 117, 0.04) 30%,
+        rgba(255, 175, 2, 0.02) 60%,
+        transparent 80%
+    );
+    filter: blur(60px);
+    will-change: transform;
+}
+
+@utility headline-filled {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 10vw, 9rem);
+    line-height: clamp(2rem, 9vw, 8rem);
+    letter-spacing: -0.04em;
+    color: var(--ui-text-highlighted);
+}
+
+@utility headline-stroke {
+    font-family: var(--font-stroke);
+    font-weight: 700;
+    font-size: clamp(2rem, 8vw, 7rem);
+    line-height: clamp(1.5rem, 7vw, 6rem);
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--ui-text-highlighted);
+    margin-top: -0.5rem;
+}
+
+@utility image-glow {
+    border: 2px solid var(--ui-primary);
+    box-shadow: 0 0 30px 5px color-mix(in srgb, var(--ui-primary) 40%, transparent);
 }
 
 /* ─── Staggered entry animations ─── */

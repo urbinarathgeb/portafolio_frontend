@@ -4,10 +4,14 @@ interface ProjectCardProps {
   subtitle: string
   image: string
   projectId: number
+  isFrontend?: boolean
+  isBackend?: boolean
   techStack?: string[]
 }
 
 withDefaults(defineProps<ProjectCardProps>(), {
+  isFrontend: false,
+  isBackend: false,
   techStack: () => [],
 })
 </script>
@@ -16,10 +20,14 @@ withDefaults(defineProps<ProjectCardProps>(), {
   <article class="relative flex flex-col items-center gap-8 py-12">
     <!-- Imagen flotando detrás del headline -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[clamp(280px,55vw,500px)] rounded-lg overflow-hidden opacity-40 pointer-events-none select-none -z-0 image-glow">
-      <img
+      <NuxtImg
         :src="image"
         :alt="`${title} — ${subtitle}`"
         class="block w-full h-auto aspect-[3/2] object-cover"
+        format="webp"
+        loading="lazy"
+        width="1000"
+        height="667"
       />
     </div>
 
@@ -40,9 +48,24 @@ withDefaults(defineProps<ProjectCardProps>(), {
       </NuxtLink>
     </div>
 
+    <!-- Frontend / Backend tags -->
+    <div v-if="isFrontend || isBackend" class="relative z-10 flex flex-wrap items-center justify-center gap-2">
+      <span
+        v-if="isFrontend"
+        class="px-3 py-1 rounded-full border text-xs font-mono uppercase tracking-wide bg-primary/5 border-primary/40 text-primary"
+      >
+        Frontend
+      </span>
+      <span
+        v-if="isBackend"
+        class="px-3 py-1 rounded-full border text-xs font-mono uppercase tracking-wide bg-primary/5 border-primary/40 text-primary"
+      >
+        Backend
+      </span>
+    </div>
+
     <!-- Tech stack -->
     <div v-if="techStack.length" class="relative z-10 flex flex-wrap items-center justify-center gap-2">
-      <span class="px-3 py-1 rounded-full bg-elevated border border-border text-xs font-mono uppercase tracking-wide text-muted">Tech Stack</span>
       <span
         v-for="tech in techStack"
         :key="tech"
@@ -53,30 +76,3 @@ withDefaults(defineProps<ProjectCardProps>(), {
     </div>
   </article>
 </template>
-
-<style scoped>
-.headline-filled {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: clamp(2.5rem, 10vw, 9rem);
-  line-height: clamp(2rem, 9vw, 8rem);
-  letter-spacing: -0.04em;
-  color: var(--ui-text-highlighted);
-}
-
-.headline-stroke {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: clamp(2rem, 8vw, 7rem);
-  line-height: clamp(1.5rem, 7vw, 6rem);
-  letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--ui-text-highlighted);
-  margin-top: -0.5rem;
-}
-
-.image-glow {
-  border: 2px solid var(--ui-primary);
-  box-shadow: 0 0 30px 5px color-mix(in srgb, var(--ui-primary) 40%, transparent);
-}
-</style>

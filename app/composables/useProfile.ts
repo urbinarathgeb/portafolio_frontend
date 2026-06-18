@@ -1,13 +1,14 @@
 import type { Profile } from '~/types/profile'
+import type { ApiResponse } from '~/types/project'
 
 export const useProfile = () => {
   const config = useRuntimeConfig()
 
-  const { data, pending, error } = useFetch<{ status: string; data: Profile }>(
+  const { data, pending, error } = useFetch<ApiResponse<Profile>>(
     `${config.public.apiBase}/profile`,
     {
       key: 'profile',
-      lazy: true,
+      lazy: false,
     },
   )
 

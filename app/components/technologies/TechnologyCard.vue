@@ -10,14 +10,15 @@ const props = defineProps<Props>()
 
 const isWide = computed(() => props.technology.span >= 5)
 
+const SPAN_CLASSES = [
+  'col-span-1', 'col-span-2', 'col-span-3', 'col-span-4',
+  'col-span-5', 'col-span-6', 'col-span-7', 'col-span-8',
+  'col-span-9', 'col-span-10', 'col-span-11', 'col-span-12',
+]
+
 const colSpanClass = computed(() => {
-  switch (props.technology.span) {
-    case 4: return 'col-span-4'
-    case 5: return 'col-span-5'
-    case 7: return 'col-span-7'
-    case 8: return 'col-span-8'
-    default: return 'col-span-4'
-  }
+  const span = Math.max(1, Math.min(12, props.technology.span || 4))
+  return SPAN_CLASSES[span - 1]
 })
 </script>
 
@@ -26,7 +27,7 @@ const colSpanClass = computed(() => {
     :class="[colSpanClass, 'max-lg:col-span-6 max-md:!col-span-1']"
   >
     <div
-      class="tech-card group relative h-[340px] bg-elevated border border-border overflow-hidden flex flex-col justify-between p-8 transition-all duration-500 ease-out hover:-translate-y-2 hover:border-primary cursor-pointer opacity-0 animate-fade-up max-lg:p-6 max-md:h-[280px]"
+      class="group relative h-[340px] bg-elevated border border-border overflow-hidden flex flex-col justify-between p-8 transition-all duration-500 ease-out hover:-translate-y-2 hover:border-primary hover:shadow-[0_0_40px_rgba(232,54,109,0.15)] cursor-pointer opacity-0 animate-fade-up max-lg:p-6 max-md:h-[280px]"
       :style="{ animationDelay: `${index * 0.1}s` }"
     >
       <!-- Icono top-right con glow -->
@@ -63,9 +64,3 @@ const colSpanClass = computed(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.tech-card:hover {
-  box-shadow: 0 0 40px rgba(232, 54, 109, 0.15);
-}
-</style>

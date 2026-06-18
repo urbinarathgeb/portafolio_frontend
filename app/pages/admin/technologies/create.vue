@@ -5,13 +5,29 @@ definePageMeta({
   pageTransition: false,
 })
 
-const { getEmptyForm, create, submitting, error } = useAdminTechnologies()
+const { getEmptyForm, create, submitting, error, categories } = useAdminTechnologies()
 const toast = useToast()
 const router = useRouter()
 
 const form = reactive<TechnologyForm>(getEmptyForm())
 
 const formErrors = ref<Record<string, string>>({})
+const showCustomCategory = ref(false)
+
+const categoryOptions = computed(() => [
+  ...categories.value.map(c => ({ label: c, value: c })),
+  { label: '✚ Otra categoría...', value: '__custom__' },
+])
+
+const handleCategoryChange = (val: string) => {
+  if (val === '__custom__') {
+    showCustomCategory.value = true
+    form.category = ''
+  } else {
+    showCustomCategory.value = false
+    form.category = val
+  }
+}
 
 const handleSubmit = async () => {
   formErrors.value = {}
@@ -53,7 +69,22 @@ const handleSubmit = async () => {
           </UFormField>
 
           <UFormField label="Categoría" name="category" required>
-            <UInput v-model="form.category" placeholder="Ej: Frontend" class="w-full" :disabled="submitting" />
+            <USelectMenu
+              v-model="form.category"
+              :items="categoryOptions"
+              placeholder="Seleccionar categoría"
+              class="w-full"
+              :disabled="submitting"
+              @update:model-value="handleCategoryChange"
+            />
+            <UInput
+              v-if="showCustomCategory"
+              v-model="form.category"
+              placeholder="Nombre de la nueva categoría"
+              class="w-full mt-2"
+              :disabled="submitting"
+              autofocus
+            />
             <p v-if="formErrors.category" class="text-error text-xs mt-1">{{ formErrors.category }}</p>
           </UFormField>
         </div>
@@ -68,7 +99,11 @@ const handleSubmit = async () => {
           </UFormField>
 
           <UFormField label="Span (grid)" name="span">
-            <UInput v-model.number="form.span" type="number" placeholder="Ej: 2" class="w-full" :disabled="submitting" />
+            <UInput v-model.number="form.span" type="number" min="1" placeholder="Ej: 2" class="w-full" :disabled="submitting" />
+          </UFormField>
+
+          <UFormField label="Orden" name="order">
+            <UInput v-model.number="form.order" type="number" min="0" placeholder="Ej: 0" class="w-full" :disabled="submitting" />
           </UFormField>
         </div>
 

@@ -1,11 +1,18 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'default',
+})
+
 const route = useRoute()
 const id = route.params.slug as string
 
 const { project, pending, error } = useProject(id)
 
-useHead({
-  title: computed(() => project.value ? `${project.value.title} — Kako` : 'Proyecto — Kako'),
+useSeoMeta({
+  title: () => project.value ? `${project.value.title} — Kako` : 'Proyecto — Kako',
+  ogTitle: () => project.value ? `${project.value.title} — Kako` : 'Proyecto — Kako',
+  description: () => project.value?.description || 'Detalle del proyecto.',
+  ogDescription: () => project.value?.description || 'Detalle del proyecto.',
 })
 
 const initials = computed(() => {
@@ -16,18 +23,7 @@ const initials = computed(() => {
 
 <template>
   <section class="relative min-h-screen bg-default overflow-hidden">
-    <!-- Stroke text pattern: PROYECTO × 3 -->
-    <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0 max-md:hidden">
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.15] whitespace-nowrap">
-        PROYECTO
-      </div>
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.08] whitespace-nowrap -mt-[0.3em]">
-        PROYECTO
-      </div>
-      <div class="font-heading text-[clamp(4rem,12vw,8rem)] font-bold tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.03] whitespace-nowrap -mt-[0.3em]">
-        PROYECTO
-      </div>
-    </div>
+    <StrokeText text="PROYECTO" />
 
     <!-- Loading -->
     <div v-if="pending" class="relative z-10 flex items-center justify-center min-h-screen">
@@ -40,7 +36,7 @@ const initials = computed(() => {
     </div>
 
     <!-- Proyecto -->
-    <div v-else-if="project" class="relative z-10 w-full max-w-3xl mx-auto px-[5vw] py-24 section-enter">
+    <div v-else-if="project" class="relative z-10 w-full max-w-3xl mx-auto px-[5vw] md:px-0 py-24 section-enter">
       <!-- Volver -->
       <NuxtLink
         to="/projects"
@@ -88,9 +84,24 @@ const initials = computed(() => {
         <p class="text-base font-body leading-relaxed text-muted whitespace-pre-line">{{ project.description }}</p>
       </div>
 
+      <!-- Frontend / Backend tags -->
+      <div v-if="project.isFrontend || project.isBackend" class="flex flex-wrap items-center gap-2 mb-4">
+        <span
+          v-if="project.isFrontend"
+          class="px-3 py-1 rounded-full border text-xs font-mono uppercase tracking-wide bg-primary/5 border-primary/40 text-primary"
+        >
+          Frontend
+        </span>
+        <span
+          v-if="project.isBackend"
+          class="px-3 py-1 rounded-full border text-xs font-mono uppercase tracking-wide bg-primary/5 border-primary/40 text-primary"
+        >
+          Backend
+        </span>
+      </div>
+
       <!-- Tech stack -->
       <div v-if="project.techStack?.length" class="flex flex-wrap items-center gap-2 mb-10">
-        <span class="px-3 py-1 rounded-full bg-elevated border border-border text-xs font-mono uppercase tracking-wide text-muted">Tech Stack</span>
         <span
           v-for="tech in project.techStack"
           :key="tech"
@@ -103,14 +114,24 @@ const initials = computed(() => {
       <!-- Links -->
       <div class="flex flex-wrap gap-3">
         <a
-          v-if="project.githubURL"
-          :href="project.githubURL"
+          v-if="project.githubURLFront"
+          :href="project.githubURLFront"
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted hover:border-primary hover:text-primary transition-colors"
         >
           <UIcon name="i-lucide-github" class="w-4 h-4" />
-          <span>Código</span>
+          <span>Frontend</span>
+        </a>
+        <a
+          v-if="project.githubURLBack"
+          :href="project.githubURLBack"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted hover:border-primary hover:text-primary transition-colors"
+        >
+          <UIcon name="i-lucide-github" class="w-4 h-4" />
+          <span>Backend</span>
         </a>
         <a
           v-if="project.deployURL"
@@ -123,12 +144,73 @@ const initials = computed(() => {
           <span>Demo</span>
         </a>
       </div>
+
+      <!-- Caso de Estudio -->
+      <template v-if="project.caseStudy">
+        <!-- Divisor decorativo -->
+        <div class="gradient-divider my-16" />
+
+        <div class="space-y-14">
+          <!-- Título -->
+          <h3 class="font-heading font-bold text-[clamp(1.75rem,4vw,2.75rem)] leading-[0.9] tracking-[-0.02em] text-highlighted">
+            {{ project.caseStudy.title }}
+          </h3>
+
+          <!-- Desafío -->
+          <div v-if="project.caseStudy.challenge">
+            <h4 class="font-mono text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-4">El Desafío</h4>
+            <div class="border-l-2 border-primary pl-6">
+              <p class="text-base font-body leading-relaxed text-toned italic">{{ project.caseStudy.challenge }}</p>
+            </div>
+          </div>
+
+          <!-- Solución -->
+          <div v-if="project.caseStudy.solution">
+            <h4 class="font-mono text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-4">La Solución</h4>
+            <p class="text-base font-body leading-relaxed text-muted">{{ project.caseStudy.solution }}</p>
+          </div>
+
+          <!-- Highlights -->
+          <div v-if="project.caseStudy.highlights?.length">
+            <div class="gradient-divider mb-8" />
+            <h4 class="font-mono text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-6">Características Técnicas</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div
+                v-for="(item, i) in project.caseStudy.highlights"
+                :key="i"
+                class="p-6 rounded-xl bg-elevated border border-border hover:border-primary transition-colors duration-300"
+              >
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-mono text-sm font-bold shrink-0">
+                    {{ i + 1 }}
+                  </span>
+                  <h5 class="font-body font-semibold text-sm text-highlighted leading-tight">{{ item.title }}</h5>
+                </div>
+                <p class="font-body text-sm leading-relaxed text-muted">{{ item.description }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Impacto -->
+          <div v-if="project.caseStudy.impact?.length">
+            <div class="gradient-divider mb-8" />
+            <h4 class="font-mono text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-6">Impacto y Resultados</h4>
+            <div class="space-y-4">
+              <div
+                v-for="(item, i) in project.caseStudy.impact"
+                :key="i"
+                class="p-6 rounded-xl bg-elevated border border-border"
+              >
+                <div class="flex items-baseline gap-3 mb-2">
+                  <span class="font-heading font-bold text-4xl text-primary leading-none">{{ item.stat }}</span>
+                  <span class="font-body font-semibold text-base text-highlighted">{{ item.subtitle }}</span>
+                </div>
+                <p class="font-body text-sm text-muted leading-relaxed">{{ item.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
   </section>
 </template>
-
-<style scoped>
-.image-glow {
-  box-shadow: 0 0 30px 5px color-mix(in srgb, var(--ui-primary) 25%, transparent);
-}
-</style>

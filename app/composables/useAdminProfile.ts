@@ -1,4 +1,5 @@
 import type { Profile } from '~/types/profile'
+import type { ApiResponse } from '~/types/project'
 
 export interface ProfileForm {
   name: string

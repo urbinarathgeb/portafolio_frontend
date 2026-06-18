@@ -1,4 +1,5 @@
 import type { Technology } from '~/types/technology'
+import type { ApiResponse } from '~/types/project'
 
 export interface AdminExperience {
   id: number

@@ -1,3 +1,5 @@
+import type { ApiResponse } from '~/types/project'
+
 export interface AdminService {
   id: number
   title: string

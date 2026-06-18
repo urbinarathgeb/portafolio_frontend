@@ -5,12 +5,12 @@ interface Props {
   experience: Experience
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 </script>
 
 <template>
-  <div class="flex items-baseline py-12 border-b border-white/10 dark:border-white/5 transition-all duration-500 cursor-default hover:pl-4 group max-md:py-8 max-md:hover:pl-2">
-    <span class="year-text font-heading text-[clamp(5rem,12vw,11rem)] font-bold tracking-[-0.04em] leading-[0.85] mr-12 max-md:mr-6 max-md:text-[clamp(4rem,15vw,6rem)]">
+  <div class="flex items-baseline py-12 border-b border-border transition-all duration-500 cursor-default hover:pl-4 group max-md:py-8 max-md:hover:pl-2">
+    <span class="year-text text-transparent transition-all duration-500 ease-out font-bold font-stroke text-[clamp(5rem,12vw,11rem)] tracking-[-0.04em] leading-[0.85] mr-12 max-md:mr-6 max-md:text-[clamp(4rem,15vw,6rem)]">
       {{ experience.year }}
     </span>
     <div class="flex flex-col gap-3">
@@ -40,14 +40,12 @@ const props = defineProps<Props>()
 
 <style scoped>
 .year-text {
-  color: transparent;
   -webkit-text-stroke: 1px var(--ui-text-muted);
-  transition: all 0.5s ease-out;
 }
 
 .group:hover .year-text {
   -webkit-text-stroke: 1px var(--ui-primary);
-  color: rgba(232, 54, 109, 0.05);
-  text-shadow: 0 0 30px rgba(232, 54, 109, 0.2);
+  color: color-mix(in srgb, var(--ui-primary) 5%, transparent);
+  text-shadow: 0 0 30px color-mix(in srgb, var(--ui-primary) 20%, transparent);
 }
 </style>

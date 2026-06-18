@@ -1,13 +1,28 @@
 import type { Technology } from '~/types/technology'
-import type { Project } from '~/types/project'
+import type { Project, CaseStudy, ApiResponse } from '~/types/project'
+
+const emptyCaseStudy: CaseStudy = {
+  title: '',
+  challenge: '',
+  solution: '',
+  highlights: [],
+  impact: [],
+}
+
+export const hasCaseStudyContent = (cs: CaseStudy): boolean =>
+  !!cs.title || !!cs.challenge || !!cs.solution || cs.highlights.length > 0 || cs.impact.length > 0
 
 export interface ProjectForm {
   title: string
   subtitle: string
   description: string
-  githubURL: string
+  githubURLFront: string
+  githubURLBack: string
   deployURL: string
   isFeatured: boolean
+  isFrontend: boolean
+  isBackend: boolean
+  caseStudy: CaseStudy | null
   techIds: number[]
 }
 
@@ -15,15 +30,20 @@ const initialForm: ProjectForm = {
   title: '',
   subtitle: '',
   description: '',
-  githubURL: '',
+  githubURLFront: '',
+  githubURLBack: '',
   deployURL: '',
   isFeatured: false,
+  isFrontend: false,
+  isBackend: false,
+  caseStudy: { ...emptyCaseStudy },
   techIds: [],
 }
 
 export const useAdminProjects = () => {
   const { public: config } = useRuntimeConfig()
   const token = useCookie<string | null>('auth-token')
+  const toast = useToast()
 
   const projects = useState<Project[]>('admin-projects', () => [])
   const technologies = useState<Technology[]>('admin-tech-list', () => [])
@@ -88,17 +108,32 @@ export const useAdminProjects = () => {
           title: form.title,
           subtitle: form.subtitle,
           description: form.description,
-          githubURL: form.githubURL || undefined,
+          githubURLFront: form.githubURLFront || undefined,
+          githubURLBack: form.githubURLBack || undefined,
           deployURL: form.deployURL || undefined,
+          caseStudy: hasCaseStudyContent(form.caseStudy) ? JSON.stringify(form.caseStudy) : undefined,
           isFeatured: form.isFeatured,
+          isFrontend: form.isFrontend,
+          isBackend: form.isBackend,
           userId: JSON.parse(atob(token.value!.split('.')[1])).id,
           techIds: form.techIds,
         },
       })
       projects.value.unshift(res.data)
+      toast.add({
+        title: 'Éxito',
+        description: 'Proyecto creado correctamente',
+        color: 'success',
+      })
       return res.data
     } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : 'Error al crear proyecto'
+      const msg = e instanceof Error ? e.message : 'Error al crear proyecto'
+      error.value = msg
+      toast.add({
+        title: 'Error',
+        description: msg,
+        color: 'error',
+      })
       return null
     } finally {
       submitting.value = false
@@ -116,17 +151,32 @@ export const useAdminProjects = () => {
           title: form.title,
           subtitle: form.subtitle,
           description: form.description,
-          githubURL: form.githubURL || undefined,
+          githubURLFront: form.githubURLFront || undefined,
+          githubURLBack: form.githubURLBack || undefined,
           deployURL: form.deployURL || undefined,
+          caseStudy: hasCaseStudyContent(form.caseStudy) ? JSON.stringify(form.caseStudy) : undefined,
           isFeatured: form.isFeatured,
+          isFrontend: form.isFrontend,
+          isBackend: form.isBackend,
           techIds: form.techIds,
         },
       })
       const idx = projects.value.findIndex(p => p.id === id)
       if (idx !== -1) projects.value[idx] = res.data
+      toast.add({
+        title: 'Éxito',
+        description: 'Proyecto actualizado correctamente',
+        color: 'success',
+      })
       return res.data
     } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : 'Error al actualizar proyecto'
+      const msg = e instanceof Error ? e.message : 'Error al actualizar proyecto'
+      error.value = msg
+      toast.add({
+        title: 'Error',
+        description: msg,
+        color: 'error',
+      })
       return null
     } finally {
       submitting.value = false
@@ -140,9 +190,20 @@ export const useAdminProjects = () => {
         headers: getHeaders(),
       })
       projects.value = projects.value.filter(p => p.id !== id)
+      toast.add({
+        title: 'Éxito',
+        description: 'Proyecto eliminado correctamente',
+        color: 'success',
+      })
       return true
     } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : 'Error al eliminar proyecto'
+      const msg = e instanceof Error ? e.message : 'Error al eliminar proyecto'
+      error.value = msg
+      toast.add({
+        title: 'Error',
+        description: msg,
+        color: 'error',
+      })
       return false
     }
   }
@@ -158,24 +219,45 @@ export const useAdminProjects = () => {
         },
         body: formData,
       })
+      toast.add({
+        title: 'Éxito',
+        description: 'Imagen subida correctamente',
+        color: 'success',
+      })
       return true
     } catch (e: unknown) {
-      error.value = e instanceof Error ? e.message : 'Error al subir imagen'
+      const msg = e instanceof Error ? e.message : 'Error al subir imagen'
+      error.value = msg
+      toast.add({
+        title: 'Error',
+        description: msg,
+        color: 'error',
+      })
       return false
     }
   }
 
   const getEmptyForm = (): ProjectForm => ({ ...initialForm })
 
-  const projectToForm = (project: Project): ProjectForm => ({
-    title: project.title,
-    subtitle: project.subtitle,
-    description: project.description,
-    githubURL: project.githubURL || '',
-    deployURL: project.deployURL || '',
-    isFeatured: project.isFeatured,
-    techIds: project.techStackDetails?.map(t => t.id) || [],
-  })
+  const projectToForm = (project: Project): ProjectForm => {
+    let caseStudy = project.caseStudy
+    if (caseStudy && typeof caseStudy === 'string') {
+      caseStudy = JSON.parse(caseStudy)
+    }
+    return {
+      title: project.title,
+      subtitle: project.subtitle,
+      description: project.description,
+      githubURLFront: project.githubURLFront || '',
+      githubURLBack: project.githubURLBack || '',
+      deployURL: project.deployURL || '',
+      caseStudy: caseStudy ?? { ...emptyCaseStudy },
+      isFeatured: project.isFeatured,
+      isFrontend: project.isFrontend,
+      isBackend: project.isBackend,
+      techIds: project.techStackDetails?.map(t => t.id) || [],
+    }
+  }
 
   return {
     projects,
