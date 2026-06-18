@@ -1,3 +1,5 @@
+import type { ApiResponse } from '~/types/project'
+
 export interface Contact {
   id: number
   name: string
@@ -8,12 +10,6 @@ export interface Contact {
   isRead: boolean
   createdAt: string
   updatedAt: string
-}
-
-export interface ApiResponse<T> {
-  status: string
-  message: string
-  data: T
 }
 
 const interestLabels: Record<string, string> = {

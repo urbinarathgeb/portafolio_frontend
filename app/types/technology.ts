@@ -8,8 +8,3 @@ export interface Technology {
   order: number
 }
 
-export interface ApiResponse<T> {
-  status: 'success' | 'error'
-  message: string
-  data: T
-}
