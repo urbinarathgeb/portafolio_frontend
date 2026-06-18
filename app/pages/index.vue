@@ -40,7 +40,7 @@ watch(error, (err) => {
       </div>
 
       <!-- Título -->
-      <h1 class="hero-enter-2 font-heading text-[clamp(5rem,18vw,11rem)] font-black leading-[0.7] tracking-[-0.04em] text-highlighted mb-12">
+      <h1 class="hero-enter-2 font-heading text-[clamp(5rem,18vw,11rem)] font-black leading-[0.8] tracking-[-0.04em] text-highlighted mb-12">
         HOLA,<br>
         SOY <span class="gradient-text font-black">JAVIER</span>
       </h1>
@@ -65,6 +65,3 @@ watch(error, (err) => {
     </div>
   </section>
 </template>
-
-<style scoped>
-</style>

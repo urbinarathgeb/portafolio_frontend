@@ -76,6 +76,3 @@ withDefaults(defineProps<ProjectCardProps>(), {
     </div>
   </article>
 </template>
-
-<style scoped>
-</style>

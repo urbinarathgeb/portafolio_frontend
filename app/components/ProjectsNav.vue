@@ -15,12 +15,12 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <nav class="nav max-md:hidden">
+  <nav class="max-md:hidden flex flex-col justify-center gap-4 absolute top-1/2 left-8 -translate-y-1/2 z-30">
     <button
       v-for="item in items"
       :key="item.id"
       :class="[
-        'flex items-center gap-2 font-body text-sm tracking-[0.1em] text-left cursor-pointer transition-all duration-300 ease-out border-none bg-transparent p-0',
+        'flex items-center gap-2 font-body text-sm tracking-[0.1em] text-left cursor-pointer transition-all duration-300 ease-out border-none bg-transparent p-0 hover:translate-x-1 active:translate-x-0',
         activeId === item.id
           ? 'opacity-100 font-bold text-primary'
           : 'opacity-50 font-medium text-muted hover:opacity-75'
@@ -32,7 +32,7 @@ const emit = defineEmits<{
           'block h-px shrink-0 transition-all duration-300 ease-out origin-left',
           activeId === item.id
             ? 'w-8 bg-primary'
-            : 'w-0 bg-muted hover-item'
+            : 'w-0 bg-muted group-hover/btn:w-4'
         ]"
       />
       {{ item.number }}
@@ -40,29 +40,4 @@ const emit = defineEmits<{
   </nav>
 </template>
 
-<style scoped>
-.nav {
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
-  position: absolute;
-  top: 50%;
-  left: 2rem;
-  transform: translateY(-50%);
-  z-index: 30;
-}
 
-button:hover .hover-item {
-  width: 1rem;
-}
-
-button:hover {
-  transform: translateX(4px);
-}
-
-button:active {
-  transform: translateX(0);
-}
-</style>

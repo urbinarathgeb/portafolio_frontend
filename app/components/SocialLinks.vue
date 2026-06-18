@@ -1,3 +1,6 @@
+<script setup lang="ts">
+</script>
+
 <template>
   <div class="fixed right-[5vw] top-1/2 -translate-y-1/2 z-40 flex flex-col gap-6 items-center max-md:hidden">
     <div class="w-px h-10 bg-border max-md:h-6" />

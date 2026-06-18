@@ -5,7 +5,7 @@ interface Props {
   experiences: Experience[]
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 </script>
 
 <template>

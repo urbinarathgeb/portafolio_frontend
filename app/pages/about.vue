@@ -34,7 +34,7 @@ watch(error, (err) => {
           <span class="font-mono text-xs tracking-[0.3em] uppercase text-primary">
             {{ profile?.title }}
           </span>
-          <h2 class="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-[-0.03em] leading-[0.9] mt-3 gradient-text">
+          <h2 class="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-[-0.03em] leading-[1.2] mt-3 gradient-text">
             {{ profile?.tagline }}
           </h2>
         </div>
@@ -90,6 +90,3 @@ watch(error, (err) => {
     </div>
   </section>
 </template>
-
-<style scoped>
-</style>
