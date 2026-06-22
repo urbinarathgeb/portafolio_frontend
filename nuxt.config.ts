@@ -1,6 +1,7 @@
+const API_ORIGIN = 'https://portafolio-backend-divine-ember-2765.fly.dev'
+
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
+  compatibilityDate: '2026-06-22',
   modules: ['@nuxt/ui', '@nuxt/image'],
   image: {
     format: ['webp', 'avif', 'png', 'jpg'],
@@ -24,8 +25,18 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3001',
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || '',
     },
+  },
+  routeRules: {
+    '/profile': { proxy: { to: `${API_ORIGIN}/profile` } },
+    '/auth/**': { proxy: { to: `${API_ORIGIN}/auth/**` } },
+    '/projects/**': { proxy: { to: `${API_ORIGIN}/projects/**` } },
+    '/technologies/**': { proxy: { to: `${API_ORIGIN}/technologies/**` } },
+    '/experiences/**': { proxy: { to: `${API_ORIGIN}/experiences/**` } },
+    '/services/**': { proxy: { to: `${API_ORIGIN}/services/**` } },
+    '/contacts/**': { proxy: { to: `${API_ORIGIN}/contacts/**` } },
+    '/images/**': { proxy: { to: `${API_ORIGIN}/images/**` } },
   },
   app: {
     pageTransition: {
@@ -33,5 +44,4 @@ export default defineNuxtConfig({
       mode: 'out-in',
     },
   },
-
 })
