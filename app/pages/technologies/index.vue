@@ -27,7 +27,7 @@ watch(error, (err) => {
 
     <StrokeText text="STACK" textSize="clamp(5rem,18vw,11rem)" />
 
-    <template v-if="pending">
+    <template v-if="pending && !technologies.length">
       <div class="relative z-10 w-full text-center py-20">
         <p class="text-muted animate-pulse font-body">Cargando tecnologías...</p>
       </div>

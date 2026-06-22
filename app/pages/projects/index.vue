@@ -44,7 +44,7 @@ function handleSelect(id: number) {
     <section class="relative min-h-screen flex justify-center items-center overflow-hidden">
       <StrokeText text="PROYECTOS" />
 
-      <template v-if="pending">
+      <template v-if="pending && !projects.length">
         <p class="text-muted animate-pulse">Cargando proyectos...</p>
       </template>
       <template v-else-if="error">

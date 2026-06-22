@@ -26,7 +26,7 @@ const initials = computed(() => {
     <StrokeText text="PROYECTO" />
 
     <!-- Loading -->
-    <div v-if="pending" class="relative z-10 flex items-center justify-center min-h-screen">
+    <div v-if="pending && !project" class="relative z-10 flex items-center justify-center min-h-screen">
       <p class="text-muted animate-pulse">Cargando proyecto...</p>
     </div>
 

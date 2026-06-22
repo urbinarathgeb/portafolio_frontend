@@ -24,7 +24,7 @@ watch(error, (err) => {
   <section class="relative min-h-screen flex items-center py-32 px-[5vw] max-w-[1400px] mx-auto overflow-hidden max-md:py-24 max-md:px-6">
     <StrokeText text="EXPERIENCIA" textSize="clamp(4rem,14vw,9rem)" />
 
-    <template v-if="pending">
+    <template v-if="pending && !experiences.length">
       <div class="relative z-10 w-full text-center py-20">
         <p class="text-muted animate-pulse font-body">Cargando experiencias...</p>
       </div>
