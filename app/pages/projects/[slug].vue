@@ -25,13 +25,8 @@ const initials = computed(() => {
   <section class="relative min-h-screen bg-default overflow-hidden">
     <StrokeText text="PROYECTO" />
 
-    <!-- Loading -->
-    <div v-if="pending && !project" class="relative z-10 flex items-center justify-center min-h-screen">
-      <p class="text-muted animate-pulse">Cargando proyecto...</p>
-    </div>
-
     <!-- Error -->
-    <div v-else-if="error" class="relative z-10 flex items-center justify-center min-h-screen">
+    <div v-if="error" class="relative z-10 flex items-center justify-center min-h-screen">
       <p class="text-error">Error al cargar el proyecto.</p>
     </div>
 

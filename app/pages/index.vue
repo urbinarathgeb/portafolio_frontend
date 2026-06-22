@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 const toast = useToast()
-const { profile, pending, error } = useProfile()
+const { profile, error } = useProfile()
 
 useSeoMeta({
   title: () => profile.value?.name ? `Portafolio — ${profile.value.name}` : 'Portafolio — Developer',
@@ -34,10 +34,9 @@ watch(error, (err) => {
       <!-- Badge -->
       <div class="hero-enter-1 inline-flex items-center gap-2 mb-8">
         <span class="w-1.5 h-1.5 rounded-full bg-success-500 animate-pulse-dot" />
-        <span v-if="!pending" class="font-body text-[11px] font-semibold tracking-[0.2em] uppercase text-toned">
+        <span class="font-body text-[11px] font-semibold tracking-[0.2em] uppercase text-toned">
           {{ profile?.availability !== false ? 'DISPONIBLE' : 'NO DISPONIBLE' }}
         </span>
-        <span v-else class="font-body text-[11px] font-semibold tracking-[0.2em] uppercase text-muted">CARGANDO...</span>
       </div>
 
       <!-- Título -->
