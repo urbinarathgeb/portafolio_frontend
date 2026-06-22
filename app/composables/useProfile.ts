@@ -17,13 +17,16 @@ export const useProfile = () => {
     `${config.public.apiBase}/profile`,
     {
       key: 'profile-fetch',
-      lazy: false,
+      lazy: true,
+      server: false,
     },
   )
 
-  if (data.value?.data) {
-    profile.value = data.value.data
-  }
+  watch(data, (val) => {
+    if (val?.data) {
+      profile.value = val.data
+    }
+  }, { immediate: true })
 
   return {
     profile: computed(() => profile.value || data.value?.data || null),

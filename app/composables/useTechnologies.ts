@@ -17,12 +17,14 @@ export const useTechnologies = () => {
 
   const { data, pending, error } = useFetch<{ status: string; data: Technology[] }>(
     `${config.public.apiBase}/technologies`,
-    { key: 'technologies', lazy: false, query: { stack: 'true' } },
+    { key: 'technologies', lazy: true, server: false, query: { stack: 'true' } },
   )
 
-  if (data.value?.data) {
-    cache.value = data.value.data
-  }
+  watch(data, (val) => {
+    if (val?.data) {
+      cache.value = val.data
+    }
+  }, { immediate: true })
 
   const technologies = computed<Technology[]>(() => {
     const items = cache.value.length > 0 ? cache.value : data.value?.data ?? []

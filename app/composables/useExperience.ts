@@ -19,12 +19,14 @@ export const useExperience = () => {
 
   const { data, pending, error } = useFetch<{ status: string; data: Experience[] }>(
     `${config.public.apiBase}/experiences`,
-    { key: 'experiences', lazy: false },
+    { key: 'experiences', lazy: true, server: false },
   )
 
-  if (data.value?.data) {
-    cache.value = data.value.data
-  }
+  watch(data, (val) => {
+    if (val?.data) {
+      cache.value = val.data
+    }
+  }, { immediate: true })
 
   const experiences = computed<Experience[]>(() => {
     const items = cache.value.length > 0 ? cache.value : data.value?.data ?? []

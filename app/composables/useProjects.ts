@@ -19,12 +19,14 @@ export const useProjects = () => {
 
   const { data, pending, error, refresh } = useFetch<ApiResponse<Project[]>>(
     `${apiBase}/projects`,
-    { key: 'projects', lazy: false },
+    { key: 'projects', lazy: true, server: false },
   )
 
-  if (data.value?.data) {
-    cache.value = data.value.data
-  }
+  watch(data, (val) => {
+    if (val?.data) {
+      cache.value = val.data
+    }
+  }, { immediate: true })
 
   const projects = computed(() => {
     const items = cache.value.length > 0 ? cache.value : data.value?.data ?? []

@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 const toast = useToast()
-const { profile, error } = useProfile()
+const { profile, pending, error } = useProfile()
 
 useSeoMeta({
   title: () => profile.value?.name ? `Sobre Mí — ${profile.value.name}` : 'Sobre Mí — Developer',
@@ -31,19 +31,34 @@ watch(error, (err) => {
       <div class="grid grid-cols-12 gap-10 items-stretch max-md:grid-cols-1 max-md:gap-10">
         <!-- Tagline full-width: rompe la estructura de columnas -->
         <div class="col-span-12 max-md:col-span-1">
-          <span class="font-mono text-xs tracking-[0.3em] uppercase text-primary">
-            {{ profile?.title }}
-          </span>
-          <h2 class="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-[-0.03em] leading-[1.2] mt-3 gradient-text">
-            {{ profile?.tagline }}
-          </h2>
+          <template v-if="!pending">
+            <span class="font-mono text-xs tracking-[0.3em] uppercase text-primary">
+              {{ profile?.title }}
+            </span>
+            <h2 class="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-[-0.03em] leading-[1.2] mt-3 gradient-text">
+              {{ profile?.tagline }}
+            </h2>
+          </template>
+          <template v-else>
+            <div class="h-4 w-48 bg-elevated rounded animate-pulse mb-4" />
+            <div class="h-12 w-96 bg-elevated rounded animate-pulse" />
+          </template>
         </div>
 
         <!-- Columna izquierda: bio + chips -->
         <div class="col-span-6 max-md:col-span-1 h-full flex flex-col justify-between">
-          <p class="text-lg text-muted font-body leading-relaxed max-w-full whitespace-pre-line">
-            {{ profile?.bio }}
-          </p>
+          <template v-if="!pending">
+            <p class="text-lg text-muted font-body leading-relaxed max-w-full whitespace-pre-line">
+              {{ profile?.bio }}
+            </p>
+          </template>
+          <template v-else>
+            <div class="space-y-3">
+              <div class="h-4 w-full bg-elevated rounded animate-pulse" />
+              <div class="h-4 w-5/6 bg-elevated rounded animate-pulse" />
+              <div class="h-4 w-4/6 bg-elevated rounded animate-pulse" />
+            </div>
+          </template>
 
           <div class="flex flex-wrap gap-3 mt-6">
             <span class="px-4 py-2 rounded-full bg-elevated border border-border text-sm font-body text-toned">
