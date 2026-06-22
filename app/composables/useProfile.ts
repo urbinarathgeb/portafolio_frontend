@@ -3,19 +3,30 @@ import type { ApiResponse } from '~/types/project'
 
 export const useProfile = () => {
   const config = useRuntimeConfig()
+  const profile = useState<Profile | null>('profile', () => null)
+
+  if (profile.value) {
+    return {
+      profile: readonly(profile),
+      pending: ref(false),
+      error: ref(null),
+    }
+  }
 
   const { data, pending, error } = useFetch<ApiResponse<Profile>>(
     `${config.public.apiBase}/profile`,
     {
-      key: 'profile',
+      key: 'profile-fetch',
       lazy: false,
     },
   )
 
-  const profile = computed(() => data.value?.data ?? null)
+  if (data.value?.data) {
+    profile.value = data.value.data
+  }
 
   return {
-    profile,
+    profile: computed(() => profile.value || data.value?.data || null),
     pending,
     error,
   }
