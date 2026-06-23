@@ -18,7 +18,6 @@ export const useProfile = () => {
     {
       key: 'profile-fetch',
       lazy: true,
-      server: false,
     },
   )
 

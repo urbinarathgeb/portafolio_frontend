@@ -19,7 +19,7 @@ export const useProjects = () => {
 
   const { data, pending, error, refresh } = useFetch<ApiResponse<Project[]>>(
     `${apiBase}/projects`,
-    { key: 'projects', lazy: true, server: false },
+    { key: 'projects', lazy: true },
   )
 
   watch(data, (val) => {

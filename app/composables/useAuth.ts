@@ -9,6 +9,8 @@ export const useAuth = () => {
   const token = useCookie<string | null>('auth-token', {
     default: () => null,
     sameSite: 'lax',
+    secure: true,
+    path: '/admin',
     maxAge: 60 * 60 * 24,
   })
 
