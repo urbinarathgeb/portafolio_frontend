@@ -17,7 +17,6 @@ export const useProfile = () => {
     `${config.public.apiBase}/profile`,
     {
       key: 'profile-fetch',
-      lazy: true,
     },
   )
 

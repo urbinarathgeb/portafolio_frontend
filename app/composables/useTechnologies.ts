@@ -17,7 +17,7 @@ export const useTechnologies = () => {
 
   const { data, pending, error } = useFetch<{ status: string; data: Technology[] }>(
     `${config.public.apiBase}/technologies`,
-    { key: 'technologies', lazy: true, query: { stack: 'true' } },
+    { key: 'technologies', query: { stack: 'true' } },
   )
 
   watch(data, (val) => {

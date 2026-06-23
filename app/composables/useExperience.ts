@@ -19,7 +19,7 @@ export const useExperience = () => {
 
   const { data, pending, error } = useFetch<{ status: string; data: Experience[] }>(
     `${config.public.apiBase}/experiences`,
-    { key: 'experiences', lazy: true },
+    { key: 'experiences' },
   )
 
   watch(data, (val) => {
