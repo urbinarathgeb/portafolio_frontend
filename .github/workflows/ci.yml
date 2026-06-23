@@ -19,4 +19,6 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+        working-directory: front
       - run: pnpm build
+        working-directory: front
