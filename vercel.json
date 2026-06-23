@@ -2,7 +2,6 @@
   "installCommand": "pnpm install",
   "buildCommand": "nuxt build",
   "outputDirectory": ".output",
-  "framework": "nuxt",
   "headers": [
     {
       "source": "/(.*)",
