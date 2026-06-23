@@ -2,16 +2,22 @@
   "name": "portafolio",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=9"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "analyze": "nuxt build --analyze",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@nuxt/image": "^1.10.0",
     "@nuxt/ui": "^4.8.1",
+    "@nuxtjs/sitemap": "^8.2.1",
     "nuxt": "^4.4.6",
     "tailwindcss": "^4.3.0"
   }
