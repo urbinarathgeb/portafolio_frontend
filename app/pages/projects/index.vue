@@ -40,7 +40,9 @@ function handleSelect(id: number) {
 </script>
 
 <template>
-  <div class="page-projects-wrapper">
+  <AppLoader v-if="pending" />
+  <template v-else>
+    <div class="page-projects-wrapper">
     <section class="relative min-h-screen flex justify-center items-center overflow-hidden">
       <StrokeText text="PROYECTOS" />
 
@@ -70,6 +72,7 @@ function handleSelect(id: number) {
       </template>
     </section>
   </div>
+  </template>
 </template>
 
 <style scoped>

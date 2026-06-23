@@ -21,7 +21,9 @@ watch(error, (err) => {
 </script>
 
 <template>
-  <section class="relative min-h-screen flex items-center justify-center py-16 px-[5vw] max-w-[1400px] mx-auto overflow-hidden max-md:py-12 max-md:px-6">
+  <AppLoader v-if="pending" />
+  <template v-else>
+    <section class="relative min-h-screen flex items-center justify-center py-16 px-[5vw] max-w-[1400px] mx-auto overflow-hidden max-md:py-12 max-md:px-6">
     <!-- Glow atmosférico top-right -->
     <div class="absolute -top-[10%] -right-[10%] w-[40vw] h-[40vw] max-w-[600px] max-h-[600px] glow-radial pointer-events-none" />
 
@@ -44,4 +46,5 @@ watch(error, (err) => {
       </div>
     </template>
   </section>
+  </template>
 </template>

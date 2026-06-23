@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 const toast = useToast()
-const { profile, error } = useProfile()
+const { profile, pending, error } = useProfile()
 
 useSeoMeta({
   title: () => profile.value?.name ? `Sobre Mí — ${profile.value.name}` : 'Sobre Mí — Developer',
@@ -21,7 +21,9 @@ watch(error, (err) => {
 </script>
 
 <template>
-  <section class="relative min-h-screen flex items-center justify-center bg-default px-[5vw] py-20 overflow-hidden max-md:px-6">
+  <AppLoader v-if="pending" />
+  <template v-else>
+    <section class="relative min-h-screen flex items-center justify-center bg-default px-[5vw] py-20 overflow-hidden max-md:px-6">
     <StrokeText text="SOBRE MÍ" />
 
     <div class="relative z-10 max-w-[1200px] w-full section-enter">
@@ -89,4 +91,5 @@ watch(error, (err) => {
       </div>
     </div>
   </section>
+  </template>
 </template>

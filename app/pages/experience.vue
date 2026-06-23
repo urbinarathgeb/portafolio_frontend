@@ -21,7 +21,9 @@ watch(error, (err) => {
 </script>
 
 <template>
-  <section class="relative min-h-screen flex items-center py-32 px-[5vw] max-w-[1400px] mx-auto overflow-hidden max-md:py-24 max-md:px-6">
+  <AppLoader v-if="pending" />
+  <template v-else>
+    <section class="relative min-h-screen flex items-center py-32 px-[5vw] max-w-[1400px] mx-auto overflow-hidden max-md:py-24 max-md:px-6">
     <StrokeText text="EXPERIENCIA" textSize="clamp(4rem,14vw,9rem)" />
 
     <template v-if="error">
@@ -33,4 +35,5 @@ watch(error, (err) => {
       <ExperienceTimeline :experiences="experiences" />
     </template>
   </section>
+  </template>
 </template>

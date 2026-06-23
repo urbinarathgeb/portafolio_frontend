@@ -22,7 +22,9 @@ const initials = computed(() => {
 </script>
 
 <template>
-  <section class="relative min-h-screen bg-default overflow-hidden">
+  <AppLoader v-if="pending" />
+  <template v-else>
+    <section class="relative min-h-screen bg-default overflow-hidden">
     <StrokeText text="PROYECTO" />
 
     <!-- Error -->
@@ -208,4 +210,5 @@ const initials = computed(() => {
       </template>
     </div>
   </section>
+  </template>
 </template>
