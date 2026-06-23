@@ -9,15 +9,17 @@ Portfolio personal desarrollado con Nuxt 4, @nuxt/ui v4 y Tailwind CSS v4. Inclu
 - **Estilos:** Tailwind CSS v4 con `@theme static` (emisión forzada de tokens para SSR)
 - **Estado:** Composables Nuxt (`useState`) — sin Pinia
 - **Imágenes:** @nuxt/image (optimización automática)
-- **SEO:** `useSeoMeta` (dinámico por página)
+- **SEO:** `useSeoMeta` (dinámico por página) + `@nuxtjs/sitemap` v8 (sitemap.xml automático)
 - **Lenguaje:** TypeScript
 - **HTTP:** `useFetch` / `$fetch` (nativo Nuxt)
-- **Auth:** JWT via cookie
+- **API Proxy:** Nitro BFF en `server/api/[...].ts` — todas las requests a `/api/*` se reenvían al backend sin CORS
+- **Auth:** JWT via cookie (`secure: true`, `path: /admin`, `sameSite: lax`)
 - **Gestor de paquetes:** pnpm
+- **Node:** `>=22` (fijado en `.node-version`)
 
 ## Prerequisitos
 
-- Node.js 18+
+- Node.js 22+
 - pnpm 9+
 - Backend API corriendo (ver [back/README.md](https://github.com/urbinarathgeb/portafolio_backend/blob/main/README.md))
 
@@ -39,7 +41,7 @@ Variables de entorno disponibles:
 
 | Variable | Descripción | Default |
 |---|---|---|
-| `NUXT_PUBLIC_API_BASE` | URL base de la API backend | `http://localhost:3001` |
+| `NUXT_PUBLIC_API_BASE` | URL base de la API backend | `http://localhost:3001` (local) / `/api` (prod vía Nitro proxy) |
 
 ## Desarrollo
 
@@ -53,6 +55,7 @@ Servidor disponible en `http://localhost:3000`. El backend debe estar corriendo 
 
 ```bash
 pnpm build       # Build de producción
+pnpm analyze     # Build + bundle analyzer (stats.html)
 pnpm generate    # Generar sitio estático (SSG)
 pnpm preview     # Preview del build
 ```
@@ -76,7 +79,7 @@ Rutas protegidas bajo `/admin/*` con autenticación JWT. Middleware en `app/midd
 
 ### Login
 
-`/admin/login` — formulario de autenticación. El token JWT se almacena en una cookie (`auth-token`) y se envía como `Authorization: Bearer <token>` en cada request.
+`/admin/login` — formulario de autenticación. El token JWT se almacena en una cookie segura (`auth-token` con `secure: true`, `path: /admin`, `sameSite: lax`) y se envía como `Authorization: Bearer <token>` en cada request admin.
 
 ### Dashboard
 
@@ -103,6 +106,9 @@ Cada CRUD incluye listado, creación y edición con formularios. Las imágenes s
 ## Estructura del Proyecto
 
 ```
+├── server/
+│   └── api/
+│       └── [...].ts            # Nitro BFF proxy: /api/* → backend Fly.io
 app/
 ├── assets/css/              # Tailwind + tema + gradientes + utilities + keyframes
 ├── components/              # Componentes Vue (auto-importados por Nuxt)
@@ -123,6 +129,8 @@ app/
 │   ├── useProjects.ts       # Proyectos públicos (con case study)
 │   ├── useTechnologies.ts   # Tecnologías públicas
 │   ├── useAdmin*.ts         # 7 composables CRUD para admin
+├── plugins/               # Plugins Nuxt
+│   └── error-handler.ts   # Captura global de errores (Vue + window.onerror)
 ├── layouts/
 │   ├── default.vue          # Slot + footer + socials + theme toggle + section label
 │   └── admin.vue            # Sidebar + header fijo (protegido)
@@ -198,6 +206,24 @@ El proyecto usa transiciones de página (`out-in`) para "tapar" el tiempo de car
 - **`error`**: Toast + mensaje inline
 - **`empty`**: Contenido vacío con texto informativo
 
+
+## Despliegue
+
+### Vercel
+
+El proyecto está configurado para desplegarse en Vercel con:
+
+- **`vercel.json`**: Build config explícita + security headers (CSP, HSTS, X-Frame-Options, etc.) + cache control para imágenes
+- **`.node-version`**: Node 22 fijado para consistencia entre entornos
+- **Nitro proxy**: `server/api/[...].ts` redirige requests a `/api/*` al backend en Fly.io sin necesidad de CORS
+
+### CI/CD
+
+El proyecto incluye un workflow de GitHub Actions (`.github/workflows/ci.yml`) que corre `pnpm install --frozen-lockfile && pnpm build` en cada push a `main` y en PRs. No deploya automáticamente — Vercel se encarga del deploy via GitHub Integration al detectar cambios en `main`.
+
+### Variables de entorno en Vercel
+
+No es necesario configurar `NUXT_PUBLIC_API_BASE` — el fallback `/api` en `nuxt.config.ts` usa el proxy Nitro automáticamente.
 
 ## Licencia
 
