@@ -1,3 +1,6 @@
+# Vercel CLI local
+.vercel
+
 # Nuxt dev/build outputs
 .output
 .data
