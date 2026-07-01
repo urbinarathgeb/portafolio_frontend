@@ -91,7 +91,8 @@ const unreadCount = computed(() => contacts.value.filter(c => !c.isRead).length)
           <UButton
             color="neutral"
             variant="ghost"
-            size="xs"
+            size="md"
+            class="min-h-11"
             @click.prevent="handleMarkAsRead(contact.id)"
           >
             Marcar como leído

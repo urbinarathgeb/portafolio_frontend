@@ -67,7 +67,8 @@ const userMenuItems = [
           color="neutral"
           variant="ghost"
           icon="i-lucide-x"
-          size="sm"
+          size="lg"
+          class="min-w-11"
           @click="sidebarOpen = false"
         />
       </div>
@@ -124,8 +125,8 @@ const userMenuItems = [
           color="neutral"
           variant="ghost"
           block
-          size="sm"
-          class="mt-1"
+          size="lg"
+          class="mt-1 min-h-11"
           @click="logout"
         >
           <template #leading>
@@ -154,7 +155,7 @@ const userMenuItems = [
 
         <ClientOnly>
           <UDropdownMenu :items="userMenuItems" :content="{ side: 'bottom', align: 'end' }">
-            <UButton color="neutral" variant="ghost" class="flex items-center gap-2 px-2">
+            <UButton color="neutral" variant="ghost" class="flex items-center gap-2 min-h-11">
               <div class="size-7 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">
                 {{ user?.name?.charAt(0)?.toUpperCase() || 'A' }}
               </div>
@@ -163,7 +164,7 @@ const userMenuItems = [
             </UButton>
           </UDropdownMenu>
           <template #fallback>
-            <UButton color="neutral" variant="ghost" class="flex items-center gap-2 px-2">
+            <UButton color="neutral" variant="ghost" class="flex items-center gap-2 min-h-11">
               <div class="size-7 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs">
                 {{ user?.name?.charAt(0)?.toUpperCase() || 'A' }}
               </div>
