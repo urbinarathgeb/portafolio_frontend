@@ -25,7 +25,7 @@ watch(error, (err) => {
 <template>
   <AppLoader v-if="pending" />
   <template v-else>
-    <section class="relative h-screen w-full flex items-center px-[5vw] overflow-hidden max-md:px-6">
+    <section class="relative min-h-dvh w-full flex items-center px-[5vw] overflow-hidden max-md:px-6">
     <!-- Glow radial atmosférico -->
     <div class="absolute -top-[10%] -right-[10%] w-[60vw] h-[60vw] glow-radial pointer-events-none" />
 

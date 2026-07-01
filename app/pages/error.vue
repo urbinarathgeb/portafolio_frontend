@@ -33,7 +33,7 @@ function handleError() {
 
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center bg-default px-4">
-    <p class="font-heading text-[10rem] font-bold leading-none" :class="is404 ? 'text-muted' : 'gradient-text'">
+    <p class="font-heading text-[clamp(5rem,20vw,10rem)] font-bold leading-none" :class="is404 ? 'text-muted' : 'gradient-text'">
       {{ statusCode }}
     </p>
     <p class="mt-4 text-xl text-muted font-body text-center max-w-md">
