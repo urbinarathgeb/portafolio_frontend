@@ -7,6 +7,7 @@
     <SiteFooter />
     <SocialLinks />
     <ThemeToggle />
+    <AppMobileMenu />
     <SectionLabel />
   </div>
 </template>
