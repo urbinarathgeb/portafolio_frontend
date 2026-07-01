@@ -68,12 +68,12 @@ watch(error, (err) => {
           <div class="grid grid-cols-3 gap-3 h-full">
             <!-- Hero card: 2×2 -->
             <div class="col-span-2 row-span-2 p-6 rounded-lg bg-elevated border border-border flex flex-col justify-between glow-shadow-primary">
-              <div class="text-5xl font-heading font-bold text-primary">3+</div>
-              <div class="text-sm text-toned font-body">Años de<br />experiencia</div>
+              <div class="text-5xl font-heading font-bold text-primary">1</div>
+              <div class="text-sm text-toned font-body">Año de<br />experiencia</div>
             </div>
             <!-- 15+ proyectos: 1×1 -->
             <div class="col-span-1 row-span-1 p-4 rounded-lg bg-elevated border border-border flex flex-col justify-between glow-shadow-secondary">
-              <div class="text-2xl font-heading font-bold text-secondary">15+</div>
+              <div class="text-2xl font-heading font-bold text-secondary">3+</div>
               <div class="text-xs text-toned font-body">Proyectos</div>
             </div>
             <!-- 100% remoto: 1×1 -->
