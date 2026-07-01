@@ -38,6 +38,17 @@ const emit = defineEmits<{
       {{ item.number }}
     </button>
   </nav>
+
+  <div class="md:hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
+    <button
+      v-for="item in items"
+      :key="item.id"
+      class="rounded-full border-none cursor-pointer transition-all duration-300 p-0"
+      :class="activeId === item.id ? 'w-3 h-3 bg-primary' : 'w-2.5 h-2.5 bg-border hover:bg-muted'"
+      :aria-label="`Proyecto ${item.number}`"
+      @click="emit('select', item.id)"
+    />
+  </div>
 </template>
 
 
