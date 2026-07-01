@@ -78,7 +78,8 @@ const handleSubmit = async () => {
                   <UButton
                     color="neutral"
                     variant="ghost"
-                    size="xs"
+                    size="lg"
+                    class="min-w-11"
                     :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'"
                     @click="showPassword = !showPassword"
                     :disabled="loading"

@@ -101,13 +101,14 @@ const confirmDelete = async (id: number, name: string) => {
 
               <div class="flex items-center gap-2 shrink-0">
                 <NuxtLink :to="`/admin/technologies/${tech.id}`">
-                  <button type="button" class="p-2 rounded-lg text-toned hover:text-primary hover:bg-bg-accented transition-colors">
+                  <button type="button" class="min-w-11 min-h-11 flex items-center justify-center p-2 rounded-lg text-toned hover:text-primary hover:bg-bg-accented transition-colors">
                     <UIcon name="i-lucide-pencil" class="size-4" />
                   </button>
                 </NuxtLink>
                 <UButton
                   color="error"
                   variant="ghost"
+                  size="lg"
                   icon="i-lucide-trash-2"
                   :loading="deleting === tech.id"
                   :disabled="deleting !== null"
