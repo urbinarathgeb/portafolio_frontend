@@ -171,7 +171,7 @@ const handleSubmit = async () => {
               >
                 <div class="flex items-center justify-between mb-3">
                   <span class="text-sm font-semibold text-highlighted">Highlight {{ i + 1 }}</span>
-                  <UButton color="error" variant="ghost" size="sm" @click="removeHighlight(i)" :disabled="submitting">
+                  <UButton color="error" variant="ghost" size="lg" class="min-w-11" @click="removeHighlight(i)" :disabled="submitting">
                     <UIcon name="i-lucide-x" class="size-4" />
                   </UButton>
                 </div>
@@ -207,7 +207,7 @@ const handleSubmit = async () => {
               >
                 <div class="flex items-center justify-between mb-3">
                   <span class="text-sm font-semibold text-highlighted">Impacto {{ i + 1 }}</span>
-                  <UButton color="error" variant="ghost" size="sm" @click="removeImpact(i)" :disabled="submitting">
+                  <UButton color="error" variant="ghost" size="lg" class="min-w-11" @click="removeImpact(i)" :disabled="submitting">
                     <UIcon name="i-lucide-x" class="size-4" />
                   </UButton>
                 </div>

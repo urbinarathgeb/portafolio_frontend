@@ -145,6 +145,7 @@ const userMenuItems = [
             color="neutral"
             variant="ghost"
             icon="i-lucide-menu"
+            size="lg"
             class="lg:hidden"
             @click="sidebarOpen = true"
           />
