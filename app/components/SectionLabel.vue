@@ -17,7 +17,7 @@ const sectionName = computed(() => {
 <template>
   <div
     v-if="sectionName"
-    class="hidden md:block fixed bottom-16 left-[5vw] z-40 max-md:left-4 max-md:bottom-4"
+    class="hidden md:block fixed bottom-16 left-[5vw] z-40"
   >
     <span class="font-mono text-xs font-medium tracking-[0.2em] uppercase text-muted block -rotate-90 origin-left translate-y-[2em]">
       {{ sectionName }}
