@@ -4,6 +4,30 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'vercel',
   },
+  // El HTML de las páginas públicas se cachea en el edge de Vercel.
+  // Solo el primer visitante tras expirar el TTL despierta a Fly;
+  // el resto recibe HTML instantáneo con la máquina dormida.
+  routeRules: {
+    '/': { isr: 3600 },
+    '/about': { isr: 3600 },
+    '/experience': { isr: 3600 },
+    '/technologies': { isr: 3600 },
+    '/projects': { isr: 3600 },
+    '/projects/**': { isr: 3600 },
+    '/contact': { isr: 3600 },
+
+    // Endpoints públicos de solo lectura: cachea también el proxy,
+    // así la navegación cliente (SPA) tampoco toca Fly.
+    // Vercel solo cachea GET, por lo que POST /api/contacts pasa directo.
+    '/api/profile': { isr: 3600 },
+    '/api/projects': { isr: 3600 },
+    '/api/projects/**': { isr: 3600 },
+    '/api/experiences': { isr: 3600 },
+    '/api/technologies': { isr: 3600 },
+
+    // Panel privado: SPA, sin SSR. Nadie más que tú entra acá.
+    '/admin/**': { ssr: false },
+  },
   site: {
     url: 'https://portafolio-frontend-virid.vercel.app',
   },
