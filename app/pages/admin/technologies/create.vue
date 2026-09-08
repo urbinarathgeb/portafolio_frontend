@@ -72,6 +72,7 @@ const handleSubmit = async () => {
             <USelectMenu
               v-model="form.category"
               :items="categoryOptions"
+              value-key="value"
               placeholder="Seleccionar categoría"
               class="w-full"
               :disabled="submitting"
