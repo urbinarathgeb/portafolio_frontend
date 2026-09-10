@@ -23,7 +23,8 @@
     "@nuxt/ui": "^4.8.1",
     "@nuxtjs/sitemap": "^8.2.1",
     "nuxt": "^4.4.6",
-    "tailwindcss": "^4.3.0"
+    "tailwindcss": "^4.3.0",
+    "zod": "^4.6.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",

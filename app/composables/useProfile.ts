@@ -1,34 +1,9 @@
-import type { Profile } from '~/types/profile'
-import type { ApiResponse } from '~/types/project'
+import { profile as profileData } from '~/data/profile'
 
-export const useProfile = () => {
-  const config = useRuntimeConfig()
-  const profile = useState<Profile | null>('profile', () => null)
-
-  if (profile.value) {
-    return {
-      profile: readonly(profile),
-      pending: ref(false),
-      error: ref(null),
-    }
-  }
-
-  const { data, pending, error } = useFetch<ApiResponse<Profile>>(
-    `${config.public.apiBase}/profile`,
-    {
-      key: 'profile-fetch',
-    },
-  )
-
-  watch(data, (val) => {
-    if (val?.data) {
-      profile.value = val.data
-    }
-  }, { immediate: true })
-
-  return {
-    profile: computed(() => profile.value || data.value?.data || null),
-    pending,
-    error,
-  }
-}
+// El contenido vive en el repo: no hay carga ni errores de red.
+// Se mantiene la forma { data, pending, error } para no tocar las páginas.
+export const useProfile = () => ({
+  profile: computed(() => profileData),
+  pending: ref(false),
+  error: ref<Error | null>(null),
+})

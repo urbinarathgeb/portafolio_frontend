@@ -1,16 +1,9 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'default',
-})
+import type { NuxtError } from '#app'
 
-interface Props {
-  error: {
-    statusCode: number
-    message: string
-  }
-}
-
-const props = defineProps<Props>()
+// Página de error global de Nuxt (404, 500...). Vive en app/error.vue,
+// no en pages/, para que Nuxt la use ante errores y no sea una ruta más.
+const props = defineProps<{ error: NuxtError }>()
 
 const statusCode = computed(() => props.error.statusCode || 500)
 const is404 = computed(() => statusCode.value === 404)
@@ -20,8 +13,8 @@ const message = computed(() => {
 })
 
 useSeoMeta({
-  title: computed(() => `Error ${statusCode.value} — Kako`),
-  ogTitle: computed(() => `Error ${statusCode.value} — Kako`),
+  title: computed(() => `Error ${statusCode.value} — Javier Urbina`),
+  ogTitle: computed(() => `Error ${statusCode.value} — Javier Urbina`),
   description: is404.value ? 'Página no encontrada.' : 'Error inesperado.',
   ogDescription: is404.value ? 'Página no encontrada.' : 'Error inesperado.',
 })

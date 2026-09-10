@@ -1,42 +1,7 @@
-import type { Experience } from '~/types/experience'
+import { experiences as experiencesData } from '~/data/experience'
 
-export const useExperience = () => {
-  const config = useRuntimeConfig()
-  const cache = useState('experiences-cache', () => [] as Experience[])
-
-  if (cache.value.length > 0) {
-    return {
-      experiences: computed(() => cache.value.map((exp) => ({
-        ...exp,
-        technologies: Array.isArray(exp.technologies)
-          ? (exp.technologies as unknown as { name: string }[]).map((t) => t.name)
-          : [],
-      }))),
-      pending: ref(false),
-      error: ref(null),
-    }
-  }
-
-  const { data, pending, error } = useFetch<{ status: string; data: Experience[] }>(
-    `${config.public.apiBase}/experiences`,
-    { key: 'experiences' },
-  )
-
-  watch(data, (val) => {
-    if (val?.data) {
-      cache.value = val.data
-    }
-  }, { immediate: true })
-
-  const experiences = computed<Experience[]>(() => {
-    const items = cache.value.length > 0 ? cache.value : data.value?.data ?? []
-    return items.map((exp) => ({
-      ...exp,
-      technologies: Array.isArray(exp.technologies)
-        ? (exp.technologies as unknown as { name: string }[]).map((t) => t.name)
-        : [],
-    }))
-  })
-
-  return { experiences, pending, error }
-}
+export const useExperience = () => ({
+  experiences: computed(() => [...experiencesData].sort((a, b) => a.order - b.order)),
+  pending: ref(false),
+  error: ref<Error | null>(null),
+})
