@@ -41,7 +41,7 @@ const handleSubmit = async () => {
           </p>
 
           <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-elevated border border-border w-fit">
-            <span class="w-2 h-2 rounded-full bg-success animate-pulse"></span>
+            <span class="w-2 h-2 rounded-full bg-success animate-pulse"/>
             <span class="text-sm font-body text-highlighted">Disponible ahora</span>
             <span class="text-sm font-body text-muted">· Santiago, Chile (remoto ok)</span>
           </div>
@@ -110,7 +110,7 @@ const handleSubmit = async () => {
                   type="text"
                   placeholder="Tu nombre"
                   class="px-4 py-3 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
-                />
+                >
               </div>
               <div class="flex flex-col gap-2">
                 <label class="text-xs font-mono uppercase tracking-wide text-muted">Email</label>
@@ -119,7 +119,7 @@ const handleSubmit = async () => {
                   type="email"
                   placeholder="tu@email.com"
                   class="px-4 py-3 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
-                />
+                >
               </div>
             </div>
 
@@ -131,7 +131,7 @@ const handleSubmit = async () => {
                 type="text"
                 placeholder="¿Dónde trabajás?"
                 class="px-4 py-3 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
-              />
+              >
             </div>
 
             <!-- Tipo de interés -->
@@ -154,7 +154,7 @@ const handleSubmit = async () => {
                     name="interest"
                     :value="option.value"
                     class="sr-only"
-                  />
+                  >
                   <span class="text-sm font-body">{{ option.label }}</span>
                 </label>
               </div>
@@ -168,7 +168,7 @@ const handleSubmit = async () => {
                 rows="4"
                 placeholder="Cuéntame sobre tu equipo, el proyecto, o lo que necesitás. Sin filtros."
                 class="px-4 py-3 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all resize-none"
-              ></textarea>
+              />
             </div>
 
             <!-- Botón -->

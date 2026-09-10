@@ -9,7 +9,7 @@ export const useExperience = () => {
       experiences: computed(() => cache.value.map((exp) => ({
         ...exp,
         technologies: Array.isArray(exp.technologies)
-          ? (exp.technologies as { name: string }[]).map((t) => t.name)
+          ? (exp.technologies as unknown as { name: string }[]).map((t) => t.name)
           : [],
       }))),
       pending: ref(false),
@@ -33,7 +33,7 @@ export const useExperience = () => {
     return items.map((exp) => ({
       ...exp,
       technologies: Array.isArray(exp.technologies)
-        ? (exp.technologies as { name: string }[]).map((t) => t.name)
+        ? (exp.technologies as unknown as { name: string }[]).map((t) => t.name)
         : [],
     }))
   })

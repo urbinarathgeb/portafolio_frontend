@@ -99,7 +99,7 @@ const handlePasswordSubmit = async () => {
         <div class="rounded-xl bg-bg-elevated border border-border p-6">
           <h2 class="text-sm font-semibold text-muted uppercase tracking-wider mb-6">Información personal</h2>
 
-          <form novalidate @submit.prevent="handleProfileSubmit" class="space-y-4">
+          <form novalidate class="space-y-4" @submit.prevent="handleProfileSubmit">
             <div class="grid grid-cols-2 gap-4">
               <UFormField label="Nombre" name="name" required>
                 <UInput v-model="profileForm.name" class="w-full" :disabled="profileSubmitting" />
@@ -155,7 +155,7 @@ const handlePasswordSubmit = async () => {
         <div class="rounded-xl bg-bg-elevated border border-border p-6">
           <h2 class="text-sm font-semibold text-muted uppercase tracking-wider mb-6">Cambiar contraseña</h2>
 
-          <form novalidate @submit.prevent="handlePasswordSubmit" class="space-y-4">
+          <form novalidate class="space-y-4" @submit.prevent="handlePasswordSubmit">
             <UFormField label="Contraseña actual" name="currentPassword" required>
               <UInput v-model="passwordForm.currentPassword" type="password" class="w-full" :disabled="passwordSubmitting" />
               <p v-if="passwordErrors.currentPassword" class="text-error text-xs mt-1">{{ passwordErrors.currentPassword }}</p>

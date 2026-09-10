@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-06-22',
-  modules: ['@nuxt/ui', '@nuxt/image', '@nuxtjs/sitemap'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxt/image', '@nuxtjs/sitemap'],
   nitro: {
     preset: 'vercel',
   },

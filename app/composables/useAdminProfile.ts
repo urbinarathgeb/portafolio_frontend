@@ -20,19 +20,6 @@ export interface PasswordForm {
   confirmPassword: string
 }
 
-const initialProfileForm: ProfileForm = {
-  name: '',
-  lastname: '',
-  email: '',
-  title: '',
-  tagline: '',
-  heroDescription: '',
-  bio: '',
-  availability: false,
-  location: '',
-  avatar: '',
-}
-
 export const useAdminProfile = () => {
   const { public: config } = useRuntimeConfig()
   const token = useCookie<string | null>('auth-token')

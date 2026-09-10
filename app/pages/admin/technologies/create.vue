@@ -53,7 +53,7 @@ const handleSubmit = async () => {
 
 <template>
   <div>
-    <UButton color="neutral" variant="ghost" class="mb-6" @click="navigateTo('/admin/technologies')">
+    <UButton color="neutral" variant="ghost" class="mb-6" to="/admin/technologies">
       <template #leading><UIcon name="i-lucide-arrow-left" class="size-4" /></template>
       Volver
     </UButton>
@@ -61,7 +61,7 @@ const handleSubmit = async () => {
     <h1 class="font-heading text-2xl font-bold text-highlighted mb-8">Nueva tecnología</h1>
 
     <div class="rounded-xl bg-bg-elevated border border-border p-6">
-      <form novalidate @submit.prevent="handleSubmit" class="max-w-2xl space-y-6">
+      <form novalidate class="max-w-2xl space-y-6" @submit.prevent="handleSubmit">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <UFormField label="Nombre" name="name" required>
             <UInput v-model="form.name" placeholder="Ej: Vue.js" class="w-full" :disabled="submitting" />
@@ -114,7 +114,7 @@ const handleSubmit = async () => {
           <UButton type="submit" color="primary" :loading="submitting" :disabled="submitting">
             Crear tecnología
           </UButton>
-          <UButton color="neutral" variant="ghost" @click="navigateTo('/admin/technologies')" :disabled="submitting">
+          <UButton color="neutral" variant="ghost" to="/admin/technologies" :disabled="submitting">
             Cancelar
           </UButton>
         </div>
