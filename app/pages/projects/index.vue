@@ -3,11 +3,9 @@ definePageMeta({
   layout: 'default',
 })
 
-useSeoMeta({
-  title: 'Proyectos — Kako',
-  ogTitle: 'Proyectos — Kako',
+usePageSeo({
+  title: 'Proyectos',
   description: 'Explorá los proyectos que he desarrollado, desde apps web hasta sistemas completos.',
-  ogDescription: 'Explorá los proyectos que he desarrollado, desde apps web hasta sistemas completos.',
 })
 
 const { projects, pending, error } = useProjects()

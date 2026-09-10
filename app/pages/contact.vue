@@ -6,11 +6,9 @@ definePageMeta({
 const toast = useToast()
 const { form, loading, error, submit } = useContact()
 
-useSeoMeta({
-  title: 'Contacto — Kako',
-  ogTitle: 'Contacto — Kako',
+usePageSeo({
+  title: 'Contacto',
   description: 'Contactame para oportunidades laborales, proyectos freelance o consultoría.',
-  ogDescription: 'Contactame para oportunidades laborales, proyectos freelance o consultoría.',
 })
 
 const handleSubmit = async () => {
@@ -100,7 +98,7 @@ const handleSubmit = async () => {
 
         <!-- Columna derecha: Formulario -->
         <div class="lg:col-span-6 lg:self-center">
-          <form class="flex flex-col gap-5" @submit.prevent="handleSubmit">
+          <form class="relative flex flex-col gap-5" @submit.prevent="handleSubmit">
             <!-- Nombre + Email -->
             <div class="grid sm:grid-cols-2 gap-5">
               <div class="flex flex-col gap-2">
@@ -169,6 +167,14 @@ const handleSubmit = async () => {
                 placeholder="Cuéntame sobre tu equipo, el proyecto, o lo que necesitás. Sin filtros."
                 class="px-4 py-3 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all resize-none"
               />
+            </div>
+
+            <!-- Honeypot anti-spam: invisible para personas y lectores de pantalla -->
+            <div class="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+              <label>
+                No completar
+                <input v-model="form.website" type="text" name="website" tabindex="-1" autocomplete="off">
+              </label>
             </div>
 
             <!-- Botón -->

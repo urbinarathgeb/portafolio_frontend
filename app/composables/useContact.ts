@@ -1,16 +1,13 @@
+import type { FetchError } from 'ofetch'
+
 export interface ContactForm {
   nombre: string
   email: string
   empresa: string
   interest: string
   mensaje: string
-}
-
-export interface ContactState {
-  form: ContactForm
-  loading: boolean
-  error: string | null
-  success: boolean
+  // Honeypot (input oculto en el formulario)
+  website: string
 }
 
 const initialState: ContactForm = {
@@ -19,6 +16,7 @@ const initialState: ContactForm = {
   empresa: '',
   interest: '',
   mensaje: '',
+  website: '',
 }
 
 export const useContact = () => {
@@ -27,20 +25,20 @@ export const useContact = () => {
   const error = useState<string | null>('contact-error', () => null)
   const success = useState('contact-success', () => false)
 
-  const { public: config } = useRuntimeConfig()
-
-  const validate = (): string | null => {
-    if (!form.value.nombre.trim()) return 'El nombre es requerido'
-    if (!form.value.email.trim()) return 'El email es requerido'
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.value.email)) return 'El email no es válido'
-    if (!form.value.mensaje.trim()) return 'El mensaje es requerido'
-    return null
-  }
+  const toPayload = (): ContactInput => ({
+    name: form.value.nombre,
+    email: form.value.email,
+    company: form.value.empresa,
+    interest: form.value.interest as ContactInput['interest'],
+    message: form.value.mensaje,
+    website: form.value.website,
+  })
 
   const submit = async () => {
-    const validationError = validate()
-    if (validationError) {
-      error.value = validationError
+    // Mismo schema que valida el servidor
+    const parsed = contactSchema.safeParse(toPayload())
+    if (!parsed.success) {
+      error.value = parsed.error.issues[0]?.message ?? 'Revisá los datos del formulario'
       return false
     }
 
@@ -49,22 +47,13 @@ export const useContact = () => {
     success.value = false
 
     try {
-      await $fetch(`${config.apiBase}/contacts`, {
-        method: 'POST',
-        body: {
-          name: form.value.nombre.trim(),
-          email: form.value.email.trim(),
-          company: form.value.empresa.trim(),
-          interest: form.value.interest,
-          message: form.value.mensaje.trim(),
-        },
-      })
+      await $fetch('/api/contacts', { method: 'POST', body: parsed.data })
       success.value = true
       reset()
       return true
     } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : 'Error al enviar el mensaje'
-      error.value = message
+      const fetchError = e as FetchError<{ statusMessage?: string }>
+      error.value = fetchError.data?.statusMessage ?? fetchError.statusMessage ?? 'Error al enviar el mensaje'
       return false
     } finally {
       loading.value = false

@@ -8,11 +8,9 @@ const id = route.params.slug as string
 
 const { project, pending, error } = useProject(id)
 
-useSeoMeta({
-  title: () => project.value ? `${project.value.title} — Kako` : 'Proyecto — Kako',
-  ogTitle: () => project.value ? `${project.value.title} — Kako` : 'Proyecto — Kako',
-  description: () => project.value?.description || 'Detalle del proyecto.',
-  ogDescription: () => project.value?.description || 'Detalle del proyecto.',
+usePageSeo({
+  title: () => project.value?.title ?? 'Proyecto',
+  description: () => project.value?.description ?? 'Detalle del proyecto.',
 })
 
 const initials = computed(() => {

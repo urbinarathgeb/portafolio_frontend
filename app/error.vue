@@ -12,11 +12,9 @@ const message = computed(() => {
   return props.error.message || 'Ocurrió un error inesperado'
 })
 
-useSeoMeta({
-  title: computed(() => `Error ${statusCode.value} — Javier Urbina`),
-  ogTitle: computed(() => `Error ${statusCode.value} — Javier Urbina`),
-  description: is404.value ? 'Página no encontrada.' : 'Error inesperado.',
-  ogDescription: is404.value ? 'Página no encontrada.' : 'Error inesperado.',
+usePageSeo({
+  title: () => `Error ${statusCode.value}`,
+  description: () => (is404.value ? 'Página no encontrada.' : 'Error inesperado.'),
 })
 
 function handleError() {
