@@ -1,32 +1,40 @@
+import { projects } from './app/data/projects'
+import { validateContent } from './app/data/validate'
+
 export default defineNuxtConfig({
+  hooks: {
+    // Un dato inválido en app/data rompe el build (y el CI)
+    'build:before': () => validateContent(),
+  },
   compatibilityDate: '2026-06-22',
   modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxt/image', '@nuxtjs/sitemap'],
   nitro: {
     preset: 'vercel',
+    prerender: {
+      crawlLinks: true,
+      routes: ['/', ...projects.map((p) => `/projects/${p.id}`)],
+    },
   },
-  // El HTML de las páginas públicas se cachea en el edge de Vercel.
-  // Solo el primer visitante tras expirar el TTL despierta a Fly;
-  // el resto recibe HTML instantáneo con la máquina dormida.
+  // SSG: las páginas públicas se generan como HTML estático en el build.
+  // El contenido vive en app/data, así que el build no depende de ninguna API.
   routeRules: {
-    '/': { isr: 3600 },
-    '/about': { isr: 3600 },
-    '/experience': { isr: 3600 },
-    '/technologies': { isr: 3600 },
-    '/projects': { isr: 3600 },
-    '/projects/**': { isr: 3600 },
-    '/contact': { isr: 3600 },
+    '/': { prerender: true },
+    '/about': { prerender: true },
+    '/experience': { prerender: true },
+    '/technologies': { prerender: true },
+    '/projects': { prerender: true },
+    '/projects/**': { prerender: true },
+    '/contact': { prerender: true },
 
-    // Endpoints públicos de solo lectura: cachea también el proxy,
-    // así la navegación cliente (SPA) tampoco toca Fly.
-    // Vercel solo cachea GET, por lo que POST /api/contacts pasa directo.
+    // Proxy a la API: solo lo usa el admin (se elimina junto con él en A3).
     '/api/profile': { isr: 3600 },
     '/api/projects': { isr: 3600 },
     '/api/projects/**': { isr: 3600 },
     '/api/experiences': { isr: 3600 },
     '/api/technologies': { isr: 3600 },
 
-    // Panel privado: SPA, sin SSR. Nadie más que tú entra acá.
-    '/admin/**': { ssr: false },
+    // Panel privado: SPA, sin SSR.
+    '/admin/**': { ssr: false, prerender: false },
   },
   site: {
     url: 'https://portafolio-frontend-virid.vercel.app',
