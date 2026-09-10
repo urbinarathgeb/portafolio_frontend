@@ -1,15 +1,6 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'default',
-})
-
 const toast = useToast()
 const { form, loading, error, submit } = useContact()
-
-usePageSeo({
-  title: 'Contacto',
-  description: 'Contactame para oportunidades laborales, proyectos freelance o consultoría.',
-})
 
 const handleSubmit = async () => {
   const ok = await submit()
@@ -22,17 +13,17 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <section class="relative min-h-screen flex items-center bg-default overflow-hidden">
+  <section id="contacto" class="relative flex items-center bg-default overflow-hidden">
     <StrokeText text="CONTACTO" />
 
-    <div class="relative z-10 w-full max-w-7xl mx-auto px-[5vw] py-20 section-enter">
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-[5vw] py-28 max-md:py-20">
       <div class="grid lg:grid-cols-12 gap-12 items-start">
         <!-- Columna izquierda: Info -->
         <div class="lg:col-span-6 flex flex-col gap-6">
-          <h1 class="font-heading font-bold tracking-[-0.02em] flex flex-col">
+          <h2 class="font-heading font-bold tracking-[-0.02em] flex flex-col">
             <span class="font-black text-highlighted text-[clamp(2rem,4vw,3.5rem)]">Trabajemos</span>
             <span class="font-black gradient-text text-[clamp(2.5rem,6vw,4.5rem)] -mt-5">juntos.</span>
-          </h1>
+          </h2>
 
           <p class="text-base text-muted font-body leading-relaxed max-w-md">
             Busco mi próxima posición full-time en un equipo donde el craft importa. Si estás construyendo algo que vale la pena, quiero escucharte.

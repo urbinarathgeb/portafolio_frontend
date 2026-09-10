@@ -1,15 +1,6 @@
 <script setup lang="ts">
 const isOpen = ref(false)
-const route = useRoute()
-
-const links = [
-  { label: 'INICIO', to: '/' },
-  { label: 'SOBRE MÍ', to: '/about' },
-  { label: 'PROYECTOS', to: '/projects' },
-  { label: 'STACK', to: '/technologies' },
-  { label: 'EXPERIENCIA', to: '/experience' },
-  { label: 'CONTACTO', to: '/contact' },
-]
+const current = useCurrentSection()
 
 watch(isOpen, (val) => {
   document.body.style.overflow = val ? 'hidden' : ''
@@ -50,14 +41,15 @@ function close() {
         >
           <div class="flex-1 flex flex-col items-center justify-center gap-10 px-8">
             <NuxtLink
-              v-for="link in links"
-              :key="link.to"
-              :to="link.to"
+              v-for="section in SECTIONS"
+              :key="section.id"
+              :to="`/#${section.id}`"
+              :aria-current="current === section.id ? 'true' : undefined"
               class="font-heading text-3xl font-bold tracking-[-0.02em] text-toned no-underline transition-all duration-300 hover:text-primary"
-              :class="route.path.startsWith(link.to) ? 'gradient-text' : ''"
+              :class="current === section.id ? 'gradient-text' : ''"
               @click="close"
             >
-              {{ link.label }}
+              {{ section.label }}
             </NuxtLink>
           </div>
 

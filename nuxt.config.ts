@@ -15,16 +15,18 @@ export default defineNuxtConfig({
       routes: ['/', ...projects.map((p) => `/projects/${p.id}`)],
     },
   },
-  // SSG: las páginas públicas se generan como HTML estático en el build.
+  // SSG: la landing y los casos de estudio se generan como HTML estático en el build.
   // El contenido vive en app/data, así que el build no depende de ninguna API.
   routeRules: {
     '/': { prerender: true },
-    '/about': { prerender: true },
-    '/experience': { prerender: true },
-    '/technologies': { prerender: true },
-    '/projects': { prerender: true },
     '/projects/**': { prerender: true },
-    '/contact': { prerender: true },
+
+    // Rutas antiguas → secciones de la landing (links viejos del CV o LinkedIn)
+    '/about': { redirect: { to: '/#sobre-mi', statusCode: 301 } },
+    '/projects': { redirect: { to: '/#proyectos', statusCode: 301 } },
+    '/technologies': { redirect: { to: '/#stack', statusCode: 301 } },
+    '/experience': { redirect: { to: '/#experiencia', statusCode: 301 } },
+    '/contact': { redirect: { to: '/#contacto', statusCode: 301 } },
   },
   site: {
     url: 'https://urbinarathgeb.vercel.app',

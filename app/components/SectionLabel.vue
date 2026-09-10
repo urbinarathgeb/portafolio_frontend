@@ -1,16 +1,11 @@
 <script setup lang="ts">
 const route = useRoute()
+const current = useCurrentSection()
 
 const sectionName = computed(() => {
-  const path = route.path
-  if (path === '/') return null
-  if (path === '/about') return 'SOBRE MÍ'
-  if (path === '/projects') return 'PROYECTOS'
-  if (path.startsWith('/projects/')) return 'PROYECTO'
-  if (path === '/experience') return 'EXPERIENCIA'
-  if (path === '/technologies') return 'STACK'
-  if (path === '/contact') return 'CONTACTO'
-  return null
+  if (route.path.startsWith('/projects/')) return 'Proyecto'
+  if (!current.value || current.value === 'inicio') return null
+  return SECTIONS.find((s) => s.id === current.value)?.label ?? null
 })
 </script>
 
@@ -18,6 +13,7 @@ const sectionName = computed(() => {
   <div
     v-if="sectionName"
     class="hidden md:block fixed bottom-16 left-[5vw] z-40"
+    aria-hidden="true"
   >
     <span class="font-mono text-xs font-medium tracking-[0.2em] uppercase text-muted block -rotate-90 origin-left translate-y-[2em]">
       {{ sectionName }}
