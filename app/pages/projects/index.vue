@@ -14,16 +14,11 @@ const { projects, pending, error } = useProjects()
 
 const activeProject = ref<number | null>(null)
 
-const currentProject = computed(() => {
-  if (!projects.value.length || activeProject.value === null) return null
-  return projects.value.find((p) => p.id === activeProject.value) ?? projects.value[0] ?? null
-})
-
-watch(projects, (newProjects) => {
-  if (newProjects.length && activeProject.value === null) {
-    activeProject.value = newProjects[0]?.id ?? null
-  }
-}, { immediate: true })
+// Derivado (no watch): los watchers no corren en SSR tras resolver useFetch,
+// así que un watch dejaba la página vacía en el HTML del servidor.
+const currentProject = computed(() =>
+  projects.value.find((p) => p.id === activeProject.value) ?? projects.value[0] ?? null,
+)
 
 const navItems = computed(() =>
   projects.value.map((project, index) => ({
@@ -32,7 +27,7 @@ const navItems = computed(() =>
   })),
 )
 
-const transitionKey = computed(() => activeProject.value ?? undefined)
+const transitionKey = computed(() => currentProject.value?.id)
 
 function handleSelect(id: number) {
   activeProject.value = id
@@ -53,7 +48,7 @@ function handleSelect(id: number) {
         <template v-else-if="currentProject">
           <ProjectsNav
             :items="navItems"
-            :active-id="activeProject"
+            :active-id="currentProject.id"
             @select="handleSelect"
           />
           <div class="relative z-10 w-full max-w-3xl mx-auto px-[5vw] py-20 pl-24 max-md:pl-[5vw] section-enter">
