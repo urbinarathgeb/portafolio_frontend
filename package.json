@@ -22,6 +22,7 @@
     "@nuxt/image": "^1.10.0",
     "@nuxt/ui": "^4.8.1",
     "@nuxtjs/sitemap": "^8.2.1",
+    "h3": "^1.15.11",
     "nuxt": "^4.4.6",
     "tailwindcss": "^4.3.0",
     "zod": "^4.6.0"
