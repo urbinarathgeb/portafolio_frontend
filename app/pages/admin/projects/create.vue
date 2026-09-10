@@ -69,7 +69,7 @@ const handleSubmit = async () => {
       color="neutral"
       variant="ghost"
       class="mb-6"
-      @click="navigateTo('/admin/projects')"
+      to="/admin/projects"
     >
       <template #leading>
         <UIcon name="i-lucide-arrow-left" class="size-4" />
@@ -81,7 +81,7 @@ const handleSubmit = async () => {
 
     <div class="rounded-xl bg-bg-elevated border border-border p-6">
 
-    <form novalidate @submit.prevent="handleSubmit" class="max-w-2xl space-y-6">
+    <form novalidate class="max-w-2xl space-y-6" @submit.prevent="handleSubmit">
       <UFormField label="Título" name="title" required>
         <UInput v-model="form.title" placeholder="Nombre del proyecto" class="w-full" :disabled="submitting" />
         <p v-if="formErrors.title" class="text-error text-xs mt-1">{{ formErrors.title }}</p>
@@ -158,7 +158,7 @@ const handleSubmit = async () => {
           <div>
             <div class="flex items-center justify-between mb-3">
               <span class="text-sm font-semibold text-highlighted">Highlights</span>
-              <UButton color="neutral" variant="ghost" size="sm" @click="addHighlight" :disabled="submitting">
+              <UButton color="neutral" variant="ghost" size="sm" :disabled="submitting" @click="addHighlight">
                 <template #leading><UIcon name="i-lucide-plus" class="size-3" /></template>
                 Agregar
               </UButton>
@@ -171,7 +171,7 @@ const handleSubmit = async () => {
               >
                 <div class="flex items-center justify-between mb-3">
                   <span class="text-sm font-semibold text-highlighted">Highlight {{ i + 1 }}</span>
-                  <UButton color="error" variant="ghost" size="lg" class="min-w-11" @click="removeHighlight(i)" :disabled="submitting">
+                  <UButton color="error" variant="ghost" size="lg" class="min-w-11" :disabled="submitting" @click="removeHighlight(i)">
                     <UIcon name="i-lucide-x" class="size-4" />
                   </UButton>
                 </div>
@@ -194,7 +194,7 @@ const handleSubmit = async () => {
           <div>
             <div class="flex items-center justify-between mb-3">
               <span class="text-sm font-semibold text-highlighted">Impacto</span>
-              <UButton color="neutral" variant="ghost" size="sm" @click="addImpact" :disabled="submitting">
+              <UButton color="neutral" variant="ghost" size="sm" :disabled="submitting" @click="addImpact">
                 <template #leading><UIcon name="i-lucide-plus" class="size-3" /></template>
                 Agregar
               </UButton>
@@ -207,7 +207,7 @@ const handleSubmit = async () => {
               >
                 <div class="flex items-center justify-between mb-3">
                   <span class="text-sm font-semibold text-highlighted">Impacto {{ i + 1 }}</span>
-                  <UButton color="error" variant="ghost" size="lg" class="min-w-11" @click="removeImpact(i)" :disabled="submitting">
+                  <UButton color="error" variant="ghost" size="lg" class="min-w-11" :disabled="submitting" @click="removeImpact(i)">
                     <UIcon name="i-lucide-x" class="size-4" />
                   </UButton>
                 </div>
@@ -238,7 +238,7 @@ const handleSubmit = async () => {
         <UButton type="submit" color="primary" :loading="submitting" :disabled="submitting">
           Crear proyecto
         </UButton>
-        <UButton color="neutral" variant="ghost" @click="navigateTo('/admin/projects')" :disabled="submitting">
+        <UButton color="neutral" variant="ghost" to="/admin/projects" :disabled="submitting">
           Cancelar
         </UButton>
       </div>

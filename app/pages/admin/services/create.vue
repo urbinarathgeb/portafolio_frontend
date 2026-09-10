@@ -37,7 +37,7 @@ const handleSubmit = async () => {
 
 <template>
   <div>
-    <UButton color="neutral" variant="ghost" class="mb-6" @click="navigateTo('/admin/services')">
+    <UButton color="neutral" variant="ghost" class="mb-6" to="/admin/services">
       <template #leading><UIcon name="i-lucide-arrow-left" class="size-4" /></template>
       Volver
     </UButton>
@@ -45,7 +45,7 @@ const handleSubmit = async () => {
     <h1 class="font-heading text-2xl font-bold text-highlighted mb-8">Nuevo servicio</h1>
 
     <div class="rounded-xl bg-bg-elevated border border-border p-6">
-      <form novalidate @submit.prevent="handleSubmit" class="max-w-2xl space-y-6">
+      <form novalidate class="max-w-2xl space-y-6" @submit.prevent="handleSubmit">
         <UFormField label="Título" name="title" required>
           <UInput v-model="form.title" placeholder="Ej: Desarrollo Web" class="w-full" :disabled="submitting" />
           <p v-if="formErrors.title" class="text-error text-xs mt-1">{{ formErrors.title }}</p>
@@ -62,7 +62,7 @@ const handleSubmit = async () => {
 
         <div class="flex items-center gap-3 pt-6">
           <UButton type="submit" color="primary" :loading="submitting" :disabled="submitting">Crear servicio</UButton>
-          <UButton color="neutral" variant="ghost" @click="navigateTo('/admin/services')" :disabled="submitting">Cancelar</UButton>
+          <UButton color="neutral" variant="ghost" to="/admin/services" :disabled="submitting">Cancelar</UButton>
         </div>
       </form>
     </div>

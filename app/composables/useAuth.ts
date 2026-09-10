@@ -67,7 +67,7 @@ export const useAuth = () => {
     if (token.value && !user.value) {
       const payload = token.value.split('.')[1]
       try {
-        const decoded = JSON.parse(atob(payload))
+        const decoded = JSON.parse(atob(payload ?? ''))
         user.value = { id: decoded.id, email: decoded.email, name: decoded.name }
       } catch {
         token.value = null

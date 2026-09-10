@@ -21,19 +21,21 @@ watch(error, (err) => {
 </script>
 
 <template>
-  <AppLoader v-if="pending" />
-  <template v-else>
-    <section class="relative min-h-screen flex items-center py-32 px-[5vw] max-w-[1400px] mx-auto overflow-hidden max-md:py-24 max-md:px-6">
-    <StrokeText text="EXPERIENCIA" textSize="clamp(4rem,14vw,9rem)" />
-
-    <template v-if="error">
-      <div class="relative z-10 w-full text-center py-20">
-        <p class="text-error font-body">Error al cargar las experiencias.</p>
-      </div>
-    </template>
+  <div>
+    <AppLoader v-if="pending" />
     <template v-else>
-      <ExperienceTimeline :experiences="experiences" />
+      <section class="relative min-h-screen flex items-center py-32 px-[5vw] max-w-[1400px] mx-auto overflow-hidden max-md:py-24 max-md:px-6">
+      <StrokeText text="EXPERIENCIA" text-size="clamp(4rem,14vw,9rem)" />
+
+      <template v-if="error">
+        <div class="relative z-10 w-full text-center py-20">
+          <p class="text-error font-body">Error al cargar las experiencias.</p>
+        </div>
+      </template>
+      <template v-else>
+        <ExperienceTimeline :experiences="experiences" />
+      </template>
+    </section>
     </template>
-  </section>
-  </template>
+  </div>
 </template>

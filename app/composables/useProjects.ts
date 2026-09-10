@@ -1,4 +1,4 @@
-import type { Project, ApiResponse } from '~/types/project'
+import type { Project, ApiResponse, CaseStudy } from '~/types/project'
 
 export const useProjects = () => {
   const config = useRuntimeConfig()
@@ -54,7 +54,7 @@ export const useProject = (id: number | string) => {
   const project = computed(() => {
     if (!data.value?.data) return null
     const p = data.value.data
-    let caseStudy = null
+    let caseStudy: CaseStudy | null = null
     if (p.caseStudy) {
       caseStudy = typeof p.caseStudy === 'string' ? JSON.parse(p.caseStudy) : p.caseStudy
     }

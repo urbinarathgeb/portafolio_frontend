@@ -46,7 +46,7 @@ const confirmDelete = async (id: number, name: string) => {
     <template v-if="isList">
       <div class="flex items-center justify-between mb-1">
         <h1 class="font-heading text-2xl font-bold text-highlighted">Tecnologías</h1>
-        <UButton color="primary" @click="navigateTo('/admin/technologies/create')">
+        <UButton color="primary" to="/admin/technologies/create">
           <template #leading>
             <UIcon name="i-lucide-plus" class="size-4" />
           </template>

@@ -53,7 +53,7 @@ const userMenuItems = [
     <div
       v-if="sidebarOpen"
       class="fixed inset-0 z-45 bg-black/70 lg:hidden"
-      @click="sidebarOpen = false"
+      @click="() => { sidebarOpen = false }"
     />
 
     <!-- Sidebar (always fixed, slides in/out on mobile) -->
@@ -69,7 +69,7 @@ const userMenuItems = [
           icon="i-lucide-x"
           size="lg"
           class="min-w-11"
-          @click="sidebarOpen = false"
+          @click="() => { sidebarOpen = false }"
         />
       </div>
 
@@ -96,7 +96,7 @@ const userMenuItems = [
           :class="{
             'bg-primary/[8%] text-primary hover:bg-primary/[12%] hover:text-primary font-semibold': isActive(item.to),
           }"
-          @click="sidebarOpen = false"
+          @click="() => { sidebarOpen = false }"
         >
           <UIcon
             :name="item.icon"
@@ -147,7 +147,7 @@ const userMenuItems = [
             icon="i-lucide-menu"
             size="lg"
             class="lg:hidden"
-            @click="sidebarOpen = true"
+            @click="() => { sidebarOpen = true }"
           />
           <div>
             <h1 class="font-heading text-lg font-bold text-highlighted">{{ pageTitle }}</h1>

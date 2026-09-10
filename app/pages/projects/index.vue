@@ -21,7 +21,7 @@ const currentProject = computed(() => {
 
 watch(projects, (newProjects) => {
   if (newProjects.length && activeProject.value === null) {
-    activeProject.value = newProjects[0].id
+    activeProject.value = newProjects[0]?.id ?? null
   }
 }, { immediate: true })
 
@@ -32,7 +32,7 @@ const navItems = computed(() =>
   })),
 )
 
-const transitionKey = computed(() => activeProject.value)
+const transitionKey = computed(() => activeProject.value ?? undefined)
 
 function handleSelect(id: number) {
   activeProject.value = id
@@ -40,39 +40,41 @@ function handleSelect(id: number) {
 </script>
 
 <template>
-  <AppLoader v-if="pending" />
-  <template v-else>
-    <div class="page-projects-wrapper">
-    <section class="relative min-h-screen flex justify-center items-center overflow-hidden">
-      <StrokeText text="PROYECTOS" />
+  <div>
+    <AppLoader v-if="pending" />
+    <template v-else>
+      <div class="page-projects-wrapper">
+      <section class="relative min-h-screen flex justify-center items-center overflow-hidden">
+        <StrokeText text="PROYECTOS" />
 
-      <template v-if="error">
-        <p class="text-error">Error al cargar los proyectos.</p>
-      </template>
-      <template v-else-if="currentProject">
-        <ProjectsNav
-          :items="navItems"
-          :active-id="activeProject"
-          @select="handleSelect"
-        />
-        <div class="relative z-10 w-full max-w-3xl mx-auto px-[5vw] py-20 pl-24 max-md:pl-[5vw] section-enter">
-          <Transition name="project-fade" mode="out-in">
-            <ProjectCard
-              :key="transitionKey"
-              :title="currentProject.title"
-              :subtitle="currentProject.subtitle"
-              :image="currentProject.imagePreview ?? '/images/project-placeholder.svg'"
-              :project-id="currentProject.id"
-              :is-frontend="currentProject.isFrontend"
-              :is-backend="currentProject.isBackend"
-              :tech-stack="currentProject.techStack ?? []"
-            />
-          </Transition>
-        </div>
-      </template>
-    </section>
+        <template v-if="error">
+          <p class="text-error">Error al cargar los proyectos.</p>
+        </template>
+        <template v-else-if="currentProject">
+          <ProjectsNav
+            :items="navItems"
+            :active-id="activeProject"
+            @select="handleSelect"
+          />
+          <div class="relative z-10 w-full max-w-3xl mx-auto px-[5vw] py-20 pl-24 max-md:pl-[5vw] section-enter">
+            <Transition name="project-fade" mode="out-in">
+              <ProjectCard
+                :key="transitionKey"
+                :title="currentProject.title"
+                :subtitle="currentProject.subtitle"
+                :image="currentProject.imagePreview ?? '/images/project-placeholder.svg'"
+                :project-id="currentProject.id"
+                :is-frontend="currentProject.isFrontend"
+                :is-backend="currentProject.isBackend"
+                :tech-stack="currentProject.techStack ?? []"
+              />
+            </Transition>
+          </div>
+        </template>
+      </section>
+    </div>
+    </template>
   </div>
-  </template>
 </template>
 
 <style scoped>

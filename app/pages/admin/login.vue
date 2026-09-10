@@ -81,8 +81,8 @@ const handleSubmit = async () => {
                     size="lg"
                     class="min-w-11"
                     :icon="showPassword ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                    @click="showPassword = !showPassword"
                     :disabled="loading"
+                    @click="() => { showPassword = !showPassword }"
                   />
                 </template>
               </UInput>

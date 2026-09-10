@@ -1,4 +1,7 @@
+import type { BadgeProps } from '@nuxt/ui'
 import type { ApiResponse } from '~/types/project'
+
+type BadgeColor = NonNullable<BadgeProps['color']>
 
 export interface Contact {
   id: number
@@ -19,18 +22,18 @@ const interestLabels: Record<string, string> = {
   saludar: 'Saludar',
 }
 
-const interestColors: Record<string, string> = {
+const interestColors: Record<string, BadgeColor> = {
   fulltime: 'success',
   freelance: 'warning',
   consultoria: 'info',
   saludar: 'neutral',
-} as const
+}
 
 export const getInterestLabel = (interest: string | null): string => {
   return interest ? interestLabels[interest] || interest : '—'
 }
 
-export const getInterestColor = (interest: string | null): string => {
+export const getInterestColor = (interest: string | null): BadgeColor => {
   return interest ? interestColors[interest] || 'neutral' : 'neutral'
 }
 

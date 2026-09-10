@@ -88,7 +88,7 @@ const handleSubmit = async () => {
       color="neutral"
       variant="ghost"
       class="mb-6"
-      @click="navigateTo('/admin/experiences')"
+      to="/admin/experiences"
     >
       <template #leading>
         <UIcon name="i-lucide-arrow-left" class="size-4" />
@@ -104,7 +104,7 @@ const handleSubmit = async () => {
       <h1 class="font-heading text-2xl font-bold text-highlighted mb-8">Editar experiencia</h1>
 
       <div class="rounded-xl bg-bg-elevated border border-border p-6">
-        <form novalidate @submit.prevent="handleSubmit" class="max-w-2xl space-y-6">
+        <form novalidate class="max-w-2xl space-y-6" @submit.prevent="handleSubmit">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <UFormField label="Año" name="year" required>
               <UInput v-model.number="form.year" type="number" placeholder="2024" class="w-full" :disabled="submitting" />
@@ -154,7 +154,7 @@ const handleSubmit = async () => {
             <UButton type="submit" color="primary" :loading="submitting" :disabled="submitting">
               Guardar cambios
             </UButton>
-            <UButton color="neutral" variant="ghost" @click="navigateTo('/admin/experiences')" :disabled="submitting">
+            <UButton color="neutral" variant="ghost" to="/admin/experiences" :disabled="submitting">
               Cancelar
             </UButton>
           </div>

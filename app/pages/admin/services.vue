@@ -34,7 +34,7 @@ const confirmDelete = async (id: number, title: string) => {
     <template v-if="isList">
       <div class="flex items-center justify-between mb-1">
         <h1 class="font-heading text-2xl font-bold text-highlighted">Servicios</h1>
-        <UButton color="primary" @click="navigateTo('/admin/services/create')">
+        <UButton color="primary" to="/admin/services/create">
           <template #leading><UIcon name="i-lucide-plus" class="size-4" /></template>
           Nuevo servicio
         </UButton>

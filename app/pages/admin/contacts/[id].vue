@@ -8,7 +8,6 @@ definePageMeta({
 const route = useRoute()
 const { contacts, fetchAll, markAsRead } = useAdminContacts()
 const toast = useToast()
-const router = useRouter()
 
 const isReady = ref(false)
 
@@ -38,7 +37,7 @@ onMounted(async () => {
       color="neutral"
       variant="ghost"
       class="mb-6"
-      @click="navigateTo('/admin/contacts')"
+      to="/admin/contacts"
     >
       <template #leading>
         <UIcon name="i-lucide-arrow-left" class="size-4" />
