@@ -1,27 +1,25 @@
 # Portfolio Frontend
 
-Portfolio personal desarrollado con Nuxt 4, @nuxt/ui v4 y Tailwind CSS v4. Incluye panel admin protegido con JWT. Consume una API REST construida con Express + Sequelize + PostgreSQL (ver `back/`).
+Portfolio personal desarrollado con Nuxt 4, @nuxt/ui v4 y Tailwind CSS v4. El contenido vive en el repo (`app/data`), está validado con Zod y el sitio se genera como HTML estático (SSG) en el build.
 
 ## Stack Tecnológico
 
 - **Framework:** Nuxt 4 (Vue 3 + auto-imports + file-based routing)
 - **UI:** @nuxt/ui v4
 - **Estilos:** Tailwind CSS v4 con `@theme static` (emisión forzada de tokens para SSR)
-- **Estado:** Composables Nuxt (`useState`) — sin Pinia
-- **Imágenes:** @nuxt/image (optimización automática)
-- **SEO:** `useSeoMeta` (dinámico por página) + `@nuxtjs/sitemap` v8 (sitemap.xml automático)
+- **Contenido:** archivos TypeScript en `app/data`, validados con Zod en cada build
+- **Render:** SSG (prerender de todas las rutas públicas)
+- **Imágenes:** @nuxt/image, con los archivos en `public/images`
+- **SEO:** `useSeoMeta` (por página) + `@nuxtjs/sitemap` v8
+- **Calidad:** ESLint (`@nuxt/eslint`) + `nuxt typecheck` (vue-tsc) + CI en GitHub Actions
 - **Lenguaje:** TypeScript
-- **HTTP:** `useFetch` / `$fetch` (nativo Nuxt)
-- **API Proxy:** Nitro BFF en `server/api/[...].ts` — todas las requests a `/api/*` se reenvían al backend sin CORS
-- **Auth:** JWT via cookie (`secure: true`, `path: /admin`, `sameSite: lax`)
 - **Gestor de paquetes:** pnpm
-- **Node:** `>=22` (fijado en `.node-version`)
+- **Node:** 22 (fijado en `.nvmrc`)
 
 ## Prerequisitos
 
 - Node.js 22+
 - pnpm 9+
-- Backend API corriendo (ver [back/README.md](https://github.com/urbinarathgeb/portafolio_backend/blob/main/README.md))
 
 ## Instalación
 
@@ -29,89 +27,67 @@ Portfolio personal desarrollado con Nuxt 4, @nuxt/ui v4 y Tailwind CSS v4. Inclu
 pnpm install
 ```
 
-## Configuración
-
-Copiar `.env.example` a `.env` y ajustar las variables:
-
-```bash
-cp .env.example .env
-```
-
-Variables de entorno disponibles:
-
-| Variable | Descripción | Default |
-|---|---|---|
-| `NUXT_PUBLIC_API_BASE` | URL base de la API backend | `http://localhost:3001` (local) / `/api` (prod vía Nitro proxy) |
-
 ## Desarrollo
 
 ```bash
 pnpm dev
 ```
 
-Servidor disponible en `http://localhost:3000`. El backend debe estar corriendo en `http://localhost:3001`.
+Servidor disponible en `http://localhost:3000`. No necesita ningún backend: todo el contenido sale de `app/data`.
 
-## Build
+## Scripts
 
 ```bash
-pnpm build       # Build de producción
-pnpm analyze     # Build + bundle analyzer (stats.html)
-pnpm generate    # Generar sitio estático (SSG)
-pnpm preview     # Preview del build
+pnpm dev         # Servidor de desarrollo
+pnpm build       # Build de producción (valida el contenido y prerenderiza)
+pnpm lint        # ESLint
+pnpm lint:fix    # ESLint con autofix
+pnpm typecheck   # Chequeo de tipos (vue-tsc)
+pnpm analyze     # Build + bundle analyzer
 ```
 
-## API — Endpoints Públicos
+## Contenido
 
-| Método | Endpoint | Uso | Composable |
-|---|---|---|---|
-| `GET` | `/profile` | Perfil (Hero + About) | `useProfile` |
-| `GET` | `/projects` | Lista de proyectos | `useProjects` |
-| `GET` | `/projects/:id` | Detalle de proyecto | `useProject` |
-| `GET` | `/technologies?stack=true` | Tecnologías del stack | `useTechnologies` |
-| `GET` | `/experiences` | Línea de tiempo | `useExperience` |
-| `POST` | `/contacts` | Formulario de contacto | `useContact` |
+Todo el contenido del sitio está en `app/data`:
 
-Todas las rutas públicas no requieren autenticación.
+| Archivo | Contenido |
+|---|---|
+| `profile.ts` | Perfil: nombre, título, bio, disponibilidad |
+| `projects.ts` | Proyectos, con su caso de estudio |
+| `experience.ts` | Experiencia |
+| `technologies.ts` | Tecnologías del stack |
+| `schemas.ts` | Schemas Zod de cada tipo (los tipos se derivan con `z.infer`) |
+| `validate.ts` | Validación de todo el contenido |
 
-## Panel Admin
+**Para editar el sitio**, se modifica el archivo correspondiente y se hace deploy. `validateContent()` corre en el hook `build:before` de `nuxt.config.ts`: si un dato no cumple su schema (por ejemplo, una URL inválida) o hay un id o slug repetido, el build falla y dice exactamente qué campo está mal. Zod solo se usa en el build y no llega al bundle del cliente.
 
-Rutas protegidas bajo `/admin/*` con autenticación JWT. Middleware en `app/middleware/auth.ts` redirige a `/admin/login` si no hay token válido.
+Las imágenes de los proyectos van en `public/images/projects/<slug>/`.
 
-### Login
+Los composables (`useProfile`, `useProjects` / `useProject`, `useExperience`, `useTechnologies`) leen de `app/data`.
 
-`/admin/login` — formulario de autenticación. El token JWT se almacena en una cookie segura (`auth-token` con `secure: true`, `path: /admin`, `sameSite: lax`) y se envía como `Authorization: Bearer <token>` en cada request admin.
+## Rutas
 
-### Dashboard
+| Ruta | Sección |
+|---|---|
+| `/` | Hero |
+| `/about` | Sobre mí |
+| `/projects` | Proyectos (navegación lateral y spotlight) |
+| `/projects/:id` | Detalle de proyecto + caso de estudio |
+| `/experience` | Experiencia |
+| `/technologies` | Stack |
+| `/contact` | Formulario de contacto |
 
-`/admin` — resumen con cards de métricas via `useAdminStats`.
-
-### CRUDs
-
-| Sección | Rutas | Composable |
-|---|---|---|
-| Proyectos | `/admin/projects`, `/admin/projects/create`, `/admin/projects/[id]` | `useAdminProjects` |
-| Experiencias | `/admin/experiences`, `/admin/experiences/create`, `/admin/experiences/[id]` | `useAdminExperiences` |
-| Tecnologías | `/admin/technologies`, `/admin/technologies/create`, `/admin/technologies/[id]` | `useAdminTechnologies` |
-| Servicios | `/admin/services`, `/admin/services/create`, `/admin/services/[id]` | `useAdminServices` |
-| Contactos | `/admin/contacts`, `/admin/contacts/[id]` | `useAdminContacts` |
-| Perfil | `/admin/profile` | `useAdminProfile` |
-| Imágenes | `/admin/images` | `useAdminImages` |
-
-Cada CRUD incluye listado, creación y edición con formularios. Las imágenes se agrupan por proyecto y permiten establecer/quitar preview.
-
-### Layout Admin
-
-`app/layouts/admin.vue` — sidebar fijo con navegación, header con breadcrumb y menú de usuario, overlay en mobile.
+Todas se prerenderizan en el build. Las rutas `/projects/:id` se generan a partir de `app/data/projects.ts`.
 
 ## Estructura del Proyecto
 
 ```
-├── server/
-│   └── api/
-│       └── [...].ts            # Nitro BFF proxy: /api/* → backend Fly.io
+server/
+└── api/
+    └── contacts.post.ts     # Formulario de contacto (temporal: reenvía al backend)
 app/
 ├── assets/css/              # Tailwind + tema + gradientes + utilities + keyframes
-├── components/              # Componentes Vue (auto-importados por Nuxt)
+├── components/              # Componentes Vue (auto-importados)
 │   ├── ProjectCard.vue      # Card spotlight de proyecto
 │   ├── ProjectsNav.vue      # Navegación lateral con números
 │   ├── SectionLabel.vue     # Label fijo bottom-left de sección actual
@@ -121,61 +97,17 @@ app/
 │   ├── ThemeToggle.vue      # Toggle de tema light/dark
 │   ├── experience/          # ExperienceTimeline, ExperienceCard
 │   └── technologies/        # TechnologyCard
-├── composables/             # Lógica reutilizable (use*.ts, auto-importados)
-│   ├── useAuth.ts           # Auth JWT (login, logout, token)
-│   ├── useContact.ts        # Formulario de contacto público
-│   ├── useExperience.ts     # Timeline público
-│   ├── useProfile.ts        # Perfil público (SSR con useFetch)
-│   ├── useProjects.ts       # Proyectos públicos (con case study)
-│   ├── useTechnologies.ts   # Tecnologías públicas
-│   ├── useAdmin*.ts         # 7 composables CRUD para admin
-├── plugins/               # Plugins Nuxt
-│   └── error-handler.ts   # Captura global de errores (Vue + window.onerror)
+├── composables/             # Acceso al contenido + formulario de contacto
+├── data/                    # Contenido del sitio + schemas + validación
 ├── layouts/
-│   ├── default.vue          # Slot + footer + socials + theme toggle + section label
-│   └── admin.vue            # Sidebar + header fijo (protegido)
-├── middleware/
-│   └── auth.ts              # Protege rutas /admin/*
-├── pages/
-│   ├── admin/               # Panel admin protegido
-│   │   ├── login.vue
-│   │   ├── index.vue        # Dashboard
-│   │   ├── contacts/
-│   │   ├── experiences/
-│   │   ├── images.vue
-│   │   ├── profile.vue
-│   │   ├── projects/
-│   │   ├── services/
-│   │   └── technologies/
-│   ├── index.vue            # Hero
-│   ├── about.vue            # Sobre mí
-│   ├── error.vue            # Error 404/500
-│   ├── experience.vue       # Experiencia
-│   ├── contact.vue          # Contacto
-│   ├── projects/
-│   │   ├── index.vue        # Lista de proyectos con navegación
-│   │   └── [slug].vue       # Detalle de proyecto + caso de estudio
-│   └── technologies/        # Stack tecnológico
-├── types/                   # Interfaces TypeScript por entidad
-│   ├── project.ts           # Project, CaseStudy, ApiResponse
-│   ├── technology.ts        # Technology
-│   └── experience.ts        # Experience
+│   └── default.vue          # Slot + footer + socials + theme toggle + section label
+├── pages/                   # Rutas públicas
+├── plugins/
+│   └── error-handler.ts     # Captura global de errores
 ├── app.config.ts            # Configuración de tema @nuxt/ui
 ├── app.vue                  # Raíz (UApp + NuxtLayout + NuxtPage)
-└── AGENTS.md                # Reglas detalladas del proyecto
+└── error.vue                # Página de error global (404/500)
 ```
-
-## Secciones del Portfolio
-
-| Ruta | Sección | Datos |
-|---|---|---|
-| `/` | Hero | Perfil (nombre, badge disponibilidad, descripción) |
-| `/about` | Sobre mí | Perfil (título, tagline, bio) — stats y chips |
-| `/projects` | Proyectos | Lista con navegación lateral y spotlight |
-| `/projects/:id` | Proyecto detalle | Info completa + tech stack + links + caso de estudio |
-| `/experience` | Experiencia | Timeline con años, roles, tecnologías |
-| `/technologies` | Stack | Grid de tecnologías |
-| `/contact` | Contacto | Formulario + redes sociales |
 
 ## Sistema de Diseño
 
@@ -197,33 +129,19 @@ El proyecto usa `@theme static` en `main.css` en lugar de `@theme`. Esto fuerza 
 
 ### Modo Oscuro/Claro
 
-Light mode por defecto. Toggle disponible en todas las páginas via `ThemeToggle.vue`. Los overrides de tema se definen en `main.css` con selectores `.dark` y `.light`.
-
-## Loading States
-
-El proyecto usa transiciones de página (`out-in`) para "tapar" el tiempo de carga de datos. No hay spinners ni loaders globales. Estados manejados:
-- **`pending`**: Texto "Cargando..." con clase `animate-pulse`
-- **`error`**: Toast + mensaje inline
-- **`empty`**: Contenido vacío con texto informativo
-
+Light mode por defecto. Toggle disponible en todas las páginas vía `ThemeToggle.vue`. Los overrides de tema se definen en `main.css` con selectores `.dark` y `.light`.
 
 ## Despliegue
 
 ### Vercel
 
-El proyecto está configurado para desplegarse en Vercel con:
+- **Build:** `nuxt build` con el preset `vercel`. Las páginas públicas salen como HTML estático; la única función propia es `/api/contacts`.
+- **`vercel.json`:** security headers (CSP, HSTS, X-Frame-Options, etc.) + cache control para imágenes.
+- **Variables de entorno:** no hace falta ninguna. `NUXT_PUBLIC_API_BASE` usa por defecto `/api`.
 
-- **`vercel.json`**: Build config explícita + security headers (CSP, HSTS, X-Frame-Options, etc.) + cache control para imágenes
-- **`.node-version`**: Node 22 fijado para consistencia entre entornos
-- **Nitro proxy**: `server/api/[...].ts` redirige requests a `/api/*` al backend en Fly.io sin necesidad de CORS
+### CI
 
-### CI/CD
-
-El proyecto incluye un workflow de GitHub Actions (`.github/workflows/ci.yml`) que corre `pnpm install --frozen-lockfile && pnpm build` en cada push a `main` y en PRs. No deploya automáticamente — Vercel se encarga del deploy via GitHub Integration al detectar cambios en `main`.
-
-### Variables de entorno en Vercel
-
-No es necesario configurar `NUXT_PUBLIC_API_BASE` — el fallback `/api` en `nuxt.config.ts` usa el proxy Nitro automáticamente.
+`.github/workflows/ci.yml` corre `lint` → `typecheck` → `build` en cada PR y en cada push a `main`. El deploy lo hace Vercel mediante su integración con GitHub.
 
 ## Licencia
 
