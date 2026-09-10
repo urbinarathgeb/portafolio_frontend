@@ -6,13 +6,10 @@ definePageMeta({
 const toast = useToast()
 const { profile, pending, error } = useProfile()
 
-useSeoMeta({
-  title: () => profile.value?.name ? `Portafolio — ${profile.value.name}` : 'Portafolio — Developer',
-  ogTitle: () => profile.value?.name ? `Portafolio — ${profile.value.name}` : 'Portafolio — Developer',
-  description: () => profile.value?.heroDescription || 'Portafolio profesional desarrollado con Nuxt 4.',
-  ogDescription: () => profile.value?.heroDescription || 'Portafolio profesional desarrollado con Nuxt 4.',
-  ogImage: '/images/og-image.svg',
-  twitterCard: 'summary_large_image',
+usePageSeo({
+  title: () => profile.value.title,
+  description: () => profile.value.heroDescription,
+  image: '/images/og-image.svg',
 })
 
 watch(error, (err) => {

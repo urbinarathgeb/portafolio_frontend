@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     '/contact': { prerender: true },
   },
   site: {
-    url: 'https://portafolio-frontend-virid.vercel.app',
+    url: 'https://urbinarathgeb.vercel.app',
   },
   image: {
     format: ['webp', 'avif', 'png', 'jpg'],
@@ -50,9 +50,9 @@ export default defineNuxtConfig({
     fallback: 'light',
   },
   runtimeConfig: {
-    public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api',
-    },
+    // Solo servidor. Sobrescribible con NUXT_CONTACT_TO_EMAIL.
+    // La API key de Resend se lee de RESEND_API_KEY en tiempo de ejecución.
+    contactToEmail: 'urbinarathgeb@gmail.com',
   },
   app: {
     head: {

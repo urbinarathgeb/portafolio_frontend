@@ -6,11 +6,9 @@ definePageMeta({
 const toast = useToast()
 const { technologies, pending, error } = useTechnologies()
 
-useSeoMeta({
-  title: 'Stack Tecnológico — Kako',
-  ogTitle: 'Stack Tecnológico — Kako',
+usePageSeo({
+  title: 'Stack tecnológico',
   description: 'Tecnologías con las que trabajo: frontend, backend, herramientas y más.',
-  ogDescription: 'Tecnologías con las que trabajo: frontend, backend, herramientas y más.',
 })
 
 watch(error, (err) => {

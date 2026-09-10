@@ -6,11 +6,9 @@ definePageMeta({
 const toast = useToast()
 const { profile, pending, error } = useProfile()
 
-useSeoMeta({
-  title: () => profile.value?.name ? `Sobre Mí — ${profile.value.name}` : 'Sobre Mí — Developer',
-  ogTitle: () => profile.value?.name ? `Sobre Mí — ${profile.value.name}` : 'Sobre Mí — Developer',
-  description: () => profile.value?.bio || 'Conoce más sobre mi trayectoria y habilidades.',
-  ogDescription: () => profile.value?.bio || 'Conoce más sobre mi trayectoria y habilidades.',
+usePageSeo({
+  title: 'Sobre mí',
+  description: () => profile.value.bio,
 })
 
 watch(error, (err) => {

@@ -33,7 +33,7 @@ pnpm install
 pnpm dev
 ```
 
-Servidor disponible en `http://localhost:3000`. No necesita ningún backend: todo el contenido sale de `app/data`.
+Servidor disponible en `http://localhost:3000`. No necesita ningún backend: todo el contenido sale de `app/data`. Para probar el formulario de contacto, copiar `.env.example` a `.env` y completar `RESEND_API_KEY`.
 
 ## Scripts
 
@@ -84,7 +84,9 @@ Todas se prerenderizan en el build. Las rutas `/projects/:id` se generan a parti
 ```
 server/
 └── api/
-    └── contacts.post.ts     # Formulario de contacto (temporal: reenvía al backend)
+    └── contacts.post.ts     # Formulario de contacto → email vía Resend
+shared/
+└── utils/contact.ts         # Schema Zod del formulario (cliente + servidor)
 app/
 ├── assets/css/              # Tailwind + tema + gradientes + utilities + keyframes
 ├── components/              # Componentes Vue (auto-importados)
@@ -137,7 +139,16 @@ Light mode por defecto. Toggle disponible en todas las páginas vía `ThemeToggl
 
 - **Build:** `nuxt build` con el preset `vercel`. Las páginas públicas salen como HTML estático; la única función propia es `/api/contacts`.
 - **`vercel.json`:** security headers (CSP, HSTS, X-Frame-Options, etc.) + cache control para imágenes.
-- **Variables de entorno:** no hace falta ninguna. `NUXT_PUBLIC_API_BASE` usa por defecto `/api`.
+- **Variables de entorno:**
+
+| Variable | Uso | Requerida |
+|---|---|---|
+| `RESEND_API_KEY` | Envío del formulario de contacto | Sí |
+| `NUXT_CONTACT_TO_EMAIL` | Destinatario de los mensajes (default `urbinarathgeb@gmail.com`) | No |
+
+### Formulario de contacto
+
+`/api/contacts` valida con el mismo schema que el cliente (`shared/utils/contact.ts`), descarta envíos con el honeypot completo, limita a 5 mensajes por hora por IP y envía el aviso con Resend. Todos los campos se escapan antes de armar el HTML del email, y el `reply_to` es el email de quien escribe.
 
 ### CI
 

@@ -6,11 +6,9 @@ definePageMeta({
 const toast = useToast()
 const { experiences, pending, error } = useExperience()
 
-useSeoMeta({
-  title: 'Experiencia — Kako',
-  ogTitle: 'Experiencia — Kako',
+usePageSeo({
+  title: 'Experiencia',
   description: 'Trayectoria profesional: roles, empresas y proyectos destacados.',
-  ogDescription: 'Trayectoria profesional: roles, empresas y proyectos destacados.',
 })
 
 watch(error, (err) => {
