@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Experience } from '~/types/experience'
+import type { ExperienceData as Experience } from '~/data/schemas'
 
 interface Props {
   experiences: Experience[]

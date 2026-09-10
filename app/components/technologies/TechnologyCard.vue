@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Technology } from '~/types/technology'
+import type { TechnologyData as Technology } from '~/data/schemas'
 
 interface Props {
   technology: Technology

@@ -25,16 +25,6 @@ export default defineNuxtConfig({
     '/projects': { prerender: true },
     '/projects/**': { prerender: true },
     '/contact': { prerender: true },
-
-    // Proxy a la API: solo lo usa el admin (se elimina junto con él en A3).
-    '/api/profile': { isr: 3600 },
-    '/api/projects': { isr: 3600 },
-    '/api/projects/**': { isr: 3600 },
-    '/api/experiences': { isr: 3600 },
-    '/api/technologies': { isr: 3600 },
-
-    // Panel privado: SPA, sin SSR.
-    '/admin/**': { ssr: false, prerender: false },
   },
   site: {
     url: 'https://portafolio-frontend-virid.vercel.app',
