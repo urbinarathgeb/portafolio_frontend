@@ -10,7 +10,8 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div class="fixed top-[3vh] right-[5vw] pointer-events-none select-none z-0 max-md:hidden">
+  <!-- Texto decorativo de fondo: se posiciona dentro de su sección (relative) -->
+  <div class="absolute top-8 right-[5vw] pointer-events-none select-none z-0 max-md:hidden" aria-hidden="true">
     <div
       class="font-stroke tracking-[-0.08em] leading-[0.85] stroke-text opacity-[0.15] whitespace-nowrap"
       :style="{ fontSize: textSize }"

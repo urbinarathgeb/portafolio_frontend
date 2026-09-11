@@ -35,7 +35,7 @@ const initials = computed(() => {
       <div v-else-if="project" class="relative z-10 w-full max-w-3xl mx-auto px-[5vw] md:px-0 py-24 section-enter">
         <!-- Volver -->
         <NuxtLink
-          to="/projects"
+          to="/#proyectos"
           class="inline-flex items-center gap-2 text-sm font-body text-muted hover:text-primary transition-colors mb-12"
         >
           <span class="transition-transform duration-300">&larr;</span>

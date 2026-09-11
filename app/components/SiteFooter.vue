@@ -1,44 +1,20 @@
 <script setup lang="ts">
-const route = useRoute()
-
-interface NavItem {
-  label: string
-  to: string
-  exact?: boolean
-}
-
-const navItems: NavItem[] = [
-  { label: 'INICIO', to: '/', exact: true },
-  { label: 'SOBRE MÍ', to: '/about' },
-  { label: 'PROYECTOS', to: '/projects' },
-  { label: 'STACK', to: '/technologies' },
-  { label: 'EXPERIENCIA', to: '/experience' },
-  { label: 'CONTACTO', to: '/contact' },
-]
-
-function isActive(item: NavItem): boolean {
-  if (item.exact) return route.path === item.to
-  return route.path.startsWith(item.to)
-}
+const current = useCurrentSection()
 </script>
+
 <template>
   <footer class="fixed bottom-0 right-0 z-40 py-6 px-[5vw] max-md:py-4 max-md:px-4">
-    <nav class="hidden md:flex gap-8 items-center">
-      <template v-for="item in navItems" :key="item.to">
-        <span
-          v-if="isActive(item)"
-          class="font-body text-[11px] font-medium tracking-[0.15em] uppercase no-underline relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:h-px after:bg-primary after:transition-all after:duration-300 text-primary after:w-full"
-        >
-          {{ item.label }}
-        </span>
-        <NuxtLink
-          v-else
-          :to="item.to"
-          class="font-body text-[11px] font-medium tracking-[0.15em] uppercase text-toned no-underline transition-all duration-300 relative hover:text-primary after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-px after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
-        >
-          {{ item.label }}
-        </NuxtLink>
-      </template>
+    <nav class="hidden md:flex gap-7 items-center" aria-label="Secciones">
+      <NuxtLink
+        v-for="section in SECTIONS"
+        :key="section.id"
+        :to="`/#${section.id}`"
+        :aria-current="current === section.id ? 'true' : undefined"
+        class="font-body text-[13px] font-medium no-underline relative transition-colors duration-300 after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:h-px after:bg-primary after:transition-all after:duration-300 hover:text-primary hover:after:w-full"
+        :class="current === section.id ? 'text-primary after:w-full' : 'text-toned after:w-0'"
+      >
+        {{ section.label }}
+      </NuxtLink>
     </nav>
     <div class="flex md:hidden items-center gap-4">
       <a

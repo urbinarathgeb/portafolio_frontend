@@ -67,17 +67,16 @@ Los composables (`useProfile`, `useProjects` / `useProject`, `useExperience`, `u
 
 ## Rutas
 
-| Ruta | Sección |
-|---|---|
-| `/` | Hero |
-| `/about` | Sobre mí |
-| `/projects` | Proyectos (navegación lateral y spotlight) |
-| `/projects/:id` | Detalle de proyecto + caso de estudio |
-| `/experience` | Experiencia |
-| `/technologies` | Stack |
-| `/contact` | Formulario de contacto |
+El sitio es una **landing de una sola página** con anclas, más una ruta por caso de estudio:
 
-Todas se prerenderizan en el build. Las rutas `/projects/:id` se generan a partir de `app/data/projects.ts`.
+| Ruta | Contenido |
+|---|---|
+| `/` | Landing: `#inicio`, `#proyectos`, `#stack`, `#experiencia`, `#sobre-mi`, `#contacto` |
+| `/projects/:id` | Caso de estudio de un proyecto |
+
+Las secciones están en `app/components/home/` y la lista de anclas en `app/composables/useSections.ts`, que también maneja el scroll-spy de la navegación. Ambas rutas se prerenderizan; las `/projects/:id` se generan desde `app/data/projects.ts`.
+
+Las rutas antiguas redirigen con **301** a su sección (`/about` → `/#sobre-mi`, `/projects` → `/#proyectos`, `/technologies` → `/#stack`, `/experience` → `/#experiencia`, `/contact` → `/#contacto`), así que los links viejos del CV o LinkedIn siguen funcionando.
 
 ## Estructura del Proyecto
 

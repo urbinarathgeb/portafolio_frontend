@@ -56,6 +56,8 @@ export const caseStudySchema = z.object({
 export const projectSchema = z.object({
   id: z.number().int(),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  // Tipo de proyecto: se muestra como badge y ordena la jerarquía visual
+  kind: z.enum(['client', 'own', 'academic']),
   title: z.string().min(1),
   subtitle: z.string().min(1),
   description: z.string().min(1),
