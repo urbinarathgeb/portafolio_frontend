@@ -53,7 +53,7 @@ Todo el contenido del sitio está en `app/data`:
 | Archivo | Contenido |
 |---|---|
 | `profile.ts` | Perfil: nombre, título, bio, disponibilidad |
-| `projects.ts` | Proyectos, con su caso de estudio |
+| `projects.ts` | Proyectos y su caso de estudio: contexto, qué construí, decisiones, resultado y qué haría distinto (opcional) |
 | `experience.ts` | Experiencia |
 | `technologies.ts` | Tecnologías del stack |
 | `schemas.ts` | Schemas Zod de cada tipo (los tipos se derivan con `z.infer`) |
@@ -89,20 +89,22 @@ shared/
 app/
 ├── assets/css/              # Tailwind + tema + gradientes + utilities + keyframes
 ├── components/              # Componentes Vue (auto-importados)
-│   ├── ProjectCard.vue      # Card spotlight de proyecto
-│   ├── ProjectsNav.vue      # Navegación lateral con números
-│   ├── SectionLabel.vue     # Label fijo bottom-left de sección actual
+│   ├── home/                # Secciones de la landing (Hero, Projects, Stack, Experience, About, Contact)
+│   ├── ProjectGridCard.vue  # Tarjeta de proyecto en la grilla (destacado a ancho completo)
+│   ├── SectionHeading.vue   # Encabezado común de sección (eyebrow + h2)
+│   ├── SectionLabel.vue     # Label fijo bottom-left de la sección visible
 │   ├── SiteFooter.vue       # Footer fijo con navegación principal
 │   ├── SocialLinks.vue      # Íconos flotantes GitHub + LinkedIn
 │   ├── StrokeText.vue       # Texto decorativo stroke (fondo de sección)
 │   ├── ThemeToggle.vue      # Toggle de tema light/dark
 │   ├── experience/          # ExperienceTimeline, ExperienceCard
 │   └── technologies/        # TechnologyCard
-├── composables/             # Acceso al contenido + formulario de contacto
+├── composables/             # Contenido, secciones/scroll-spy (useSections), SEO y contacto
 ├── data/                    # Contenido del sitio + schemas + validación
 ├── layouts/
 │   └── default.vue          # Slot + footer + socials + theme toggle + section label
-├── pages/                   # Rutas públicas
+├── pages/                   # index.vue (landing) y projects/[slug].vue (caso de estudio)
+├── utils/                   # Helpers auto-importados (etiquetas de tipo de proyecto)
 ├── plugins/
 │   └── error-handler.ts     # Captura global de errores
 ├── app.config.ts            # Configuración de tema @nuxt/ui

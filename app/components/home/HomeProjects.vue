@@ -10,7 +10,7 @@ const { projects } = useProjects()
       <SectionHeading eyebrow="Proyectos" title="Lo que he construido" />
 
       <!-- Todos visibles a la vez; el destacado ocupa el ancho completo -->
-      <div class="grid gap-6 md:grid-cols-2">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <ProjectGridCard
           v-for="project in projects"
           :key="project.id"

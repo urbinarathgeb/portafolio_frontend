@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#E8366D"/>
+    </marker>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF7F9"/>
+      <stop offset="1" stop-color="#FFF3E0"/>
+    </linearGradient>
+    <style>
+      .box { fill: #ffffff; stroke: #1a1a1a; stroke-width: 2.5; }
+      .head { fill: #1a1a1a; }
+      .title { font: 700 30px 'Helvetica Neue', Arial, sans-serif; fill: #ffffff; }
+      .table { font: 400 18px 'Menlo', 'Courier New', monospace; fill: #ffd2df; }
+      .field { font: 400 21px 'Menlo', 'Courier New', monospace; fill: #333333; }
+      .key { fill: #E8366D; font-weight: 700; }
+      .rel { stroke: #E8366D; stroke-width: 3; fill: none; }
+      .card { font: 600 20px 'Helvetica Neue', Arial, sans-serif; fill: #E8366D; }
+      .h1 { font: 800 44px 'Helvetica Neue', Arial, sans-serif; fill: #1a1a1a; }
+      .sub { font: 400 22px 'Helvetica Neue', Arial, sans-serif; fill: #555555; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="1000" fill="url(#bg)"/>
+  <text x="80" y="100" class="h1">CutLog API — modelo de datos</text>
+  <text x="80" y="140" class="sub">5 entidades · soft delete en todos los modelos · pedidos mixtos</text>
+
+  <!-- Relaciones -->
+  <path class="rel" d="M400,330 L600,330" marker-end="url(#arrow)"/>
+  <text x="440" y="315" class="card">1 : N</text>
+
+  <path class="rel" d="M900,330 L1080,330" marker-end="url(#arrow)"/>
+  <text x="950" y="315" class="card">N : 1</text>
+
+  <path class="rel" d="M750,475 L750,640" marker-end="url(#arrow)"/>
+  <text x="765" y="570" class="card">1 : N</text>
+
+  <path class="rel" d="M1230,475 L1230,640" marker-end="url(#arrow)"/>
+  <text x="1245" y="570" class="card">N : 1 · default</text>
+
+  <path class="rel" d="M900,760 L1080,760" marker-end="url(#arrow)"/>
+  <text x="915" y="745" class="card">N : 1 · usada</text>
+
+  <!-- Order -->
+  <g transform="translate(80,210)">
+    <rect class="box" width="320" height="265" rx="14"/>
+    <path class="head" d="M14,0 H306 A14,14 0 0 1 320,14 V70 H0 V14 A14,14 0 0 1 14,0 z"/>
+    <text x="24" y="44" class="title">Order</text>
+    <text x="24" y="110" class="field"><tspan class="key">id</tspan></text>
+    <text x="24" y="145" class="field">client</text>
+    <text x="24" y="180" class="field">order_date</text>
+    <text x="24" y="215" class="field">status</text>
+    <text x="24" y="250" class="table" style="fill:#888">orders</text>
+  </g>
+
+  <!-- OrderItem -->
+  <g transform="translate(600,210)">
+    <rect class="box" width="300" height="265" rx="14"/>
+    <path class="head" d="M14,0 H286 A14,14 0 0 1 300,14 V70 H0 V14 A14,14 0 0 1 14,0 z"/>
+    <text x="24" y="44" class="title">OrderItem</text>
+    <text x="24" y="110" class="field"><tspan class="key">id</tspan></text>
+    <text x="24" y="145" class="field">order_id</text>
+    <text x="24" y="180" class="field">dimension_id</text>
+    <text x="24" y="215" class="field">quantity</text>
+    <text x="24" y="250" class="table" style="fill:#888">order_items</text>
+  </g>
+
+  <!-- Dimension -->
+  <g transform="translate(1080,210)">
+    <rect class="box" width="340" height="265" rx="14"/>
+    <path class="head" d="M14,0 H326 A14,14 0 0 1 340,14 V70 H0 V14 A14,14 0 0 1 14,0 z"/>
+    <text x="24" y="44" class="title">Dimension</text>
+    <text x="24" y="110" class="field"><tspan class="key">id</tspan></text>
+    <text x="24" y="145" class="field">thickness · width</text>
+    <text x="24" y="180" class="field">length</text>
+    <text x="24" y="215" class="field">default_stack_config_id</text>
+    <text x="24" y="250" class="table" style="fill:#888">dimensions</text>
+  </g>
+
+  <!-- Bundle -->
+  <g transform="translate(600,640)">
+    <rect class="box" width="300" height="265" rx="14"/>
+    <path class="head" d="M14,0 H286 A14,14 0 0 1 300,14 V70 H0 V14 A14,14 0 0 1 14,0 z"/>
+    <text x="24" y="44" class="title">Bundle</text>
+    <text x="24" y="110" class="field"><tspan class="key">id</tspan></text>
+    <text x="24" y="145" class="field">order_item_id</text>
+    <text x="24" y="180" class="field">stack_config_id</text>
+    <text x="24" y="215" class="field">pieces · m³</text>
+    <text x="24" y="250" class="table" style="fill:#888">bundles</text>
+  </g>
+
+  <!-- StackConfig -->
+  <g transform="translate(1080,640)">
+    <rect class="box" width="340" height="265" rx="14"/>
+    <path class="head" d="M14,0 H326 A14,14 0 0 1 340,14 V70 H0 V14 A14,14 0 0 1 14,0 z"/>
+    <text x="24" y="44" class="title">StackConfig</text>
+    <text x="24" y="110" class="field"><tspan class="key">id</tspan></text>
+    <text x="24" y="145" class="field">width_stack</text>
+    <text x="24" y="180" class="field">height_stack</text>
+    <text x="24" y="215" class="field">separator_every</text>
+    <text x="24" y="250" class="table" style="fill:#888">stack_configs</text>
+  </g>
+
+  <!-- Nota -->
+  <g transform="translate(80,640)">
+    <rect width="440" height="265" rx="14" fill="#1a1a1a"/>
+    <text x="28" y="60" style="font: 700 24px 'Helvetica Neue', Arial, sans-serif; fill: #ffffff">Regla de negocio</text>
+    <text x="28" y="110" style="font: 400 20px 'Helvetica Neue', Arial, sans-serif; fill: #dddddd">Los ítems solo se editan con la</text>
+    <text x="28" y="140" style="font: 400 20px 'Helvetica Neue', Arial, sans-serif; fill: #dddddd">orden en <tspan style="fill:#FFAF02;font-family:Menlo,monospace">pending</tspan> o</text>
+    <text x="28" y="170" style="font: 400 20px 'Helvetica Neue', Arial, sans-serif; fill: #dddddd"><tspan style="fill:#FFAF02;font-family:Menlo,monospace">in_production</tspan>; si no, 409.</text>
+    <text x="28" y="225" style="font: 400 20px 'Helvetica Neue', Arial, sans-serif; fill: #dddddd">Cada Bundle "congela" la config</text>
+    <text x="28" y="255" style="font: 400 20px 'Helvetica Neue', Arial, sans-serif; fill: #dddddd">de apilado que realmente se usó.</text>
+  </g>
+</svg>
