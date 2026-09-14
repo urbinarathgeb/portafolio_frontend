@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { profileSchema, technologySchema, experienceSchema, projectSchema } from './schemas'
+import { profileSchema, stackGroupSchema, experienceSchema, projectSchema } from './schemas'
 import { profile } from './profile'
-import { technologies } from './technologies'
+import { stack } from './stack'
 import { experiences } from './experience'
 import { projects } from './projects'
 
@@ -21,10 +21,10 @@ const unique = <T>(items: T[], key: (item: T) => string | number, label: string)
 export const validateContent = () => {
   const result = z.object({
     profile: profileSchema,
-    technologies: z.array(technologySchema),
+    stack: z.array(stackGroupSchema).min(1),
     experiences: z.array(experienceSchema),
     projects: z.array(projectSchema),
-  }).safeParse({ profile, technologies, experiences, projects })
+  }).safeParse({ profile, stack, experiences, projects })
 
   if (!result.success) {
     throw new Error(`[content] Contenido inválido:\n${z.prettifyError(result.error)}`)
@@ -32,6 +32,6 @@ export const validateContent = () => {
 
   unique(projects, (p) => p.id, 'id de proyecto')
   unique(projects, (p) => p.slug, 'slug de proyecto')
-  unique(technologies, (t) => t.id, 'id de tecnología')
+  unique(stack, (g) => g.id, 'id de grupo del stack')
   unique(experiences, (e) => e.id, 'id de experiencia')
 }

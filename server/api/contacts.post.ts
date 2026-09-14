@@ -40,7 +40,7 @@ const buildHtml = (c: ContactPayload) => {
     </td></tr>
     <tr><td style="padding:32px 24px">
       <table style="width:100%;border-collapse:collapse">${[
-        row('Nombre', escapeHtml(c.name)),
+        row('Nombre', escapeHtml(c.name || '—')),
         row('Email', escapeHtml(c.email)),
         row('Empresa', escapeHtml(c.company || '—')),
         row('Interés', escapeHtml(interest)),
@@ -84,7 +84,7 @@ export default defineEventHandler(async (event) => {
         from: 'Portfolio <onboarding@resend.dev>',
         to: [contactToEmail],
         reply_to: contact.email,
-        subject: `Nuevo mensaje de ${contact.name}`,
+        subject: `Nuevo mensaje de ${contact.name || contact.email}`,
         html: buildHtml(contact),
       },
     })

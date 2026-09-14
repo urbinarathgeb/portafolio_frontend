@@ -1,13 +1,9 @@
-<script setup lang="ts">
-</script>
-
 <template>
-  <div class="min-h-screen bg-default">
-    <slot />
+  <div class="min-h-screen bg-ink bg-blueprint text-paper overflow-x-clip">
+    <SiteHeader />
+    <main id="contenido">
+      <slot />
+    </main>
     <SiteFooter />
-    <SocialLinks />
-    <ThemeToggle />
-    <AppMobileMenu />
-    <SectionLabel />
   </div>
 </template>

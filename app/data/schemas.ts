@@ -17,25 +17,25 @@ export const profileSchema = z.object({
   avatar: z.string().nullable(),
 })
 
-export const technologySchema = z.object({
-  id: z.number().int(),
-  name: z.string().min(1),
-  category: z.string().min(1),
-  description: z.string().min(1),
-  icon: z.string().min(1),
-  span: z.number().int().min(1).max(12),
-  order: z.number().int(),
+// Stack agrupado: cada grupo es una columna; "learning" marca lo que estoy aprendiendo
+export const stackGroupSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  label: z.string().min(1),
+  learning: z.boolean().optional(),
+  items: z.array(z.string().min(1)).min(1),
 })
 
+// Trayectoria: mezcla proyectos, formación y el inicio de la reconversión
 export const experienceSchema = z.object({
   id: z.number().int(),
   year: z.number().int(),
+  kind: z.enum(['project', 'education', 'start']),
   role: z.string().min(1),
   company: z.string().min(1),
-  location: z.string().min(1),
+  location: z.string().min(1).optional(),
   description: z.string().min(1),
   order: z.number().int(),
-  technologies: z.array(z.string().min(1)),
+  technologies: z.array(z.string().min(1)).optional(),
 })
 
 // Caso de estudio: contexto → qué construí → decisiones (con su porqué) →
@@ -76,7 +76,7 @@ export const projectSchema = z.object({
 })
 
 export type ProfileData = z.infer<typeof profileSchema>
-export type TechnologyData = z.infer<typeof technologySchema>
+export type StackGroupData = z.infer<typeof stackGroupSchema>
 export type ExperienceData = z.infer<typeof experienceSchema>
 export type CaseStudyData = z.infer<typeof caseStudySchema>
 export type ProjectData = z.infer<typeof projectSchema>
