@@ -38,19 +38,17 @@ export const experienceSchema = z.object({
   technologies: z.array(z.string().min(1)),
 })
 
+// Caso de estudio: contexto → qué construí → decisiones (con su porqué) →
+// resultado verificable → qué haría distinto (opcional, mientras se escribe).
 export const caseStudySchema = z.object({
-  title: z.string().min(1),
-  challenge: z.string().min(1),
-  solution: z.string().min(1),
-  highlights: z.array(z.object({
+  context: z.string().min(1),
+  built: z.string().min(1),
+  decisions: z.array(z.object({
     title: z.string().min(1),
-    description: z.string().min(1),
-  })),
-  impact: z.array(z.object({
-    stat: z.string().min(1),
-    subtitle: z.string().min(1),
-    description: z.string().min(1),
-  })),
+    body: z.string().min(1),
+  })).min(1),
+  result: z.array(z.string().min(1)).min(1),
+  learnings: z.string().min(1).optional(),
 })
 
 export const projectSchema = z.object({
@@ -60,18 +58,21 @@ export const projectSchema = z.object({
   kind: z.enum(['client', 'own', 'academic']),
   title: z.string().min(1),
   subtitle: z.string().min(1),
+  // Resumen de una línea: tarjeta de la landing y metadatos de la página
   description: z.string().min(1),
+  role: z.enum(['Full Stack', 'Frontend', 'Backend']),
+  year: z.number().int().min(2000).max(2100),
+  status: z.string().min(1).optional(),
   // Ruta local bajo /public (no URLs externas)
-  imagePreview: z.string().startsWith('/images/').nullable(),
-  githubURLFront: z.url().nullable(),
-  githubURLBack: z.url().nullable(),
-  deployURL: z.url().nullable(),
+  imagePreview: z.string().startsWith('/images/'),
+  links: z.object({
+    repo: z.url().optional(),
+    repoBackend: z.url().optional(),
+    demo: z.url().optional(),
+  }),
   isFeatured: z.boolean(),
-  isFrontend: z.boolean(),
-  isBackend: z.boolean(),
-  techStack: z.array(z.string().min(1)),
-  caseStudy: caseStudySchema.nullable(),
-  createdAt: z.iso.datetime(),
+  techStack: z.array(z.string().min(1)).min(1),
+  caseStudy: caseStudySchema,
 })
 
 export type ProfileData = z.infer<typeof profileSchema>

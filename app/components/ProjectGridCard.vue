@@ -5,22 +5,16 @@ defineProps<{
   project: ProjectData
   featured?: boolean
 }>()
-
-const KIND_LABEL: Record<ProjectData['kind'], string> = {
-  client: 'Cliente real',
-  own: 'Proyecto propio',
-  academic: 'Proyecto académico',
-}
 </script>
 
 <template>
   <article
     class="group relative flex overflow-hidden rounded-xl border border-border bg-elevated transition-all duration-300 hover:-translate-y-1 hover:border-primary focus-within:border-primary"
-    :class="featured ? 'flex-col md:flex-row md:col-span-2' : 'flex-col'"
+    :class="featured ? 'flex-col md:flex-row md:col-span-2 lg:col-span-3' : 'flex-col'"
   >
     <div class="relative overflow-hidden" :class="featured ? 'md:w-3/5' : ''">
       <NuxtImg
-        :src="project.imagePreview ?? '/images/project-placeholder.svg'"
+        :src="project.imagePreview"
         :alt="`Captura de ${project.title}`"
         class="block w-full aspect-[3/2] object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
         format="webp"
@@ -35,7 +29,7 @@ const KIND_LABEL: Record<ProjectData['kind'], string> = {
         class="w-fit px-3 py-1 rounded-full border text-xs font-mono uppercase tracking-wide"
         :class="project.kind === 'client' ? 'bg-primary border-primary text-white' : 'bg-primary/5 border-primary/40 text-primary'"
       >
-        {{ KIND_LABEL[project.kind] }}
+        {{ PROJECT_KIND_LABEL[project.kind] }}
       </span>
 
       <h3
