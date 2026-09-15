@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     'build:before': () => validateContent(),
   },
   compatibilityDate: '2026-06-22',
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxt/image', '@nuxtjs/sitemap'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxt/image', '@nuxtjs/sitemap', '@vercel/analytics/nuxt'],
   nitro: {
     preset: 'vercel',
     prerender: {

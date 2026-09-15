@@ -8,7 +8,6 @@ const { profile } = useProfile()
 usePageSeo({
   title: () => profile.value.title,
   description: () => profile.value.heroDescription,
-  image: '/images/og-image.svg',
 })
 
 // Scroll-spy: marca en la navegación la sección visible
