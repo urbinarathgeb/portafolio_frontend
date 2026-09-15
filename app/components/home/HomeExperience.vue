@@ -4,20 +4,17 @@ import type { ExperienceData } from '~/data/schemas'
 const { experiences } = useExperience()
 
 const KIND_LABEL: Record<ExperienceData['kind'], string> = {
-  project: 'Proyecto',
+  work: 'Experiencia',
   education: 'Formación',
-  start: 'Inicio',
 }
 
-// "Ruta 2024–2026": rango calculado desde los datos
+// "Ruta 2022–2026": rango calculado desde los datos (en curso = año actual)
+const currentYear = new Date().getFullYear()
 const meta = computed(() => {
-  const years = experiences.value.map((e) => e.year)
-  const min = Math.min(...years)
-  const max = Math.max(...years)
-  return min === max ? `Ruta ${max}` : `Ruta ${min}–${max}`
+  const from = Math.min(...experiences.value.map((e) => e.yearFrom))
+  const to = Math.max(...experiences.value.map((e) => e.yearTo ?? currentYear))
+  return from === to ? `Ruta ${to}` : `Ruta ${from}–${to}`
 })
-
-const newest = computed(() => Math.max(...experiences.value.map((e) => e.year)))
 </script>
 
 <template>
@@ -35,14 +32,14 @@ const newest = computed(() => Math.max(...experiences.value.map((e) => e.year)))
         :key="item.id"
         class="flex flex-wrap items-start gap-x-[clamp(20px,4vw,48px)] gap-y-3.5 border-t border-line px-[clamp(16px,4vw,44px)] py-[clamp(18px,2.6vw,28px)]"
       >
-        <div class="grid min-w-0 flex-[0_0_9ch] content-start gap-1.5 font-mono">
-          <span class="text-[clamp(15px,1.7vw,18px)] font-semibold" :class="item.year === newest ? 'text-lime' : 'text-mute'">
-            {{ item.year }}
+        <div class="grid min-w-0 flex-[0_0_16ch] content-start gap-1.5 font-mono">
+          <span class="text-[clamp(14px,1.5vw,16px)] font-semibold" :class="item.yearTo === null ? 'text-lime' : 'text-mute'">
+            {{ item.period }}
           </span>
           <span class="text-[10px] uppercase tracking-[0.1em] text-dim">{{ KIND_LABEL[item.kind] }}</span>
         </div>
 
-        <div class="grid min-w-0 flex-[1_1_320px] content-start gap-2">
+        <div class="grid min-w-0 flex-[1_1_280px] content-start gap-2">
           <h3 class="font-display text-[clamp(18px,2.1vw,24px)] font-bold leading-[1.1] tracking-[-0.025em]">{{ item.role }}</h3>
           <span class="font-mono text-xs tracking-[0.04em] text-mute">
             {{ item.company }}<template v-if="item.location"> · {{ item.location }}</template>

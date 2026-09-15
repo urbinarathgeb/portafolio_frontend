@@ -46,16 +46,19 @@ const badge = computed(() =>
       </NuxtLink>
     </div>
 
-    <div class="relative min-h-[250px] min-w-0 flex-[1_1_270px] overflow-hidden border-line bg-ink-2 max-md:border-t md:border-l">
-      <NuxtImg
-        :src="project.imagePreview"
-        :alt="`Captura de ${project.title} ${project.subtitle}`"
-        class="absolute inset-0 size-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-        format="webp"
-        loading="lazy"
-        width="900"
-        height="600"
-      />
+    <!-- Captura enmarcada: con aire alrededor para que las filas no se vean pegadas -->
+    <div class="flex min-w-0 flex-[1_1_270px] items-center border-line p-[clamp(16px,2.6vw,32px)] max-md:border-t md:border-l">
+      <div class="w-full overflow-hidden border border-line bg-ink-2 transition-colors group-hover:border-ink/40 group-focus-within:border-ink/40">
+        <NuxtImg
+          :src="project.imagePreview"
+          :alt="`Captura de ${project.title} ${project.subtitle}`"
+          class="block aspect-[3/2] w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+          format="webp"
+          loading="lazy"
+          width="900"
+          height="600"
+        />
+      </div>
     </div>
   </article>
 </template>

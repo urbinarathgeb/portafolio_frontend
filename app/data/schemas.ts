@@ -25,17 +25,20 @@ export const stackGroupSchema = z.object({
   items: z.array(z.string().min(1)).min(1),
 })
 
-// Trayectoria: mezcla proyectos, formación y el inicio de la reconversión
+// Trayectoria (igual que en el CV): experiencia laboral y formación
 export const experienceSchema = z.object({
   id: z.number().int(),
-  year: z.number().int(),
-  kind: z.enum(['project', 'education', 'start']),
+  kind: z.enum(['work', 'education']),
   role: z.string().min(1),
   company: z.string().min(1),
+  // Texto que se muestra ("nov. 2025 – Actualidad", "2022 – 2026", "2026")
+  period: z.string().min(1),
+  yearFrom: z.number().int().min(2000).max(2100),
+  // null = en curso
+  yearTo: z.number().int().min(2000).max(2100).nullable(),
   location: z.string().min(1).optional(),
   description: z.string().min(1),
   order: z.number().int(),
-  technologies: z.array(z.string().min(1)).optional(),
 })
 
 // Caso de estudio: contexto → qué construí → decisiones (con su porqué) →
