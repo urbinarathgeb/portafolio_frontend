@@ -11,7 +11,9 @@ Portfolio personal desarrollado con Nuxt 4, @nuxt/ui v4 y Tailwind CSS v4. El co
 - **Render:** SSG (prerender de todas las rutas públicas)
 - **Imágenes:** @nuxt/image, con los archivos en `public/images`
 - **SEO:** `useSeoMeta` (por página, vía `usePageSeo`) + `@nuxtjs/sitemap` v8. La imagen para compartir (`public/images/og-image.png`, 1200×630) se genera desde `app/assets/og/og-image.html` con una captura de Chrome a ese tamaño
-- **Analíticas:** Vercel Web Analytics (`@vercel/analytics/nuxt`), sin cookies. Se activa en el dashboard de Vercel (pestaña Analytics)
+- **Analíticas:** Vercel Web Analytics (`@vercel/analytics/nuxt`) y Speed Insights (`@vercel/speed-insights/nuxt`), sin cookies. Se activan en el dashboard de Vercel (pestañas Analytics y Speed Insights). Para saber de dónde llega una visita, compartir el link con `?ref=<origen>` (por ejemplo `?ref=linkedin`)
+- **CV:** `public/cv-javier-urbina.pdf`, enlazado desde el hero y contacto. Para actualizarlo se reemplaza el archivo con el mismo nombre
+- **Favicon:** `public/favicon.svg` es la fuente; `favicon.ico` (32×32) y `apple-touch-icon.png` (180×180) se exportan desde él
 - **Calidad:** ESLint (`@nuxt/eslint`) + `nuxt typecheck` (vue-tsc) + CI en GitHub Actions
 - **Lenguaje:** TypeScript
 - **Gestor de paquetes:** pnpm

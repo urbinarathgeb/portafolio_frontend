@@ -50,6 +50,14 @@ const facts = computed(() => {
         >
           Ver trabajo ↓
         </NuxtLink>
+        <a
+          href="/cv-javier-urbina.pdf"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex min-h-[54px] items-center border border-line-strong px-[22px] font-mono text-sm uppercase tracking-[0.04em] text-paper transition-colors hover:border-lime hover:text-lime"
+        >
+          CV (PDF) ↗
+        </a>
         <CopyEmailButton />
       </div>
     </div>
