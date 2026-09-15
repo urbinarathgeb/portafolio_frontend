@@ -7,7 +7,7 @@ export const profile: ProfileData = {
   title: 'Desarrollador Full-Stack',
   tagline: 'CÓDIGO. DISEÑO. INNOVAR.',
   heroDescription: 'Tomo una operación que hoy vive en planillas y papel y la entrego funcionando end-to-end: base de datos, API e interfaz.',
-  bio: 'Soy desarrollador full stack. Vivo en Santiago, Chile y me apasiona convertir ideas en productos, desde el diseño de bases de datos hasta interfaces que se sienten vivas.\n\nTrabajo con Vue, Node.js y PostgreSQL como stack principal, pero lo que realmente me mueve es la intersección entre lógica robusta y UX que no requiere manual de usuario. El mejor código es el que el usuario nunca nota: solo siente que todo funciona.\n\nActualmente estoy abierto a posiciones full-time en equipos técnicos donde el craft importa tanto como el delivery.',
+  bio: 'Antes de programar pasé diez años construyendo productos digitales desde el UX y el contenido. Por eso, cuando desarrollo, pienso en quién va a usar lo que hago y no solo en que funcione.\n\nHoy trabajo como desarrollador full stack con Vue, Node.js y PostgreSQL. Me gusta tomar un problema real, modelar bien sus datos y entregar una interfaz que no necesite manual. Vivo en Santiago y estoy abierto a posiciones full-time.',
   availability: true,
   location: 'Santiago, Chile',
   avatar: null,
