@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     'build:before': () => validateContent(),
   },
   compatibilityDate: '2026-06-22',
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxt/image', '@nuxtjs/sitemap', '@vercel/analytics/nuxt'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxt/image', '@nuxtjs/sitemap', '@vercel/analytics/nuxt', '@vercel/speed-insights/nuxt'],
   nitro: {
     preset: 'vercel',
     prerender: {
@@ -71,7 +71,9 @@ export default defineNuxtConfig({
         { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
       ],
     },
     pageTransition: {

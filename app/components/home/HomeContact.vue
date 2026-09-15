@@ -40,6 +40,14 @@ const handleSubmit = async () => {
       </a>
       <CopyEmailButton tone="lime" :show-email="false" />
       <a
+        href="/cv-javier-urbina.pdf"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex min-h-14 items-center px-4 font-mono text-sm font-semibold uppercase underline underline-offset-[5px]"
+      >
+        CV ↗
+      </a>
+      <a
         href="https://www.linkedin.com/in/urbinarathgeb"
         target="_blank"
         rel="noopener noreferrer"
