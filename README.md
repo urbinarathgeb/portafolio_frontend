@@ -10,7 +10,8 @@ Portfolio personal desarrollado con Nuxt 4, @nuxt/ui v4 y Tailwind CSS v4. El co
 - **Contenido:** archivos TypeScript en `app/data`, validados con Zod en cada build
 - **Render:** SSG (prerender de todas las rutas públicas)
 - **Imágenes:** @nuxt/image, con los archivos en `public/images`
-- **SEO:** `useSeoMeta` (por página) + `@nuxtjs/sitemap` v8
+- **SEO:** `useSeoMeta` (por página, vía `usePageSeo`) + `@nuxtjs/sitemap` v8. La imagen para compartir (`public/images/og-image.png`, 1200×630) se genera desde `app/assets/og/og-image.html` con una captura de Chrome a ese tamaño
+- **Analíticas:** Vercel Web Analytics (`@vercel/analytics/nuxt`), sin cookies. Se activa en el dashboard de Vercel (pestaña Analytics)
 - **Calidad:** ESLint (`@nuxt/eslint`) + `nuxt typecheck` (vue-tsc) + CI en GitHub Actions
 - **Lenguaje:** TypeScript
 - **Gestor de paquetes:** pnpm
