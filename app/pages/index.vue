@@ -18,6 +18,7 @@ useSectionObserver()
 <template>
   <div>
     <HomeHero />
+    <HomeMarquee />
     <HomeProjects />
     <HomeStack />
     <HomeExperience />

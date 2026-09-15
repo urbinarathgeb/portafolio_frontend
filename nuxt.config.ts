@@ -47,9 +47,10 @@ export default defineNuxtConfig({
       colors: ['primary', 'secondary', 'accent', 'success', 'info', 'warning', 'error'],
     },
   },
+  // Diseño solo oscuro
   colorMode: {
-    preference: 'light',
-    fallback: 'light',
+    preference: 'dark',
+    fallback: 'dark',
   },
   runtimeConfig: {
     // Solo servidor. Sobrescribible con NUXT_CONTACT_TO_EMAIL.
@@ -58,6 +59,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      htmlAttrs: { lang: 'es' },
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       title: 'Javier Urbina — Portfolio',

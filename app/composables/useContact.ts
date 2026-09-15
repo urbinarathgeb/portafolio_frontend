@@ -1,20 +1,14 @@
 import type { FetchError } from 'ofetch'
 
 export interface ContactForm {
-  nombre: string
   email: string
-  empresa: string
-  interest: string
   mensaje: string
   // Honeypot (input oculto en el formulario)
   website: string
 }
 
 const initialState: ContactForm = {
-  nombre: '',
   email: '',
-  empresa: '',
-  interest: '',
   mensaje: '',
   website: '',
 }
@@ -26,10 +20,10 @@ export const useContact = () => {
   const success = useState('contact-success', () => false)
 
   const toPayload = (): ContactInput => ({
-    name: form.value.nombre,
+    name: '',
     email: form.value.email,
-    company: form.value.empresa,
-    interest: form.value.interest as ContactInput['interest'],
+    company: '',
+    interest: '',
     message: form.value.mensaje,
     website: form.value.website,
   })

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const toast = useToast()
+const { profile } = useProfile()
 const { form, loading, error, submit } = useContact()
 
 const handleSubmit = async () => {
@@ -13,172 +14,107 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <section id="contacto" class="relative flex items-center bg-default overflow-hidden">
-    <StrokeText text="CONTACTO" />
+  <section id="contacto" class="relative bg-lime px-[clamp(16px,4vw,44px)] pb-[clamp(30px,5vw,56px)] pt-[clamp(38px,6.5vw,88px)] text-ink">
+    <div class="eyebrow mb-[clamp(18px,3vw,30px)] flex items-center gap-3 font-semibold">
+      <span>Ficha 001 / Fin</span>
+      <span class="h-px flex-1 bg-ink/30" aria-hidden="true" />
+      <span>Contacto</span>
+    </div>
 
-    <div class="relative z-10 w-full max-w-7xl mx-auto px-[5vw] py-28 max-md:py-20">
-      <div class="grid lg:grid-cols-12 gap-12 items-start">
-        <!-- Columna izquierda: Info -->
-        <div class="lg:col-span-6 flex flex-col gap-6">
-          <h2 class="font-heading font-bold tracking-[-0.02em] flex flex-col">
-            <span class="font-black text-highlighted text-[clamp(2rem,4vw,3.5rem)]">Trabajemos</span>
-            <span class="font-black gradient-text text-[clamp(2.5rem,6vw,4.5rem)] -mt-5">juntos.</span>
-          </h2>
+    <h2 class="mb-5 font-display text-[clamp(40px,11vw,150px)] font-extrabold uppercase leading-[0.82] tracking-[-0.055em]">
+      <span class="block">Trabajemos</span>
+      <span class="block font-medium tracking-[-0.04em] text-ink/55">juntos.</span>
+    </h2>
 
-          <p class="text-base text-muted font-body leading-relaxed max-w-md">
-            Busco mi próxima posición full-time en un equipo donde el craft importa. Si estás construyendo algo que vale la pena, quiero escucharte.
-          </p>
+    <p class="mb-[clamp(24px,4vw,38px)] max-w-[46ch] text-[clamp(16px,1.9vw,20px)] font-medium leading-[1.45] text-pretty">
+      Busco mi próxima posición full-time en un equipo donde el craft importa. Si estás construyendo algo que vale la pena, quiero escucharte.
+    </p>
 
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-elevated border border-border w-fit">
-            <span class="w-2 h-2 rounded-full bg-success animate-pulse"/>
-            <span class="text-sm font-body text-highlighted">Disponible ahora</span>
-            <span class="text-sm font-body text-muted">· Santiago, Chile (remoto ok)</span>
-          </div>
+    <!-- Canal principal: email -->
+    <div class="flex flex-wrap items-center gap-2.5">
+      <a
+        :href="`mailto:${profile.email}`"
+        class="inline-flex min-h-14 items-center bg-ink px-[26px] font-mono text-[clamp(14px,1.6vw,17px)] font-semibold text-lime transition-colors hover:bg-ink-3"
+      >
+        {{ profile.email }}
+      </a>
+      <CopyEmailButton tone="lime" :show-email="false" />
+      <a
+        href="https://www.linkedin.com/in/urbinarathgeb"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex min-h-14 items-center px-4 font-mono text-sm font-semibold uppercase underline underline-offset-[5px]"
+      >
+        LinkedIn ↗
+      </a>
+      <a
+        href="https://github.com/urbinarathgeb"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex min-h-14 items-center px-4 font-mono text-sm font-semibold uppercase underline underline-offset-[5px]"
+      >
+        GitHub ↗
+      </a>
+    </div>
 
-          <div class="flex flex-col gap-3 mt-2">
-            <a
-              href="mailto:urbinarathgeb@gmail.com"
-              class="flex items-center gap-4 px-4 py-3 rounded-lg bg-elevated border border-border hover:border-primary transition-colors group"
-            >
-              <UIcon name="i-lucide-mail" class="w-5 h-5 text-primary shrink-0" />
-              <div class="flex flex-col min-w-0">
-                <span class="text-sm font-body text-muted">Email</span>
-                <span class="text-sm font-body text-highlighted truncate">urbinarathgeb@gmail.com</span>
-              </div>
-              <UIcon
-                name="i-lucide-arrow-up-right"
-                class="w-4 h-4 text-muted ml-auto shrink-0 group-hover:text-primary transition-colors"
-              />
-            </a>
+    <!-- Alternativa: formulario (funciona aunque no haya un cliente de correo) -->
+    <div class="mt-[clamp(28px,4.5vw,48px)] border-t border-ink/30 pt-[clamp(22px,3vw,30px)]">
+      <p id="form-titulo" class="eyebrow mb-3.5 font-semibold text-ink/70">O escríbeme desde aquí</p>
+      <form
+        class="relative flex max-w-[620px] flex-wrap items-start gap-2"
+        aria-labelledby="form-titulo"
+        novalidate
+        @submit.prevent="handleSubmit"
+      >
+        <label class="min-w-0 flex-[1_1_200px]">
+          <span class="sr-only">Tu email</span>
+          <input v-model="form.email" type="email" name="email" autocomplete="email" placeholder="tu@empresa.com" class="field">
+        </label>
+        <label class="min-w-0 flex-[1_1_100%]">
+          <span class="sr-only">Mensaje</span>
+          <input v-model="form.mensaje" type="text" name="message" placeholder="Vacante o proyecto" class="field">
+        </label>
 
-            <a
-              href="https://github.com/urbinarathgeb"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex items-center gap-4 px-4 py-3 rounded-lg bg-elevated border border-border hover:border-primary transition-colors group"
-            >
-              <UIcon name="i-lucide-github" class="w-5 h-5 text-primary shrink-0" />
-              <div class="flex flex-col min-w-0">
-                <span class="text-sm font-body text-muted">GitHub</span>
-                <span class="text-sm font-body text-highlighted truncate">@urbinarathgeb</span>
-              </div>
-              <UIcon
-                name="i-lucide-arrow-up-right"
-                class="w-4 h-4 text-muted ml-auto shrink-0 group-hover:text-primary transition-colors"
-              />
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/urbinarathgeb"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex items-center gap-4 px-4 py-3 rounded-lg bg-elevated border border-border hover:border-primary transition-colors group"
-            >
-              <UIcon name="i-lucide-linkedin" class="w-5 h-5 text-primary shrink-0" />
-              <div class="flex flex-col min-w-0">
-                <span class="text-sm font-body text-muted">LinkedIn</span>
-                <span class="text-sm font-body text-highlighted truncate">Javier Urbina</span>
-              </div>
-              <UIcon
-                name="i-lucide-arrow-up-right"
-                class="w-4 h-4 text-muted ml-auto shrink-0 group-hover:text-primary transition-colors"
-              />
-            </a>
-          </div>
+        <!-- Honeypot anti-spam: invisible para personas y lectores de pantalla -->
+        <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+          <label>
+            No completar
+            <input v-model="form.website" type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
         </div>
 
-        <!-- Columna derecha: Formulario -->
-        <div class="lg:col-span-6 lg:self-center">
-          <form class="relative flex flex-col gap-5" @submit.prevent="handleSubmit">
-            <!-- Nombre + Email -->
-            <div class="grid sm:grid-cols-2 gap-5">
-              <div class="flex flex-col gap-2">
-                <label class="text-xs font-mono uppercase tracking-wide text-muted">Nombre</label>
-                <input
-                  v-model="form.nombre"
-                  type="text"
-                  placeholder="Tu nombre"
-                  class="px-4 py-3 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
-                >
-              </div>
-              <div class="flex flex-col gap-2">
-                <label class="text-xs font-mono uppercase tracking-wide text-muted">Email</label>
-                <input
-                  v-model="form.email"
-                  type="email"
-                  placeholder="tu@email.com"
-                  class="px-4 py-3 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
-                >
-              </div>
-            </div>
-
-            <!-- Empresa / Proyecto -->
-            <div class="flex flex-col gap-2">
-              <label class="text-xs font-mono uppercase tracking-wide text-muted">Empresa / Proyecto</label>
-              <input
-                v-model="form.empresa"
-                type="text"
-                placeholder="¿Dónde trabajás?"
-                class="px-4 py-3 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
-              >
-            </div>
-
-            <!-- Tipo de interés -->
-            <div class="flex flex-col gap-2">
-              <label class="text-xs font-mono uppercase tracking-wide text-muted">¿En qué estás pensando?</label>
-              <div class="flex flex-wrap gap-2">
-                <label
-                  v-for="option in [
-                    { value: 'fulltime', label: 'Posición full-time' },
-                    { value: 'freelance', label: 'Proyecto freelance' },
-                    { value: 'consultoria', label: 'Consultoría' },
-                    { value: 'saludar', label: 'Solo quiero saludar 👋' },
-                  ]"
-                  :key="option.value"
-                  class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-elevated border border-border cursor-pointer transition-all has-[:checked]:bg-primary/10 has-[:checked]:border-primary has-[:checked]:text-primary"
-                >
-                  <input
-                    v-model="form.interest"
-                    type="radio"
-                    name="interest"
-                    :value="option.value"
-                    class="sr-only"
-                  >
-                  <span class="text-sm font-body">{{ option.label }}</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Mensaje -->
-            <div class="flex flex-col gap-2">
-              <label class="text-xs font-mono uppercase tracking-wide text-muted">Mensaje</label>
-              <textarea
-                v-model="form.mensaje"
-                rows="4"
-                placeholder="Cuéntame sobre tu equipo, el proyecto, o lo que necesitás. Sin filtros."
-                class="px-4 py-3 rounded-lg bg-elevated border border-border text-sm font-body text-highlighted placeholder:text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all resize-none"
-              />
-            </div>
-
-            <!-- Honeypot anti-spam: invisible para personas y lectores de pantalla -->
-            <div class="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
-              <label>
-                No completar
-                <input v-model="form.website" type="text" name="website" tabindex="-1" autocomplete="off">
-              </label>
-            </div>
-
-            <!-- Botón -->
-            <button
-              type="submit"
-              :disabled="loading"
-              class="w-full px-8 py-4 rounded-lg bg-primary text-white font-body font-medium text-sm uppercase tracking-wide hover:glow-shadow-primary hover:-translate-y-0.5 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {{ loading ? 'Enviando...' : 'Enviar mensaje' }}
-            </button>
-          </form>
-        </div>
-      </div>
+        <button
+          type="submit"
+          :disabled="loading"
+          class="min-h-[50px] flex-[0_0_auto] border border-ink px-5 font-mono text-[13px] font-semibold uppercase tracking-[0.06em] text-ink transition-colors hover:bg-ink hover:text-lime disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {{ loading ? 'Enviando…' : 'Enviar →' }}
+        </button>
+      </form>
     </div>
   </section>
 </template>
+
+<style scoped>
+.field {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in oklch, var(--color-ink) 35%, transparent);
+  background: var(--color-lime);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+.field::placeholder {
+  color: color-mix(in oklch, var(--color-ink) 72%, transparent);
+  opacity: 1;
+}
+
+.field:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 1px;
+  border-color: var(--color-ink);
+}
+</style>

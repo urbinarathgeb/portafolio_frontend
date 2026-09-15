@@ -1,74 +1,41 @@
 <script setup lang="ts">
 const { profile } = useProfile()
+
+// "CÓDIGO. DISEÑO. INNOVAR." → una palabra por línea
+const taglineLines = computed(() => profile.value.tagline.split(/(?<=\.)\s+/))
+const bio = computed(() => profile.value.bio.split(/\n{2,}/))
+
+const TRAITS = ['Resolutivo', 'Detallista', 'Autodidacta', 'Colaborativo']
 </script>
 
 <template>
-  <section id="sobre-mi" class="relative flex items-center justify-center bg-default px-[5vw] py-28 overflow-hidden max-md:px-6 max-md:py-20">
-  <StrokeText text="SOBRE MÍ" />
-
-  <div class="relative z-10 max-w-[1200px] w-full section-enter">
-    <!-- Glow radial atmosférico detrás de las cards -->
-    <div class="absolute top-[15%] right-[-8%] w-[350px] h-[350px] glow-radial-about pointer-events-none z-0 max-md:hidden" />
-
-    <div class="grid grid-cols-12 gap-10 items-stretch max-md:grid-cols-1 max-md:gap-10">
-      <!-- Tagline full-width: rompe la estructura de columnas -->
-      <div class="col-span-12 max-md:col-span-1">
-        <span class="font-mono text-xs tracking-[0.3em] uppercase text-primary">
-          {{ profile.title }}
-        </span>
-        <h2 class="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-[-0.03em] leading-[1.2] mt-3 gradient-text">
-          {{ profile.tagline }}
+  <section id="sobre-mi" class="border-b border-line">
+    <div class="flex flex-wrap items-stretch">
+      <div class="min-w-0 flex-[1_1_320px] px-[clamp(16px,4vw,44px)] py-[clamp(26px,4.5vw,52px)]">
+        <p class="eyebrow mb-4 text-dim">Sobre mí</p>
+        <h2 class="mb-5 font-display text-[clamp(34px,6.6vw,82px)] font-extrabold uppercase leading-[0.88] tracking-[-0.045em]">
+          <span
+            v-for="(line, i) in taglineLines"
+            :key="line"
+            class="block"
+            :class="{ 'font-medium tracking-[-0.03em] text-dim': i === 1, 'text-lime': i === 2 }"
+          >{{ line }}</span>
         </h2>
+        <ul class="flex flex-wrap gap-1.5 font-mono text-[11px] uppercase tracking-[0.06em] text-soft">
+          <li v-for="trait in TRAITS" :key="trait" class="border border-line-strong px-[9px] py-[5px]">{{ trait }}</li>
+        </ul>
       </div>
 
-      <!-- Columna izquierda: bio + chips -->
-      <div class="col-span-6 max-md:col-span-1 h-full flex flex-col justify-between">
-        <p class="text-lg text-muted font-body leading-relaxed max-w-full whitespace-pre-line">
-          {{ profile.bio }}
+      <div class="grid min-w-0 flex-[1_1_320px] content-start gap-5 border-line px-[clamp(16px,4vw,44px)] py-[clamp(26px,4.5vw,52px)] max-md:border-t md:border-l">
+        <p
+          v-for="(paragraph, i) in bio"
+          :key="i"
+          class="max-w-[56ch] leading-relaxed text-pretty"
+          :class="i === 0 ? 'text-[clamp(17px,2vw,21px)] text-paper' : 'text-base text-soft'"
+        >
+          {{ paragraph }}
         </p>
-
-        <div class="flex flex-wrap gap-3 mt-6">
-          <span class="px-4 py-2 rounded-full bg-elevated border border-border text-sm font-body text-toned">
-            Resolutivo
-          </span>
-          <span class="px-4 py-2 rounded-full bg-elevated border border-border text-sm font-body text-toned">
-            Detallista
-          </span>
-          <span class="px-4 py-2 rounded-full bg-elevated border border-border text-sm font-body text-toned">
-            Autodidacta
-          </span>
-          <span class="px-4 py-2 rounded-full bg-elevated border border-border text-sm font-body text-toned">
-            Colaborativo
-          </span>
-        </div>
-      </div>
-
-      <!-- Columna derecha: cards 3-col grid -->
-      <div class="col-span-6 max-md:col-span-1">
-        <div class="grid grid-cols-3 gap-3 h-full">
-          <!-- Hero card: 2×2 -->
-          <div class="col-span-2 row-span-2 p-6 rounded-lg bg-elevated border border-border flex flex-col justify-between glow-shadow-primary">
-            <div class="text-5xl font-heading font-bold text-primary">1</div>
-            <div class="text-sm text-toned font-body">Año de<br >experiencia</div>
-          </div>
-          <!-- 15+ proyectos: 1×1 -->
-          <div class="col-span-1 row-span-1 p-4 rounded-lg bg-elevated border border-border flex flex-col justify-between glow-shadow-secondary">
-            <div class="text-2xl font-heading font-bold text-secondary">3+</div>
-            <div class="text-xs text-toned font-body">Proyectos</div>
-          </div>
-          <!-- 100% remoto: 1×1 -->
-          <div class="col-span-1 row-span-1 p-4 rounded-lg bg-elevated border border-border flex flex-col justify-between glow-shadow-secondary">
-            <div class="text-2xl font-heading font-bold text-success">100%</div>
-            <div class="text-xs text-toned font-body">Remoto</div>
-          </div>
-          <!-- ∞ curiosidad: full-width bottom row -->
-          <div class="col-span-3 row-span-1 p-4 rounded-lg bg-elevated border border-border flex items-center justify-between glow-shadow-accent">
-            <div class="text-2xl font-heading font-bold text-accent">∞</div>
-            <div class="text-xs text-toned font-body text-right">Curiosidad<br >insaciable</div>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 </template>

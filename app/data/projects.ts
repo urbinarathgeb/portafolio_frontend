@@ -123,7 +123,7 @@ export const projects: ProjectData[] = [
       ],
       result: [
         'En producción, con usuarios reales y partidas en la clasificación.',
-        'Se juega con o sin cuenta, y se puede instalar como app (PWA).',
+        'Se juega con o sin cuenta.',
         'Tests con Vitest sobre la lógica del juego, el tablero, el progreso y la clasificación (15 archivos de tests).',
       ],
     },
